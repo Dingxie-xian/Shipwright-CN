@@ -1916,6 +1916,27 @@ ImFont* OTRGlobals::CreateFontWithSize(float size, std::string fontPath, bool is
     iconsConfig.GlyphMinAdvanceX = iconFontSize;
     mImGuiIo->Fonts->AddFontFromMemoryCompressedBase85TTF(fontawesome_compressed_data_base85, iconFontSize,
                                                           &iconsConfig, sIconsRanges);
+
+    // Merge a CJK font for the same reason the icons are merged: ImGui's default glyph range only covers
+    // Latin, so without this every Chinese character in the UI renders as a blank box. Merging (rather than
+    // switching fonts) means labels mixing Latin and Chinese render from a single ImFont.
+    static const std::string cjkFontPath = "fonts/SourceHanSansSC-Regular.otf";
+    auto cjkInitData = std::make_shared<Ship::ResourceInitData>();
+    cjkInitData->Format = RESOURCE_FORMAT_BINARY;
+    cjkInitData->Type = static_cast<uint32_t>(RESOURCE_TYPE_FONT);
+    cjkInitData->ResourceVersion = 0;
+    cjkInitData->Path = cjkFontPath;
+    std::shared_ptr<Ship::Font> cjkFontData = std::static_pointer_cast<Ship::Font>(
+        Ship::Context::GetInstance()->GetResourceManager()->LoadResource(cjkFontPath, true, cjkInitData));
+    if (cjkFontData != nullptr && cjkFontData->Data != nullptr) {
+        ImFontConfig cjkConfig;
+        cjkConfig.MergeMode = true;
+        cjkConfig.PixelSnapH = true;
+        cjkConfig.FontDataOwnedByAtlas = false;
+        mImGuiIo->Fonts->AddFontFromMemoryTTF(cjkFontData->Data, cjkFontData->DataSize, size, &cjkConfig,
+                                              mImGuiIo->Fonts->GetGlyphRangesChineseSimplifiedCommon());
+    }
+
     return font;
 }
 

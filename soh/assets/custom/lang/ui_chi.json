@@ -1,0 +1,37 @@
+{
+    "Settings": "设置",
+    "Enhancements": "功能增强",
+    "Randomizer": "随机器",
+    "Network": "网络",
+    "Dev Tools": "开发者工具",
+
+    "General": "常规",
+    "Audio": "音频",
+    "Graphics": "图形",
+    "Controls": "操作",
+    "Input Viewer": "输入查看",
+    "Notifications": "通知",
+    "Mod Menu": "模组菜单",
+    "Presets": "预设",
+
+    "Menu Theme": "菜单主题",
+    "Menu Controller Navigation": "手柄操作菜单",
+    "Allow background inputs": "允许后台输入",
+    "Menu Background Opacity": "菜单背景不透明度",
+    "Cursor Always Visible": "光标常驻显示",
+    "Search In Sidebar": "在侧边栏中搜索",
+    "Search Input Autofocus": "搜索框自动聚焦",
+    "Open App Files Folder": "打开应用文件夹",
+    "Boot Sequence": "启动流程",
+    "Translate Title Screen": "标题画面本地化",
+    "Language": "语言",
+    "Text to Speech": "文字转语音",
+    "Disable Idle Camera Re-Centering": "禁用闲置时镜头回正",
+    "Disable Screen Flash for Finishing Blow": "禁用终结一击的闪屏",
+    "ImGui Menu Scaling": "菜单缩放",
+
+    "About": "关于",
+
+    "Search...": "搜索…",
+    "Clear": "清除"
+}
