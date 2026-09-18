@@ -283,7 +283,7 @@ std::unordered_map<uint32_t, disabledInfo>& Menu::GetDisabledMap() {
 void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors menuThemeIndex) {
     // widget.name doubles as the widget's identity — it is what the search index, notes and
     // favorites are keyed on — so translate a copy for drawing instead of the stored label.
-    const std::string displayName = Tr(widget.name);
+    const std::string displayName = SohGui::Tr(widget.name);
 
     disabledTempTooltip = "This setting is disabled because: \n";
     disabledValue = false;
@@ -720,7 +720,7 @@ void Menu::DrawElement() {
         if (headerIndex != label) {
             ImGui::PushStyleColor(ImGuiCol_Button, { 0, 0, 0, 0 });
         }
-        if (ModernMenuHeaderEntry(Tr(entry.label))) {
+        if (ModernMenuHeaderEntry(SohGui::Tr(entry.label))) {
             if (headerSearch) {
                 menuSearch.Clear();
             }
@@ -847,7 +847,7 @@ void Menu::DrawElement() {
         if (sectionIndex != sidebarLabel) {
             ImGui::PushStyleColor(ImGuiCol_Button, { 0, 0, 0, 0 });
         }
-        if (ModernMenuSidebarEntry(Tr(sidebarLabel))) {
+        if (ModernMenuSidebarEntry(SohGui::Tr(sidebarLabel))) {
             if (headerSearch) {
                 menuSearch.Clear();
             }
