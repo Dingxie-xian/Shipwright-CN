@@ -731,7 +731,7 @@ static void DrawFlagTableSearchResults(const FlagTable& flagTable, ImGuiTextFilt
             uint16_t index = row * 16 + flagIndex;
             auto descIt = flagTable.flagDescriptions.find(index);
             const char* desc = descIt != flagTable.flagDescriptions.end() ? descIt->second : "";
-            std::string searchable = fmt::format(SohGui::Tr("0x{:02X} {}"), index, desc);
+            std::string searchable = fmt::format(fmt::runtime(SohGui::Tr("0x{:02X} {}")), index, desc);
             if (!filter.PassFilter(searchable.c_str())) {
                 continue;
             }
@@ -1138,7 +1138,7 @@ void DrawFlagsTab() {
                                 }
                             }
 
-                            ImGui::Text("%s", fmt::format(SohGui::Tr("{:<2X}"), j).c_str());
+                            ImGui::Text("%s", fmt::format(fmt::runtime(SohGui::Tr("{:<2X}")), j).c_str());
 
                             switch (flagTable.flagTableType) {
                                 case EVENT_CHECK_INF:
@@ -1887,7 +1887,7 @@ void DrawPlayerTab() {
         std::vector<std::vector<std::string>> flag_strs = { state1, state2, state3 };
 
         for (int j = 0; j <= 2; j++) {
-            std::string label = fmt::format(SohGui::Tr("State Flags {}"), j + 1);
+            std::string label = fmt::format(fmt::runtime(SohGui::Tr("State Flags {}")), j + 1);
             DrawGroupWithBorder(
                 [&]() {
                     ImGui::Text("%s", label.c_str());

@@ -744,7 +744,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                     auto filename = std::filesystem::path(file).filename().string();
                     ImGui::Text(SohGui::Tr("Extracting %s...%s").c_str(), filename.c_str(),
                                 roundf(progress) == 100.0f ? " Done. Finishing up." : "");
-                    std::string overlay = extractCount > 0 ? fmt::format(SohGui::Tr("{:.0f}%"), progress) : "Starting Up";
+                    std::string overlay = extractCount > 0 ? fmt::format(fmt::runtime(SohGui::Tr("{:.0f}%")), progress) : "Starting Up";
                     ImGui::ProgressBar(progress / 100.0f, ImVec2(600.0f, 50.0f), overlay.c_str());
                     ImGui::EndPopup();
                 }

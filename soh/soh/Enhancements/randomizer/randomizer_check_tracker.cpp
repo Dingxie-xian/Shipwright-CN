@@ -1906,7 +1906,7 @@ void DrawLocation(RandomizerCheck rc) {
                     if (IsVisibleInCheckTracker(rc) && status == RCSHOW_IDENTIFIED && !mystery) {
                         auto price = OTRGlobals::Instance->gRandoContext->GetItemLocation(rc)->GetPrice();
                         if (price) {
-                            txt += fmt::format(SohGui::Tr(" - {}"), price);
+                            txt += fmt::format(fmt::runtime(SohGui::Tr(" - {}")), price);
                         }
                     }
                 } else {

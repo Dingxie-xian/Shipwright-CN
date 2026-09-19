@@ -73,7 +73,7 @@ static BlockInfo blockInfo[PRESET_SECTION_MAX] = {
 };
 
 std::string FormatPresetPath(std::string name) {
-    return fmt::format(SohGui::Tr("{}/{}.json"), presetFolder, name);
+    return fmt::format(fmt::runtime(SohGui::Tr("{}/{}.json")), presetFolder, name);
 }
 
 void applyPreset(std::string presetName, std::vector<PresetSection> includeSections) {
@@ -116,7 +116,7 @@ void applyPreset(std::string presetName, std::vector<PresetSection> includeSecti
                         }
                     }
 
-                    Ship::Context::GetInstance()->GetConfig()->SetBlock(fmt::format(SohGui::Tr("{}.{}"), "CVars", item.key()),
+                    Ship::Context::GetInstance()->GetConfig()->SetBlock(fmt::format(fmt::runtime(SohGui::Tr("{}.{}")), "CVars", item.key()),
                                                                         block);
                     Ship::Context::GetInstance()->GetConsoleVariables()->Load();
                 }
@@ -222,7 +222,7 @@ void LoadPresets() {
 
             auto json = nlohmann::json::parse(ifs);
             if (!json.contains("presetName")) {
-                spdlog::error(fmt::format(SohGui::Tr("Attempted to load file {} as a preset, but was not a preset file."),
+                spdlog::error(fmt::format(fmt::runtime(SohGui::Tr("Attempted to load file {} as a preset, but was not a preset file.")),
                                           preset.path().filename().string()));
             } else {
                 ParsePreset(json, preset.path().filename().stem().string());
@@ -254,7 +254,7 @@ void SavePreset(std::string& presetName) {
     presets[presetName].presetValues["presetName"] = presetName;
     presets[presetName].presetValues["fileType"] = FILE_TYPE_PRESET;
     std::ofstream file(
-        fmt::format(SohGui::Tr("{}/{}.json"), Ship::Context::GetInstance()->LocateFileAcrossAppDirs("presets"), presetName));
+        fmt::format(fmt::runtime(SohGui::Tr("{}/{}.json")), Ship::Context::GetInstance()->LocateFileAcrossAppDirs("presets"), presetName));
     file << presets[presetName].presetValues.dump(4);
     file.close();
     LoadPresets();
@@ -285,7 +285,7 @@ void DrawNewPresetPopup() {
         (newPresetName.empty() ? "Preset name is empty"
                                : (noneSelected ? "No sections selected" : "Preset name already exists"));
     for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
-        UIWidgets::Checkbox(fmt::format(SohGui::Tr("Save {}"), blockInfo[i].names[0]).c_str(), &saveSection[i],
+        UIWidgets::Checkbox(fmt::format(fmt::runtime(SohGui::Tr("Save {}")), blockInfo[i].names[0]).c_str(), &saveSection[i],
                             UIWidgets::CheckboxOptions().Color(THEME_COLOR).Padding({ 6.0f, 6.0f }));
     }
     if (UIWidgets::Button(
@@ -393,7 +393,7 @@ void PresetsCustomWidget(WidgetInfo& info) {
         ImGui::TableNextColumn();
         for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
             ImGui::TableNextColumn();
-            ImGui::Button(fmt::format(SohGui::Tr("{}##header{}"), blockInfo[i].icon, blockInfo[i].names[1]).c_str());
+            ImGui::Button(fmt::format(fmt::runtime(SohGui::Tr("{}##header{}")), blockInfo[i].icon, blockInfo[i].names[1]).c_str());
             UIWidgets::Tooltip(blockInfo[i].names[0].c_str());
         }
         UIWidgets::PopStyleButton();

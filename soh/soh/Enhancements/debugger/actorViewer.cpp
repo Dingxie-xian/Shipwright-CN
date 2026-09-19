@@ -834,7 +834,7 @@ void ActorViewer_AddTagForActor(Actor* actor) {
         parts.push_back(acMapping[actor->category]);
     }
     if (CVarGetInteger(CVAR_ACTOR_NAME_TAGS("DisplayParams"), 0)) {
-        parts.push_back(fmt::format(SohGui::Tr("0x{:04X} ({})"), (u16)actor->params, actor->params));
+        parts.push_back(fmt::format(fmt::runtime(SohGui::Tr("0x{:04X} ({})")), (u16)actor->params, actor->params));
     }
 
     std::string tag = "";

@@ -51,20 +51,20 @@ std::string convertDayTime(uint32_t dayTime) {
     uint32_t ss = static_cast<uint32_t>(static_cast<double>(dayTime) * (totalSeconds - 1) / 65535);
     uint32_t hh = ss / 3600;
     uint32_t mm = (ss % 3600) / 60;
-    return fmt::format(SohGui::Tr("{:0>2}:{:0>2}"), hh, mm);
+    return fmt::format(fmt::runtime(SohGui::Tr("{:0>2}:{:0>2}")), hh, mm);
 }
 
 std::string convertNaviTime(uint32_t value) {
     uint32_t totalSeconds = value * 0.05;
     uint32_t ss = totalSeconds % 60;
     uint32_t mm = totalSeconds / 60;
-    return fmt::format(SohGui::Tr("{:0>2}:{:0>2}"), mm, ss);
+    return fmt::format(fmt::runtime(SohGui::Tr("{:0>2}:{:0>2}")), mm, ss);
 }
 
 std::string formatHotWaterDisplay(uint32_t value) {
     uint32_t ss = value % 60;
     uint32_t mm = value / 60;
-    return fmt::format(SohGui::Tr("{:0>2}:{:0>2}"), mm, ss);
+    return fmt::format(fmt::runtime(SohGui::Tr("{:0>2}:{:0>2}")), mm, ss);
 }
 
 std::string formatTimeDisplay(uint32_t value) {
@@ -73,7 +73,7 @@ std::string formatTimeDisplay(uint32_t value) {
     uint32_t mm = (sec - hh * 3600) / 60;
     uint32_t ss = sec - hh * 3600 - mm * 60;
     uint32_t ds = value % 10;
-    return fmt::format(SohGui::Tr("{}:{:0>2}:{:0>2}.{}"), hh, mm, ss, ds);
+    return fmt::format(fmt::runtime(SohGui::Tr("{}:{:0>2}:{:0>2}.{}")), hh, mm, ss, ds);
 }
 
 static void TimeDisplayGetTimer(uint32_t timeID) {
