@@ -115,7 +115,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
                             }
                             UIWidgets::PopStyleButton();
                             ImGui::SameLine();
-                            ImGui::Text("%s", Rando::StaticData::GetLocation(location)->GetShortName().c_str());
+                            ImGui::Text("%s", SohGui::Tr(Rando::StaticData::GetLocation(location)->GetShortName()).c_str());
                         }
                     }
                     ImGui::TreePop();
@@ -166,7 +166,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
                             }
                             UIWidgets::PopStyleButton();
                             ImGui::SameLine();
-                            ImGui::Text("%s", Rando::StaticData::GetLocation(location)->GetShortName().c_str());
+                            ImGui::Text("%s", SohGui::Tr(Rando::StaticData::GetLocation(location)->GetShortName()).c_str());
                         }
                     }
                     ImGui::TreePop();
@@ -423,7 +423,7 @@ void DrawTricksMenu(WidgetInfo& info) {
                                 UIWidgets::PopStyleButton();
                                 Rando::Tricks::DrawTagChips(option.GetTags(), option.GetName());
                                 ImGui::SameLine();
-                                ImGui::Text("%s", option.GetName().c_str());
+                                ImGui::Text("%s", SohGui::Tr(option.GetName()).c_str());
                                 UIWidgets::Tooltip(option.GetDescription().c_str());
                             }
                         }
@@ -500,7 +500,7 @@ void DrawTricksMenu(WidgetInfo& info) {
                                 UIWidgets::PopStyleButton();
                                 Rando::Tricks::DrawTagChips(option.GetTags(), option.GetName());
                                 ImGui::SameLine();
-                                ImGui::Text("%s", option.GetName().c_str());
+                                ImGui::Text("%s", SohGui::Tr(option.GetName()).c_str());
                                 UIWidgets::Tooltip(option.GetDescription().c_str());
                             }
                         }

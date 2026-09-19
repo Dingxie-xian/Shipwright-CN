@@ -1120,7 +1120,7 @@ void PlandomizerDrawLocationsWindow(RandomizerCheckArea rcArea) {
                 ImGui::TableNextColumn();
                 ImGui::TextWrapped("%s", spoilerData.checkName.c_str());
                 ImGui::TableNextColumn();
-                ImGui::TextWrapped("%s", spoilerData.checkRewardItem.GetName().english.c_str());
+                ImGui::TextWrapped("%s", SohGui::Tr(spoilerData.checkRewardItem.GetName().english).c_str());
                 ImGui::TableNextColumn();
                 PlandomizerDrawItemSlots(index);
                 if (plandoLogData[index].checkRewardItem.GetRandomizerGet() == RG_ICE_TRAP) {
