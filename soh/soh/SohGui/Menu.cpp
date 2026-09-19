@@ -544,7 +544,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                 }
                 UIWidgets::PushStyleCombobox(menuThemeIndex);
                 ImGui::PushStyleColor(ImGuiCol_Border, UIWidgets::ColorValues.at(menuThemeIndex));
-                menuSearch.Draw();
+                menuSearch.Draw(SohGui::Tr("Filter (inc,-exc)").c_str());
                 ImGui::PopStyleColor();
                 UIWidgets::PopStyleCombobox();
                 UIWidgets::PopStyleButton();

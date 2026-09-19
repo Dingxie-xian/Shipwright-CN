@@ -1875,7 +1875,7 @@ void DrawLocation(RandomizerCheck rc) {
             case RCSHOW_COLLECTED:
             case RCSHOW_SCUMMED:
                 if (IS_RANDO) {
-                    txt = itemLoc->GetPlacedItem().GetName().GetForLanguage(gSaveContext.language);
+                    txt = SohGui::Tr(itemLoc->GetPlacedItem().GetName().GetForLanguage(gSaveContext.language));
                 } else {
                     if (IsHeartPiece((GetItemID)Rando::StaticData::RetrieveItem(loc->GetVanillaItem()).GetItemID())) {
                         if (gSaveContext.language == LANGUAGE_ENG || gSaveContext.language == LANGUAGE_GER ||
@@ -1895,13 +1895,13 @@ void DrawLocation(RandomizerCheck rc) {
                             txt = OTRGlobals::Instance->gRandoContext->overrides[rc].GetTrickName().GetForLanguage(
                                 gSaveContext.language);
                         } else {
-                            txt = Rando::StaticData::RetrieveItem(
-                                      OTRGlobals::Instance->gRandoContext->overrides[rc].LooksLike())
-                                      .GetName()
-                                      .GetForLanguage(gSaveContext.language);
+                            txt = SohGui::Tr(Rando::StaticData::RetrieveItem(
+                                                 OTRGlobals::Instance->gRandoContext->overrides[rc].LooksLike())
+                                                 .GetName()
+                                                 .GetForLanguage(gSaveContext.language));
                         }
                     } else if (!mystery) {
-                        txt = itemLoc->GetPlacedItem().GetName().GetForLanguage(gSaveContext.language);
+                        txt = SohGui::Tr(itemLoc->GetPlacedItem().GetName().GetForLanguage(gSaveContext.language));
                     }
                     if (IsVisibleInCheckTracker(rc) && status == RCSHOW_IDENTIFIED && !mystery) {
                         auto price = OTRGlobals::Instance->gRandoContext->GetItemLocation(rc)->GetPrice();

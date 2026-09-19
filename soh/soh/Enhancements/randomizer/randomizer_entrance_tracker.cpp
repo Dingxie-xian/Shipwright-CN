@@ -888,7 +888,7 @@ void EntranceTrackerWindow::DrawElement() {
         }
 
         PushStyleCombobox(THEME_COLOR);
-        if (locationSearch.Draw()) {
+        if (locationSearch.Draw(SohGui::Tr("Filter (inc,-exc)").c_str())) {
             nextTreeState = 2;
         }
         PopStyleCombobox();

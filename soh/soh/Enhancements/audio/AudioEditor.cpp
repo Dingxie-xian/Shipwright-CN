@@ -660,7 +660,7 @@ void AudioEditor::DrawElement() {
 
             static ImGuiTextFilter sequenceSearch;
             UIWidgets::PushStyleInput(THEME_COLOR);
-            sequenceSearch.Draw("Filter (inc,-exc)", 490.0f);
+            sequenceSearch.Draw(SohGui::Tr("Filter (inc,-exc)").c_str(), 490.0f);
             UIWidgets::PopStyleInput();
             ImGui::SameLine();
             if (UIWidgets::Button("Exclude All",

@@ -1268,7 +1268,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(overworldKeyName.c_str()).x / 2),
                                          p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", overworldKeyName.c_str());
+        ImGui::Text("%s", SohGui::Tr(overworldKeyName).c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1277,7 +1277,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(itemName.c_str()).x / 2), p.y - (iconSize + 2)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", itemName.c_str());
+        ImGui::Text("%s", SohGui::Tr(itemName).c_str());
         ImGui::PopStyleColor();
     }
 

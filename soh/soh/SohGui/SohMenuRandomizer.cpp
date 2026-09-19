@@ -76,7 +76,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
 
         static ImGuiTextFilter locationSearch;
         UIWidgets::PushStyleInput(THEME_COLOR);
-        locationSearch.Draw();
+        locationSearch.Draw(SohGui::Tr("Filter (inc,-exc)").c_str());
         UIWidgets::PopStyleInput();
 
         ImGui::BeginChild("ChildIncludedLocations", ImVec2(0, -8));
@@ -311,7 +311,7 @@ void DrawTricksMenu(WidgetInfo& info) {
 
     static ImGuiTextFilter trickSearch;
     UIWidgets::PushStyleInput(THEME_COLOR);
-    trickSearch.Draw("Filter (inc,-exc)", 490.0f);
+    trickSearch.Draw(SohGui::Tr("Filter (inc,-exc)").c_str(), 490.0f);
     UIWidgets::PopStyleInput();
     if (CVarGetInteger(CVAR_RANDOMIZER_SETTING("LogicRules"), RO_LOGIC_GLITCHLESS) != RO_LOGIC_NO_LOGIC) {
         ImGui::SameLine();
