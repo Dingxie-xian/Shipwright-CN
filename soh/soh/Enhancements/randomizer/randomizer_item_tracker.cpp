@@ -17,6 +17,7 @@
 #include "soh/SohGui/SohGui.hpp"
 #include "soh/SohGui/SohMenu.h"
 #include "soh/SohGui/UIWidgets.hpp"
+#include "soh/SohGui/UiTranslation.h"
 #include "soh/util.h"
 
 extern "C" {
@@ -1424,7 +1425,7 @@ void DrawTotalChecks() {
     } else {
         ImGui::SetWindowFontScale(1);
     }
-    ImGui::Text("Checks: %d/%d", totalChecksGotten, totalChecks);
+    ImGui::Text(SohGui::Tr("Checks: %d/%d").c_str(), totalChecksGotten, totalChecks);
     ImGui::EndGroup();
 }
 

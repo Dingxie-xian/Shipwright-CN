@@ -1,5 +1,6 @@
 #include "SohStatsWindow.h"
 #include "soh/OTRGlobals.h"
+#include "soh/SohGui/UiTranslation.h"
 
 void SohStatsWindow::DrawElement() {
     const float framerate = ImGui::GetIO().Framerate;
@@ -8,17 +9,17 @@ void SohStatsWindow::DrawElement() {
     ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
 
 #if defined(_WIN32)
-    ImGui::Text("Platform: Windows");
+    ImGui::TextUnformatted(SohGui::Tr("Platform: Windows").c_str());
 #elif defined(__IOS__)
-    ImGui::Text("Platform: iOS");
+    ImGui::TextUnformatted(SohGui::Tr("Platform: iOS").c_str());
 #elif defined(__APPLE__)
-    ImGui::Text("Platform: macOS");
+    ImGui::TextUnformatted(SohGui::Tr("Platform: macOS").c_str());
 #elif defined(__linux__)
-    ImGui::Text("Platform: Linux");
+    ImGui::TextUnformatted(SohGui::Tr("Platform: Linux").c_str());
 #else
-    ImGui::Text("Platform: Unknown");
+    ImGui::TextUnformatted(SohGui::Tr("Platform: Unknown").c_str());
 #endif
-    ImGui::Text("Status: %0.3f ms/frame (%0.1f FPS)", deltatime * 1000.0f, framerate);
+    ImGui::Text(SohGui::Tr("Status: %0.3f ms/frame (%0.1f FPS)").c_str(), deltatime * 1000.0f, framerate);
     ImGui::PopStyleColor();
     ImGui::PopFont();
 }

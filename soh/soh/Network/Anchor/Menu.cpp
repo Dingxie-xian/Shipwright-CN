@@ -2,6 +2,7 @@
 #include <libultraship/libultraship.h>
 #include "soh/SohGui/SohGui.hpp"
 #include "soh/SohGui/SohMenu.h"
+#include "soh/SohGui/UiTranslation.h"
 #include "soh/util.h"
 
 namespace SohGui {
@@ -24,10 +25,10 @@ void AnchorMainMenu(WidgetInfo& info) {
     bool isFormValid = !SohUtils::IsStringEmpty(host) && port > 1024 && port < 65535 &&
                        !SohUtils::IsStringEmpty(anchorRoomId) && !SohUtils::IsStringEmpty(anchorName);
 
-    ImGui::SeparatorText("Connection Settings");
+    ImGui::SeparatorText(SohGui::Tr("Connection Settings").c_str());
 
     ImGui::BeginDisabled(anchor->isEnabled);
-    ImGui::Text("Host & Port");
+    ImGui::TextUnformatted(SohGui::Tr("Host & Port").c_str());
     if (UIWidgets::InputString("##Host", &host,
                                UIWidgets::InputOptions()
                                    .Size(ImGui::GetContentRegionAvail() -
@@ -46,7 +47,7 @@ void AnchorMainMenu(WidgetInfo& info) {
     }
     UIWidgets::PopStyleInput();
 
-    ImGui::Text("Name & Color");
+    ImGui::TextUnformatted(SohGui::Tr("Name & Color").c_str());
     static Color_RGBA8 defaultColor = { 100, 255, 100, 255 };
     UIWidgets::CVarColorPicker("##Color", CVAR_REMOTE_ANCHOR("Color"), defaultColor);
     ImGui::SameLine();
@@ -55,14 +56,14 @@ void AnchorMainMenu(WidgetInfo& info) {
         CVarSetString(CVAR_REMOTE_ANCHOR("Name"), anchorName.c_str());
         Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
-    ImGui::Text("Room ID");
+    ImGui::TextUnformatted(SohGui::Tr("Room ID").c_str());
     ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
     if (UIWidgets::InputString("##RoomId", &anchorRoomId,
                                UIWidgets::InputOptions().IsSecret(anchor->isEnabled).Color(THEME_COLOR))) {
         CVarSetString(CVAR_REMOTE_ANCHOR("RoomId"), anchorRoomId.c_str());
         Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
-    ImGui::Text("Team ID (Items & Flags Shared)");
+    ImGui::TextUnformatted(SohGui::Tr("Team ID (Items & Flags Shared)").c_str());
     ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
     if (UIWidgets::InputString("##TeamId", &anchorTeamId, UIWidgets::InputOptions().Color(THEME_COLOR))) {
         CVarSetString(CVAR_REMOTE_ANCHOR("TeamId"), anchorTeamId.c_str());
@@ -122,15 +123,15 @@ void AnchorMainMenu(WidgetInfo& info) {
     }
 
     if (!anchor->isConnected) {
-        ImGui::Text("Connecting...");
+        ImGui::TextUnformatted(SohGui::Tr("Connecting...").c_str());
         return;
     }
 
-    ImGui::SeparatorText("Current Room");
-    ImGui::Text("%s Connected", ICON_FA_CHECK);
+    ImGui::SeparatorText(SohGui::Tr("Current Room").c_str());
+    ImGui::Text(SohGui::Tr("%s Connected").c_str(), ICON_FA_CHECK);
 
     UIWidgets::PushStyleButton(THEME_COLOR);
-    if (ImGui::Button("Request Team State")) {
+    if (ImGui::Button(SohGui::Tr("Request Team State").c_str())) {
         anchor->SendPacket_RequestTeamState();
     }
     UIWidgets::Tooltip("Try this if you are missing items or flags that your team members have collected");
@@ -153,10 +154,10 @@ void AnchorAdminMenu(WidgetInfo& info) {
         return;
     }
 
-    ImGui::SeparatorText("Room Settings (Admin Only)");
+    ImGui::SeparatorText(SohGui::Tr("Room Settings (Admin Only)").c_str());
 
     UIWidgets::PushStyleButton(THEME_COLOR);
-    if (ImGui::Button("Clear All Team State")) {
+    if (ImGui::Button(SohGui::Tr("Clear All Team State").c_str())) {
         std::set<std::string> teams;
         for (auto& [clientId, client] : Anchor::Instance->clients) {
             teams.insert(client.teamId);
@@ -198,9 +199,9 @@ void AnchorAdminMenu(WidgetInfo& info) {
 void AnchorInstructionsMenu(WidgetInfo& info) {
     auto anchor = Anchor::Instance;
 
-    ImGui::SeparatorText("Usage Instructions");
+    ImGui::SeparatorText(SohGui::Tr("Usage Instructions").c_str());
 
-    ImGui::TextWrapped("1. All players involved should start at the file select screen");
+    ImGui::TextWrapped(SohGui::Tr("1. All players involved should start at the file select screen").c_str());
 
     ImGui::TextWrapped("2. Come up with a unique Room ID (this is basically your password) and enter it, along with "
                        "your desired player name and team ID and click Enable");

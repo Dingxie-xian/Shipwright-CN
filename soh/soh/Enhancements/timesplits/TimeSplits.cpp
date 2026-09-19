@@ -9,6 +9,7 @@
 #include "soh_assets.h"
 #include <soh/SohGui/SohGui.hpp>
 #include "soh/SohGui/UIWidgets.hpp"
+#include "soh/SohGui/UiTranslation.h"
 
 extern "C" {
 #include "z64item.h"
@@ -250,7 +251,7 @@ std::string formatTimestampTimeSplit(uint32_t value) {
     uint32_t mm = (sec - hh * 3600) / 60;
     uint32_t ss = sec - hh * 3600 - mm * 60;
     uint32_t ds = value % 10;
-    return fmt::format("{}:{:0>2}:{:0>2}.{}", hh, mm, ss, ds);
+    return fmt::format(SohGui::Tr("{}:{:0>2}:{:0>2}.{}"), hh, mm, ss, ds);
 }
 
 nlohmann::json ImVec4_to_json(const ImVec4& vec) {
@@ -330,7 +331,7 @@ void HandleDragAndDrop(std::vector<SplitObject>& objectList, int targetIndex, co
                        ImGuiDragDropFlags flags = ImGuiDragDropFlags_None) {
     if (ImGui::BeginDragDropSource(flags)) {
         ImGui::SetDragDropPayload("DragMove", &targetIndex, sizeof(uint32_t));
-        ImGui::Text("Move %s", itemName.c_str());
+        ImGui::Text(SohGui::Tr("Move %s").c_str(), itemName.c_str());
         ImGui::EndDragDropSource();
     }
 
@@ -458,7 +459,7 @@ void TimeSplitsPopUpContext() {
             ImGui::EndGroup();
 
             ImGui::PopItemWidth();
-            if (ImGui::Button("Set Tokens")) {
+            if (ImGui::Button(SohGui::Tr("Set Tokens").c_str())) {
                 auto findID = std::find_if(splitObjectList.begin(), splitObjectList.end(),
                                            [&](const SplitObject& obj) { return obj.splitID == ITEM_SKULL_TOKEN; });
                 SplitObject& buildTokenObject = *findID;
@@ -791,7 +792,7 @@ void TimeSplitsUpdateWindowSize() {
 }
 
 void TimeSplitsDrawOptionsMenu() {
-    ImGui::SeparatorText("Window Options");
+    ImGui::SeparatorText(SohGui::Tr("Window Options").c_str());
     Color_RGBA8 defaultColor = { 0, 0, 0, 255 };
     if (CVarColorPicker("Background Color", CVAR_ENHANCEMENT("TimeSplits.WindowColor"), defaultColor, true, 0,
                         THEME_COLOR)) {
@@ -810,9 +811,9 @@ void TimeSplitsDrawOptionsMenu() {
         TimeSplitsUpdateWindowSize();
     }
 
-    ImGui::SeparatorText("Split List Management");
+    ImGui::SeparatorText(SohGui::Tr("Split List Management").c_str());
 
-    ImGui::Text("New List Name: ");
+    ImGui::TextUnformatted(SohGui::Tr("New List Name: ").c_str());
     ImGui::PushItemWidth(150.0f);
     PushStyleInput(THEME_COLOR);
     ImGui::InputText("##listName", listNameBuf, 25);
@@ -826,7 +827,7 @@ void TimeSplitsDrawOptionsMenu() {
 
     TimeSplitsFileManagement(SPLIT_ACTION_COLLECT, "", emptyList);
     static uint32_t selectedItem = 0;
-    ImGui::Text("Select List to Load: ");
+    ImGui::TextUnformatted(SohGui::Tr("Select List to Load: ").c_str());
     ImGui::PushItemWidth(150.0f);
     Combobox("", &selectedItem, keys, ComboboxOptions().Color(THEME_COLOR).LabelPosition(LabelPositions::Near));
     ImGui::PopItemWidth();

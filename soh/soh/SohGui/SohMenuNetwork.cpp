@@ -5,6 +5,7 @@
 #include "soh/OTRGlobals.h"
 #include <soh/Network/Sail/Sail.h>
 #include <soh/Network/CrowdControl/CrowdControl.h>
+#include "soh/SohGui/UiTranslation.h"
 
 namespace SohGui {
 
@@ -62,7 +63,7 @@ void SohMenu::AddMenuNetwork() {
                             .Size(ImVec2(ImGui::GetFontSize() * 15, 0))
                             .LabelPosition(LabelPositions::None));
         ImGui::SameLine();
-        ImGui::Text(":");
+        ImGui::TextUnformatted(SohGui::Tr(":").c_str());
         ImGui::SameLine();
         CVarInputInt("##PortSail", CVAR_REMOTE_SAIL("Port"),
                      InputOptions()
@@ -128,7 +129,7 @@ void SohMenu::AddMenuNetwork() {
                             .Size(ImVec2(ImGui::GetFontSize() * 15, 0))
                             .LabelPosition(LabelPositions::None));
         ImGui::SameLine();
-        ImGui::Text(":");
+        ImGui::TextUnformatted(SohGui::Tr(":").c_str());
         ImGui::SameLine();
         CVarInputInt("##PortCrowdControl", CVAR_REMOTE_CROWD_CONTROL("Port"),
                      InputOptions()

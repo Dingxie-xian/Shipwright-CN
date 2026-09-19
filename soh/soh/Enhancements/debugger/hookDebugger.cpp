@@ -2,6 +2,7 @@
 #include "soh/SohGui/SohGui.hpp"
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "soh/SohGui/UIWidgets.hpp"
+#include "soh/SohGui/UiTranslation.h"
 #include "soh/OTRGlobals.h"
 #include <string>
 #include <version>
@@ -19,11 +20,11 @@ void DrawHookRegisteringInfos(const char* hookName) {
     size_t numHooks = (*hookData[hookName]).size();
 
     if (numHooks == 0) {
-        ImGui::TextColored(grey, "No hooks found");
+        ImGui::TextColored(grey, "%s", SohGui::Tr("No hooks found").c_str());
         return;
     }
 
-    ImGui::Text("Total Registered: %d", numHooks);
+    ImGui::Text(SohGui::Tr("Total Registered: %d").c_str(), numHooks);
 
     if (ImGui::BeginTable(("Table##" + std::string(hookName)).c_str(), 4,
                           ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable |
@@ -42,19 +43,19 @@ void DrawHookRegisteringInfos(const char* hookName) {
             ImGui::TableNextColumn();
             switch (hookInfo.registering.type) {
                 case HOOK_TYPE_NORMAL:
-                    ImGui::Text("Normal");
+                    ImGui::TextUnformatted(SohGui::Tr("Normal").c_str());
                     break;
                 case HOOK_TYPE_ID:
-                    ImGui::Text("ID");
+                    ImGui::TextUnformatted(SohGui::Tr("ID").c_str());
                     break;
                 case HOOK_TYPE_PTR:
-                    ImGui::Text("Ptr");
+                    ImGui::TextUnformatted(SohGui::Tr("Ptr").c_str());
                     break;
                 case HOOK_TYPE_FILTER:
-                    ImGui::Text("Filter");
+                    ImGui::TextUnformatted(SohGui::Tr("Filter").c_str());
                     break;
                 default:
-                    ImGui::TextColored(red, "[UNKNOWN]");
+                    ImGui::TextColored(red, "%s", SohGui::Tr("[UNKNOWN]").c_str());
                     break;
             }
 
@@ -70,7 +71,7 @@ void DrawHookRegisteringInfos(const char* hookName) {
                 ImGui::TextWrapped("%s(%d:%d) <-\u00A0%s", hookInfo.registering.file, hookInfo.registering.line,
                                    hookInfo.registering.column, parentFunction.c_str());
             } else {
-                ImGui::TextColored(yellow, "[Unavailable]");
+                ImGui::TextColored(yellow, "%s", SohGui::Tr("[Unavailable]").c_str());
             }
 
             ImGui::TableNextColumn();

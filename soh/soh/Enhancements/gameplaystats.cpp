@@ -6,6 +6,7 @@
 #include "soh/cvar_prefixes.h"
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
+#include "soh/SohGui/UiTranslation.h"
 #include "soh/util.h"
 
 #include <vector>
@@ -263,19 +264,19 @@ std::string formatTimestampGameplayStat(uint32_t value) {
     uint32_t mm = (sec - hh * 3600) / 60;
     uint32_t ss = sec - hh * 3600 - mm * 60;
     uint32_t ds = value % 10;
-    return fmt::format("{}:{:0>2}:{:0>2}.{}", hh, mm, ss, ds);
+    return fmt::format(SohGui::Tr("{}:{:0>2}:{:0>2}.{}"), hh, mm, ss, ds);
 }
 
 std::string formatIntGameplayStat(uint32_t value) {
-    return fmt::format("{}", value);
+    return fmt::format(SohGui::Tr("{}"), value);
 }
 
 std::string formatHexGameplayStat(uint32_t value) {
-    return fmt::format("{:#x} ({:d})", value, value);
+    return fmt::format(SohGui::Tr("{:#x} ({:d})"), value, value);
 }
 
 std::string formatHexOnlyGameplayStat(uint32_t value) {
-    return fmt::format("{:#x}", value, value);
+    return fmt::format(SohGui::Tr("{:#x}"), value, value);
 }
 
 extern "C" char* GameplayStats_GetCurrentTime() {
@@ -598,7 +599,7 @@ void DrawGameplayStatsBreakdownTab() {
         std::string name;
         if (CVarGetInteger(CVAR_GAMEPLAY_STATS("RoomBreakdown"), 0) &&
             gSaveContext.ship.stats.sceneTimestamps[i].scene != SCENE_GROTTOS) {
-            name = fmt::format("{:s} Room {:d}", sceneName, gSaveContext.ship.stats.sceneTimestamps[i].room);
+            name = fmt::format(SohGui::Tr("{:s} Room {:d}"), sceneName, gSaveContext.ship.stats.sceneTimestamps[i].room);
         } else {
             name = sceneName;
         }
@@ -622,7 +623,7 @@ void DrawGameplayStatsBreakdownTab() {
     }
     std::string toPass;
     if (CVarGetInteger(CVAR_GAMEPLAY_STATS("RoomBreakdown"), 0) && gSaveContext.ship.stats.sceneNum != SCENE_GROTTOS) {
-        toPass = fmt::format("{:s} Room {:d}",
+        toPass = fmt::format(SohGui::Tr("{:s} Room {:d}"),
                              ResolveSceneID(gSaveContext.ship.stats.sceneNum, gSaveContext.ship.stats.roomNum),
                              gSaveContext.ship.stats.roomNum);
     } else {
@@ -687,7 +688,7 @@ void GameplayStatsWindow::DrawElement() {
     UIWidgets::PopStyleTabs();
     ImGui::PopFont();
 
-    ImGui::Text("Note: Gameplay stats are saved to the current file and will be\nlost if you quit without saving.");
+    ImGui::TextUnformatted(SohGui::Tr("Note: Gameplay stats are saved to the current file and will be\nlost if you quit without saving.").c_str());
 }
 void InitStats(bool isDebug) {
     gSaveContext.ship.stats.heartPieces = isDebug ? 8 : 0;

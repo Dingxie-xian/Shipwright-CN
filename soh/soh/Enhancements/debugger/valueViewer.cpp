@@ -1,6 +1,7 @@
 #include "valueViewer.h"
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
+#include "soh/SohGui/UiTranslation.h"
 #include "soh/OTRGlobals.h"
 #include "soh/ShipInit.hpp"
 
@@ -181,7 +182,7 @@ void ValueViewerWindow::DrawElement() {
     UIWidgets::PopStyleCombobox();
     ImGui::SameLine();
     UIWidgets::PushStyleButton(THEME_COLOR);
-    if (selectedElement != -1 && ImGui::Button("+")) {
+    if (selectedElement != -1 && ImGui::Button(SohGui::Tr("+").c_str())) {
         valueTable[selectedElement].isActive = true;
         selectedElement = -1;
     }

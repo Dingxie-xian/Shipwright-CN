@@ -742,9 +742,9 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                                                ImGuiWindowFlags_NoSavedSettings)) {
                     float progress = (totalExtract > 0.0f ? (float)extractCount / (float)totalExtract : 0) * 100.0f;
                     auto filename = std::filesystem::path(file).filename().string();
-                    ImGui::Text("Extracting %s...%s", filename.c_str(),
+                    ImGui::Text(SohGui::Tr("Extracting %s...%s").c_str(), filename.c_str(),
                                 roundf(progress) == 100.0f ? " Done. Finishing up." : "");
-                    std::string overlay = extractCount > 0 ? fmt::format("{:.0f}%", progress) : "Starting Up";
+                    std::string overlay = extractCount > 0 ? fmt::format(SohGui::Tr("{:.0f}%"), progress) : "Starting Up";
                     ImGui::ProgressBar(progress / 100.0f, ImVec2(600.0f, 50.0f), overlay.c_str());
                     ImGui::EndPopup();
                 }

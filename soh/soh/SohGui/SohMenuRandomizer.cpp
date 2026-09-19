@@ -4,6 +4,7 @@
 #include "soh/Enhancements/randomizer/randomizerTypes.h"
 #include "soh/OTRGlobals.h"
 #include "soh/SohGui/SohGui.hpp"
+#include "soh/SohGui/UiTranslation.h"
 
 extern "C" {
 #include "variables.h"
@@ -515,11 +516,11 @@ void DrawTricksMenu(WidgetInfo& info) {
         } else {
             ImGui::TableNextColumn();
             ImGui::BeginChild("ChildTricksDisabled", ImVec2(0, -8));
-            ImGui::Text("Requires Logic Turned On.");
+            ImGui::TextUnformatted(SohGui::Tr("Requires Logic Turned On.").c_str());
             ImGui::EndChild();
             ImGui::TableNextColumn();
             ImGui::BeginChild("ChildTricksEnabled", ImVec2(0, -8));
-            ImGui::Text("Requires Logic Turned On.");
+            ImGui::TextUnformatted(SohGui::Tr("Requires Logic Turned On.").c_str());
             ImGui::EndChild();
         }
         ImGui::EndTable();
@@ -569,7 +570,7 @@ void SohMenu::AddMenuRandomizer() {
             }
             if (strnlen(seedString, MAX_SEED_STRING_SIZE) == 0) {
                 ImGui::SameLine(17.0f);
-                ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "Leave blank for random seed");
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "%s", SohGui::Tr("Leave blank for random seed").c_str());
             }
             UIWidgets::PopStyleInput();
         }
@@ -590,7 +591,7 @@ void SohMenu::AddMenuRandomizer() {
             JoinRandoGenerationThread();
             if (!CVarGetInteger(CVAR_RANDOMIZER_SETTING("DontGenerateSpoiler"), 0)) {
                 std::string spoilerfilepath = CVarGetString(CVAR_GENERAL("SpoilerLog"), "");
-                ImGui::Text("Spoiler File: %s", spoilerfilepath.c_str());
+                ImGui::Text(SohGui::Tr("Spoiler File: %s").c_str(), spoilerfilepath.c_str());
             }
         })
         .SameLine(true);

@@ -1,6 +1,7 @@
 #include "colViewer.h"
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
+#include "soh/SohGui/UiTranslation.h"
 
 #include <vector>
 #include <string>
@@ -77,7 +78,7 @@ void ColViewerWindow::DrawElement() {
     // This has to be duplicated in both code paths due to the nature of ImGui::IsItemHovered()
     const std::string colorHelpText = "View and change the colors used for collision display.";
     PushStyleHeader(THEME_COLOR);
-    if (ImGui::TreeNode("Colors")) {
+    if (ImGui::TreeNode(SohGui::Tr("Colors").c_str())) {
         UIWidgets::Tooltip(colorHelpText.c_str());
 
         if (CVarColorPicker("Normal", CVAR_DEVELOPER_TOOLS("ColViewer.ColorNormal"), { 255, 255, 255, 255 }, false,

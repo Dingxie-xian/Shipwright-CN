@@ -12,6 +12,7 @@
 
 #include "soh/OTRGlobals.h"
 #include "soh/SohGui/ImGuiUtils.h"
+#include "soh/SohGui/UiTranslation.h"
 #include "soh/Enhancements/randomizer/logic.h"
 #include "soh/Enhancements/randomizer/randomizer_check_objects.h"
 #include "soh/Enhancements/randomizer/rando_hash.h"
@@ -656,7 +657,7 @@ void PlandomizerOverlayText(std::pair<Rando::Item, uint32_t> drawObject) {
         textPos = ImVec2(imageMin.x + 2, imageMin.y + 2);
 
         ImGui::SetCursorScreenPos(textPos);
-        ImGui::Text("+");
+        ImGui::TextUnformatted(SohGui::Tr("+").c_str());
     }
     if (extractNumberInParentheses(drawObject.first.GetName().english.c_str()) != "" &&
         extractNumberInParentheses(drawObject.first.GetName().english.c_str()) != "WINNER" &&
@@ -699,7 +700,7 @@ void PlandomizerOverlayText(std::pair<Rando::Item, uint32_t> drawObject) {
 void PlandomizerDrawItemPopup(uint32_t index) {
     if (shouldPopup && ImGui::BeginPopup("ItemList")) {
         PlandoPushImageButtonStyle();
-        ImGui::SeparatorText("Resources");
+        ImGui::SeparatorText(SohGui::Tr("Resources").c_str());
         ImGui::BeginTable("Infinite Item Table", 7);
         for (auto& item : infiniteItemList) {
             ImGui::PushID(item);
@@ -724,7 +725,7 @@ void PlandomizerDrawItemPopup(uint32_t index) {
         }
 
         ImGui::EndTable();
-        ImGui::SeparatorText("Spoiler Log Rewards");
+        ImGui::SeparatorText(SohGui::Tr("Spoiler Log Rewards").c_str());
         ImGui::BeginTable("Item Button Table", 8);
         uint32_t itemIndex = 0;
 
@@ -868,7 +869,7 @@ void PlandomizerDrawIceTrapSetup(uint32_t index) {
     PlandomizerDrawIceTrapPopUp(index);
     ImGui::SameLine();
     ImGui::TableNextColumn();
-    ImGui::Text("Name: ");
+    ImGui::TextUnformatted(SohGui::Tr("Name: ").c_str());
     ImGui::SameLine();
     if (plandoLogData[index].iceTrapModel.GetRandomizerGet() != RG_NONE &&
         plandoLogData[index].iceTrapModel.GetRandomizerGet() != RG_SOLD_OUT) {
@@ -936,7 +937,7 @@ void PlandomizerDrawOptions() {
         ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableNextColumn();
-        ImGui::SeparatorText("Load/Save Spoiler Log");
+        ImGui::SeparatorText(SohGui::Tr("Load/Save Spoiler Log").c_str());
         PlandomizerPopulateSeedList();
         static size_t selectedList = 0;
         if (existingSeedList.size() != 0) {
@@ -944,7 +945,7 @@ void PlandomizerDrawOptions() {
                 "##JsonFiles", &selectedList, existingSeedList,
                 UIWidgets::ComboboxOptions().Color(THEME_COLOR).LabelPosition(UIWidgets::LabelPositions::None));
         } else {
-            ImGui::Text("No Spoiler Logs found.");
+            ImGui::TextUnformatted(SohGui::Tr("No Spoiler Logs found.").c_str());
         }
         ImGui::BeginDisabled(existingSeedList.empty());
         if (UIWidgets::Button("Load", UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
@@ -960,7 +961,7 @@ void PlandomizerDrawOptions() {
         ImGui::EndDisabled();
 
         ImGui::TableNextColumn();
-        ImGui::SeparatorText("Current Seed Hash");
+        ImGui::SeparatorText(SohGui::Tr("Current Seed Hash").c_str());
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (ImGui::GetContentRegionAvail().x * 0.5f) - (34.0f * 5.0f));
         if (spoilerLogData.size() > 0) {
             if (ImGui::BeginTable("HashIcons", 5)) {
@@ -1012,14 +1013,14 @@ void PlandomizerDrawOptions() {
                 ImGui::EndTable();
             }
         } else {
-            ImGui::Text("No Spoiler Log Loaded");
+            ImGui::TextUnformatted(SohGui::Tr("No Spoiler Log Loaded").c_str());
         }
         ImGui::EndTable();
     }
 
-    ImGui::SeparatorText("Options");
+    ImGui::SeparatorText(SohGui::Tr("Options").c_str());
     if (plandoLogData.size() == 0) {
-        ImGui::Text("Please Load Spoiler Data...");
+        ImGui::TextUnformatted(SohGui::Tr("Please Load Spoiler Data...").c_str());
         return;
     }
 
@@ -1066,14 +1067,14 @@ void PlandomizerDrawHintsWindow() {
             ImGui::PushID(index);
             ImGui::TableNextColumn();
             ImGui::SeparatorText(hintData.hintName.c_str());
-            ImGui::Text("Current Hint: ");
+            ImGui::TextUnformatted(SohGui::Tr("Current Hint: ").c_str());
             ImGui::SameLine();
             ImGui::TextWrapped("%s", hintData.hintText.c_str());
 
             if (spoilerHintData.size() > 0) {
                 hintInputText = plandoHintData[index].hintText.c_str();
             }
-            ImGui::Text("New Hint:     ");
+            ImGui::TextUnformatted(SohGui::Tr("New Hint:     ").c_str());
             ImGui::SameLine();
             if (UIWidgets::Button(randomizeButton.c_str(), UIWidgets::ButtonOptions()
                                                                .Color(THEME_COLOR)

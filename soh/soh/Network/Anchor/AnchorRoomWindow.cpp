@@ -4,6 +4,7 @@
 extern "C" {
 #include "variables.h"
 #include "functions.h"
+#include "soh/SohGui/UiTranslation.h"
 extern PlayState* gPlayState;
 }
 
@@ -43,7 +44,7 @@ void AnchorRoomWindow::DrawElement() {
                 activeClients++;
             }
         }
-        ImGui::Text("Players Online: %d", activeClients);
+        ImGui::Text(SohGui::Tr("Players Online: %d").c_str(), activeClients);
         return;
     }
 
@@ -85,7 +86,7 @@ void AnchorRoomWindow::DrawElement() {
                 if ((client.self ? Anchor::Instance->IsSaveLoaded() : client.isSaveLoaded)) {
                     ImGui::SameLine();
                     ImGui::TextColored(
-                        ImVec4(1, 1, 1, 0.5f), "- %s",
+                        ImVec4(1, 1, 1, 0.5f), SohGui::Tr("- %s").c_str(),
                         SohUtils::GetSceneName(client.self ? gPlayState->sceneNum : client.sceneNum).c_str());
                 }
             }
@@ -104,9 +105,9 @@ void AnchorRoomWindow::DrawElement() {
                 ImGui::TextColored(ImVec4(1, 0, 0, 1), ICON_FA_EXCLAMATION_TRIANGLE);
                 if (ImGui::IsItemHovered()) {
                     ImGui::BeginTooltip();
-                    ImGui::Text("Incompatible version! Will not work together!");
-                    ImGui::Text("Yours: %s", Anchor::clientVersion.c_str());
-                    ImGui::Text("Theirs: %s", client.clientVersion.c_str());
+                    ImGui::TextUnformatted(SohGui::Tr("Incompatible version! Will not work together!").c_str());
+                    ImGui::Text(SohGui::Tr("Yours: %s").c_str(), Anchor::clientVersion.c_str());
+                    ImGui::Text(SohGui::Tr("Theirs: %s").c_str(), client.clientVersion.c_str());
                     ImGui::EndTooltip();
                 }
             }
@@ -117,9 +118,9 @@ void AnchorRoomWindow::DrawElement() {
                 ImGui::TextColored(ImVec4(1, 0, 0, 1), ICON_FA_EXCLAMATION_TRIANGLE);
                 if (ImGui::IsItemHovered()) {
                     ImGui::BeginTooltip();
-                    ImGui::Text("Seed mismatch! Continuing will break things!");
-                    ImGui::Text("Yours: %u", seed);
-                    ImGui::Text("Theirs: %u", client.seed);
+                    ImGui::TextUnformatted(SohGui::Tr("Seed mismatch! Continuing will break things!").c_str());
+                    ImGui::Text(SohGui::Tr("Yours: %u").c_str(), seed);
+                    ImGui::Text(SohGui::Tr("Theirs: %u").c_str(), client.seed);
                     ImGui::EndTooltip();
                 }
             }

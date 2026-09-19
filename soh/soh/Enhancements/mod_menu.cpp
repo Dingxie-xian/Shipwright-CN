@@ -10,6 +10,7 @@
 #include "soh/SohGui/MenuTypes.h"
 #include "soh/SohGui/SohMenu.h"
 #include "soh/SohGui/SohGui.hpp"
+#include "soh/SohGui/UiTranslation.h"
 
 std::vector<std::string> enabledModFiles;
 std::vector<std::string> disabledModFiles;
@@ -79,7 +80,7 @@ void ModsHandleDragAndDrop(std::vector<std::string>& objectList, int targetIndex
                            ImGuiDragDropFlags flags = ImGuiDragDropFlags_SourceAllowNullID) {
     if (ImGui::BeginDragDropSource(flags)) {
         ImGui::SetDragDropPayload("DragMove", &targetIndex, sizeof(uint32_t));
-        ImGui::Text("Move %s", itemName.c_str());
+        ImGui::Text(SohGui::Tr("Move %s").c_str(), itemName.c_str());
         ImGui::EndDragDropSource();
     }
 

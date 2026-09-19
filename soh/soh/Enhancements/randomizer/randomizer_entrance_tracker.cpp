@@ -2,6 +2,7 @@
 #include "soh/OTRGlobals.h"
 #include "soh/cvar_prefixes.h"
 #include "soh/SohGui/SohGui.hpp"
+#include "soh/SohGui/UiTranslation.h"
 
 #include <string>
 #include <vector>
@@ -711,7 +712,7 @@ void InitEntranceTrackingData() {
 
 void EntranceTrackerSettingsWindow::DrawElement() {
 
-    ImGui::TextWrapped("The entrance tracker will only track shuffled entrances");
+    ImGui::TextWrapped(SohGui::Tr("The entrance tracker will only track shuffled entrances").c_str());
     Spacer(0);
 
     ImGui::TableNextColumn();
@@ -753,7 +754,7 @@ void EntranceTrackerSettingsWindow::DrawElement() {
 
         ImGui::TableNextColumn();
 
-        ImGui::Text("Sort By");
+        ImGui::TextUnformatted(SohGui::Tr("Sort By").c_str());
         CVarRadioButton(
             "To", CVAR_TRACKER_ENTRANCE("SortBy"), 0,
             RadioButtonsOptions().Color(THEME_COLOR).Tooltip("Sort entrances by the original source entrance"));
@@ -761,7 +762,7 @@ void EntranceTrackerSettingsWindow::DrawElement() {
             "From", CVAR_TRACKER_ENTRANCE("SortBy"), 1,
             RadioButtonsOptions().Color(THEME_COLOR).Tooltip("Sort entrances by the overrided destination"));
 
-        ImGui::Text("List Items");
+        ImGui::TextUnformatted(SohGui::Tr("List Items").c_str());
         CVarCheckbox("Auto scroll", CVAR_TRACKER_ENTRANCE("AutoScroll"),
                      CheckboxOptions()
                          .Tooltip("Automatically scroll to the first available entrance in the current scene")
@@ -791,13 +792,13 @@ void EntranceTrackerSettingsWindow::DrawElement() {
 
         ImGui::TableNextColumn();
 
-        ImGui::Text("Group By");
+        ImGui::TextUnformatted(SohGui::Tr("Group By").c_str());
         CVarRadioButton("Area", CVAR_TRACKER_ENTRANCE("GroupBy"), 0,
                         RadioButtonsOptions().Color(THEME_COLOR).Tooltip("Group entrances by their area"));
         CVarRadioButton("Type", CVAR_TRACKER_ENTRANCE("GroupBy"), 1,
                         RadioButtonsOptions().Color(THEME_COLOR).Tooltip("Group entrances by their entrance type"));
 
-        ImGui::Text("Spoiler Reveal");
+        ImGui::TextUnformatted(SohGui::Tr("Spoiler Reveal").c_str());
         ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
         CVarCheckbox("Show Source", CVAR_TRACKER_ENTRANCE("ShowFrom"),
                      CheckboxOptions().Tooltip("Reveal the source for undiscovered entrances").Color(THEME_COLOR));
@@ -808,10 +809,10 @@ void EntranceTrackerSettingsWindow::DrawElement() {
     }
 
     ImGui::SetNextItemOpen(false, ImGuiCond_Once);
-    if (ImGui::TreeNode("Legend")) {
-        ImGui::TextColored(ImColor(COLOR_ORANGE), "Last Entrance");
-        ImGui::TextColored(ImColor(COLOR_GREEN), "Available Entrances");
-        ImGui::TextColored(ImColor(COLOR_GRAY), "Undiscovered Entrances");
+    if (ImGui::TreeNode(SohGui::Tr("Legend").c_str())) {
+        ImGui::TextColored(ImColor(COLOR_ORANGE), "%s", SohGui::Tr("Last Entrance").c_str());
+        ImGui::TextColored(ImColor(COLOR_GREEN), "%s", SohGui::Tr("Available Entrances").c_str());
+        ImGui::TextColored(ImColor(COLOR_GRAY), "%s", SohGui::Tr("Undiscovered Entrances").c_str());
         ImGui::TreePop();
     }
 }
@@ -861,7 +862,7 @@ void EntranceTrackerWindow::DrawElement() {
             static_cast<TrackerWindowType>(CVarGetInteger(CVAR_TRACKER_ENTRANCE("WindowType"), TRACKER_WINDOW_WINDOW)),
             CVarGetInteger(CVAR_TRACKER_ENTRANCE("Draggable"), 1), ImGuiWindowFlags_NoScrollbar)) {
         if (!GameInteractor::IsSaveLoaded()) {
-            ImGui::Text("Waiting for file load..."); // TODO Language
+            ImGui::TextUnformatted(SohGui::Tr("Waiting for file load...").c_str()); // TODO Language
             Trackers::EndFloatWindows();
             return;
         }

@@ -8,6 +8,7 @@
 #include "soh/OTRGlobals.h"
 #include "soh/SohGui/SohMenu.h"
 #include "soh/SohGui/SohGui.hpp"
+#include "soh/SohGui/UiTranslation.h"
 
 /*  Console Variables are grouped under gAdvancedResolution. (e.g. CVAR_PREFIX_ADVANCED_RESOLUTION ".Enabled")
 
@@ -110,7 +111,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
     //     UIWidgets::DisableComponent(ImGui::GetStyle().Alpha * 0.5f);
     // }
     UIWidgets::PushStyleCombobox(THEME_COLOR);
-    if (ImGui::Combo("Pixel Count Presets", &item_pixelCount, pixelCountPresetLabels,
+    if (ImGui::Combo(SohGui::Tr("Pixel Count Presets").c_str(), &item_pixelCount, pixelCountPresetLabels,
                      IM_ARRAYSIZE(pixelCountPresetLabels)) &&
         item_pixelCount != default_pixelCount) { // don't change anything if "Custom" is selected.
         verticalPixelCount = pixelCountPresets[item_pixelCount];
@@ -130,7 +131,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
         if ((aspectRatioX > 0.0f) && (aspectRatioY > 0.0f)) {
             // So basically we're "faking" this one by setting aspectRatioX instead.
             UIWidgets::PushStyleInput(THEME_COLOR);
-            if (ImGui::InputInt("Horiz. Pixel Count", &horizontalPixelCount, 8, 320)) {
+            if (ImGui::InputInt(SohGui::Tr("Horiz. Pixel Count").c_str(), &horizontalPixelCount, 8, 320)) {
                 item_aspectRatio = default_aspectRatio;
                 if (horizontalPixelCount < SCREEN_WIDTH) {
                     horizontalPixelCount = SCREEN_WIDTH;
@@ -158,7 +159,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
     }
     // Vertical Resolution part 2
     UIWidgets::PushStyleInput(THEME_COLOR);
-    if (ImGui::InputInt("Vertical Pixel Count", &verticalPixelCount, 8, 240)) {
+    if (ImGui::InputInt(SohGui::Tr("Vertical Pixel Count").c_str(), &verticalPixelCount, 8, 240)) {
         item_pixelCount = default_pixelCount;
         update[UPDATE_verticalPixelCount] = true;
 
@@ -180,7 +181,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
         CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".PixelPerfectMode", 0) ? ImGuiTreeNodeFlags_DefaultOpen
                                                                                : ImGuiTreeNodeFlags_None;
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader("Integer Scaling Settings", IntegerScalingResolvedImGuiFlag)) {
+    if (ImGui::CollapsingHeader(SohGui::Tr("Integer Scaling Settings").c_str(), IntegerScalingResolvedImGuiFlag)) {
         const bool disabled_pixelPerfectMode =
             !CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".PixelPerfectMode", 0) || disabled_everything;
         // Pixel Perfect Mode
@@ -196,7 +197,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
 
         // Integer Scaling
         UIWidgets::CVarSliderInt(
-            fmt::format("Integer scale factor: {}", max_integerScaleFactor).c_str(),
+            fmt::format(SohGui::Tr("Integer scale factor: {}"), max_integerScaleFactor).c_str(),
             CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.Factor",
             UIWidgets::IntSliderOptions(
                 { { .disabled = disabled_pixelPerfectMode ||
@@ -211,7 +212,10 @@ void ResolutionCustomWidget(WidgetInfo& info) {
             (CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.NeverExceedBounds", 1) &&
              CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.Factor", 1) > integerScale_maximumBounds)) {
             ImGui::SameLine();
-            ImGui::TextColored(messageColor[MESSAGE_WARNING], ICON_FA_EXCLAMATION_TRIANGLE " Window exceeded.");
+            // The icon is a separate literal, so it cannot be concatenated with the
+            // translated text any more; pass both through the format string instead.
+            ImGui::TextColored(messageColor[MESSAGE_WARNING], "%s %s", ICON_FA_EXCLAMATION_TRIANGLE,
+                               SohGui::Tr("Window exceeded.").c_str());
         }
 
         UIWidgets::CVarCheckbox(
@@ -232,7 +236,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
 
     // Collapsible panel for additional settings
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader("Additional Settings")) {
+    if (ImGui::CollapsingHeader(SohGui::Tr("Additional Settings").c_str())) {
 #if defined(__SWITCH__) || defined(__WIIU__)
         // Disable aspect correction, stretching the framebuffer to fill the viewport.
         // This option is only really needed on systems limited to 16:9 TV resolutions, such as consoles.
@@ -251,9 +255,9 @@ void ResolutionCustomWidget(WidgetInfo& info) {
             // This setting is intentionally not exposed on PC platforms,
             // but may be accidentally activated for varying reasons.
             // Having this button should hopefully prevent support headaches.
-            ImGui::TextColored(messageColor[MESSAGE_QUESTION], ICON_FA_QUESTION_CIRCLE
-                               " If the image is stretched and you don't know why, click this.");
-            if (ImGui::Button("Click to reenable aspect correction.")) {
+            ImGui::TextColored(messageColor[MESSAGE_QUESTION], "%s %s", ICON_FA_QUESTION_CIRCLE,
+                               SohGui::Tr("If the image is stretched and you don't know why, click this.").c_str());
+            if (ImGui::Button(SohGui::Tr("Click to reenable aspect correction.").c_str())) {
                 CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IgnoreAspectCorrection", 0);
                 Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
             }
@@ -389,14 +393,14 @@ void RegisterResolutionWidgets() {
         .RaceDisable(false)
         .PreFunc([](WidgetInfo& info) {
             auto gfx_current_game_window_viewport = GetInterpreter().get()->mGameWindowViewport;
-            info.name = fmt::format("Viewport dimensions: {} x {}", gfx_current_game_window_viewport.width,
+            info.name = fmt::format(SohGui::Tr("Viewport dimensions: {} x {}"), gfx_current_game_window_viewport.width,
                                     gfx_current_game_window_viewport.height);
         });
     mSohMenu->AddWidget(path, "Internal resolution: {} x {}", WIDGET_TEXT)
         .RaceDisable(false)
         .PreFunc([](WidgetInfo& info) {
             auto gfx_current_dimensions = GetInterpreter().get()->mCurDimensions;
-            info.name = fmt::format("Internal resolution: {} x {}", gfx_current_dimensions.width,
+            info.name = fmt::format(SohGui::Tr("Internal resolution: {} x {}"), gfx_current_dimensions.width,
                                     gfx_current_dimensions.height);
         });
 
@@ -506,7 +510,7 @@ void RegisterResolutionWidgets() {
                     ImGui::Dummy({ 0, 2 });
                     const float resolvedAspectRatio =
                         (float)gfx_current_dimensions.width / gfx_current_dimensions.height;
-                    ImGui::Text("Aspect ratio: %.2f:1", resolvedAspectRatio);
+                    ImGui::Text(SohGui::Tr("Aspect ratio: %.2f:1").c_str(), resolvedAspectRatio);
                 }
             }
         });

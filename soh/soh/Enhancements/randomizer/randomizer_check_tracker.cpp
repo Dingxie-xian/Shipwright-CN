@@ -9,6 +9,7 @@
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
 #include "soh/SohGui/SohMenu.h"
+#include "soh/SohGui/UiTranslation.h"
 #include "dungeon.h"
 #include "entrance.h"
 #include "location_access.h"
@@ -1017,7 +1018,7 @@ void CheckTrackerWindow::DrawElement() {
             static_cast<TrackerWindowType>(CVarGetInteger(CVAR_TRACKER_CHECK("WindowType"), TRACKER_WINDOW_WINDOW)),
             CVarGetInteger(CVAR_TRACKER_CHECK("Draggable"), 1), ImGuiWindowFlags_NoScrollbar)) {
         if (!GameInteractor::IsSaveLoaded() || !initialized) {
-            ImGui::Text("Waiting for file load..."); // TODO Language
+            ImGui::TextUnformatted(SohGui::Tr("Waiting for file load...").c_str()); // TODO Language
             Trackers::EndFloatWindows();
             return;
         }
@@ -1099,7 +1100,7 @@ void CheckTrackerWindow::DrawElement() {
             }
             if (checkSearchText.length() < 1) {
                 ImGui::SameLine(20.0f);
-                ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "Search...");
+                ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "%s", SohGui::Tr("Search...").c_str());
             }
         }
         UIWidgets::PopStyleCombobox();
@@ -1232,7 +1233,7 @@ void CheckTrackerWindow::DrawElement() {
                     ImGui::Text("%s", areaTotalsSS.str().c_str());
                     UIWidgets::Tooltip(areaTotalsTooltipSS.str().c_str());
                 } else {
-                    ImGui::Text("???");
+                    ImGui::TextUnformatted(SohGui::Tr("???").c_str());
                 }
 
                 ImGui::PopStyleColor();
@@ -1905,7 +1906,7 @@ void DrawLocation(RandomizerCheck rc) {
                     if (IsVisibleInCheckTracker(rc) && status == RCSHOW_IDENTIFIED && !mystery) {
                         auto price = OTRGlobals::Instance->gRandoContext->GetItemLocation(rc)->GetPrice();
                         if (price) {
-                            txt += fmt::format(" - {}", price);
+                            txt += fmt::format(SohGui::Tr(" - {}"), price);
                         }
                     }
                 } else {
@@ -1929,7 +1930,7 @@ void DrawLocation(RandomizerCheck rc) {
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(extraColor.r / 255.0f, extraColor.g / 255.0f, extraColor.b / 255.0f,
                                                     extraColor.a / 255.0f));
         ImGui::SameLine();
-        ImGui::Text(" (%s)", txt.c_str());
+        ImGui::Text(SohGui::Tr(" (%s)").c_str(), txt.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -2020,7 +2021,7 @@ void ImGuiDrawTwoColorPickerSection(const char* text, const char* cvarMainName, 
     }
     if (tooltip != NULL && strlen(tooltip) != 0) {
         ImGui::SameLine();
-        ImGui::Text(" ?");
+        ImGui::TextUnformatted(SohGui::Tr(" ?").c_str());
         UIWidgets::Tooltip(tooltip);
     }
     UIWidgets::PopStyleCombobox();
@@ -2191,7 +2192,7 @@ void CheckTrackerSettingsWindow::DrawElement() {
                 .Color(THEME_COLOR)
                 .DefaultValue(true));
 
-        ImGui::SeparatorText("Tracker Header Visibility");
+        ImGui::SeparatorText(SohGui::Tr("Tracker Header Visibility").c_str());
         UIWidgets::CVarCheckbox("Hidden Items Toggle", CVAR_TRACKER_CHECK("HiddenItemsToggleVisible"),
                                 UIWidgets::CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         UIWidgets::CVarCheckbox("Available Checks Toggle", CVAR_TRACKER_CHECK("AvailableChecksToggleVisible"),

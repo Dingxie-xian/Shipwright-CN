@@ -230,7 +230,7 @@ uint32_t Menu::DrawSearchResults(std::string& menuSearchText) {
                             }
                             MenuDrawItem(info, 400, menuThemeIndex);
                             ImGui::PushStyleColor(ImGuiCol_Text, UIWidgets::ColorValues.at(UIWidgets::Colors::Gray));
-                            std::string origin = fmt::format("  ({} -> {}, Col {})", SohGui::Tr(menuEntry.label),
+                            std::string origin = fmt::format(SohGui::Tr("  ({} -> {}, Col {})"), SohGui::Tr(menuEntry.label),
                                                              SohGui::Tr(sidebarLabel), i + 1);
                             ImGui::Text("%s", origin.c_str());
                             ImGui::PopStyleColor();
@@ -260,7 +260,7 @@ uint32_t Menu::DrawSearchResults(std::string& menuSearchText) {
             if (widgetStr.find(menuSearchText) != std::string::npos) {
                 MenuDrawItem(entry.info, 400, menuThemeIndex);
                 ImGui::PushStyleColor(ImGuiCol_Text, UIWidgets::ColorValues.at(UIWidgets::Colors::Gray));
-                std::string origin = fmt::format("  ({} -> {}, {})", SohGui::Tr(entry.menuName),
+                std::string origin = fmt::format(SohGui::Tr("  ({} -> {}, {})"), SohGui::Tr(entry.menuName),
                                                  SohGui::Tr(entry.sidebarName), entry.location);
                 ImGui::Text("%s", origin.c_str());
                 ImGui::PopStyleColor();
@@ -497,14 +497,14 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
             case WIDGET_WINDOW_BUTTON: {
                 if (widget.windowName == nullptr || widget.windowName[0] == '\0') {
                     std::string msg =
-                        fmt::format("Error drawing window contents for {}: windowName not defined", widget.name);
+                        fmt::format(SohGui::Tr("Error drawing window contents for {}: windowName not defined"), widget.name);
                     SPDLOG_ERROR(msg.c_str());
                     break;
                 }
                 auto window = Ship::Context::GetInstance()->GetWindow()->GetGui()->GetGuiWindow(widget.windowName);
                 if (!window) {
                     std::string msg =
-                        fmt::format("Error drawing window contents: windowName {} does not exist", widget.windowName);
+                        fmt::format(SohGui::Tr("Error drawing window contents: windowName {} does not exist"), widget.windowName);
                     SPDLOG_ERROR(msg.c_str());
                     break;
                 }
@@ -926,7 +926,7 @@ void Menu::DrawElement() {
             }
         }
         for (size_t i = 0; i < columnFuncs; i++) {
-            std::string sectionId = fmt::format("{} Column {}", sectionMenuId, i);
+            std::string sectionId = fmt::format(SohGui::Tr("{} Column {}"), sectionMenuId, i);
             if (useColumns) {
                 ImGui::SetNextWindowSizeConstraints({ columnWidth, 0 }, { columnWidth, columnHeight });
                 ImGui::BeginChild(sectionId.c_str(), { columnWidth, windowHeight * 4 }, ImGuiChildFlags_AutoResizeY,

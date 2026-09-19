@@ -360,7 +360,7 @@ void Separator(bool padTop, bool padBottom, float extraVerticalTopPadding, float
 // Adds a "?" next to the previous ImGui item with a custom tooltip
 void InsertHelpHoverText(const std::string& text) {
     ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "?");
+    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "%s", SohGui::Tr("?").c_str());
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
         ImGui::Text("%s", WrappedText(SohGui::Tr(text), 60).c_str());
@@ -1293,7 +1293,7 @@ bool BtnSelector(const char* label_, int32_t* value, const BtnSelectorOptions& o
         if (currentValue & buttonMask) {
             ImGui::PushID(buttonName.c_str());
             if (index++ > 0) {
-                ImGui::Text("+");
+                ImGui::TextUnformatted(SohGui::Tr("+").c_str());
                 ImGui::SameLine();
             }
             if (UIWidgets::Button(buttonName.c_str(), UIWidgets::ButtonOptions()

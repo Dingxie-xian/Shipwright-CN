@@ -11,6 +11,7 @@
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohMenu.h"
 #include "soh/SohGui/SohGui.hpp"
+#include "soh/SohGui/UiTranslation.h"
 #include "soh/OTRGlobals.h"
 #include "soh/ResourceManagerHelpers.h"
 #include "soh/Enhancements/enhancementTypes.h"
@@ -1657,7 +1658,7 @@ void C_Button_Dropdown(const char* Header_Title, const char* Table_ID, const cha
 
 void Draw_Placements() {
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    ImGui::SeparatorText("General Margins Settings");
+    ImGui::SeparatorText(SohGui::Tr("General Margins Settings").c_str());
     UIWidgets::CVarSliderInt("Top: %dpx", CVAR_COSMETIC("HUD.Margin.T"),
                              UIWidgets::IntSliderOptions()
                                  .Min(static_cast<s16>(ImGui::GetWindowViewport()->Size.y / 2) * -1)
@@ -1694,7 +1695,7 @@ void Draw_Placements() {
     ImGui::SameLine();
     ResetPositionAll();
     UIWidgets::Separator(true, true, 2.0f, 2.0f);
-    if (ImGui::CollapsingHeader("Hearts count position")) {
+    if (ImGui::CollapsingHeader(SohGui::Tr("Hearts count position").c_str())) {
         if (ImGui::BeginTable("tableHeartsCounts", 1, FlagsTable)) {
             ImGui::TableSetupColumn("Hearts counts settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1716,7 +1717,7 @@ void Draw_Placements() {
             ImGui::EndTable();
         }
     }
-    if (ImGui::CollapsingHeader("Magic Meter position")) {
+    if (ImGui::CollapsingHeader(SohGui::Tr("Magic Meter position").c_str())) {
         if (ImGui::BeginTable("tablemmpos", 1, FlagsTable)) {
             ImGui::TableSetupColumn("Magic meter settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1735,7 +1736,7 @@ void Draw_Placements() {
         }
     }
     if (CVarGetInteger(CVAR_ENHANCEMENT("VisualAgony"), 0) &&
-        ImGui::CollapsingHeader("Visual stone of agony position")) {
+        ImGui::CollapsingHeader(SohGui::Tr("Visual stone of agony position").c_str())) {
         if (ImGui::BeginTable("tabledvisualstoneofagony", 1, FlagsTable)) {
             ImGui::TableSetupColumn("Visual stone of agony settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1771,7 +1772,7 @@ void Draw_Placements() {
                       CVAR_COSMETIC("HUD.CLeftButton"), CVAR_COSMETIC("HUD.CLeftButton.PosType"), 0.87f);
     C_Button_Dropdown("C Button Right position", "tablecrbtn", "C Button Right settings", "C Button Right",
                       CVAR_COSMETIC("HUD.CRightButton"), CVAR_COSMETIC("HUD.CRightButton.PosType"), 0.87f);
-    if (CVarGetInteger(CVAR_ENHANCEMENT("DpadEquips"), 0) && ImGui::CollapsingHeader("DPad items position")) {
+    if (CVarGetInteger(CVAR_ENHANCEMENT("DpadEquips"), 0) && ImGui::CollapsingHeader(SohGui::Tr("DPad items position").c_str())) {
         if (ImGui::BeginTable("tabledpaditems", 1, FlagsTable)) {
             ImGui::TableSetupColumn("DPad items settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1823,7 +1824,7 @@ void Draw_Placements() {
                         "In-game Gameplay Timer", CVAR_COSMETIC("HUD.IGT"), 0,
                         static_cast<int>(ImGui::GetWindowViewport()->Size.y / 2), -50,
                         static_cast<int>(ImGui::GetWindowViewport()->Size.x / 2) + 10, 1.0f);
-    if (ImGui::CollapsingHeader("Enemy Health Bar position")) {
+    if (ImGui::CollapsingHeader(SohGui::Tr("Enemy Health Bar position").c_str())) {
         if (ImGui::BeginTable("enemyhealthbar", 1, FlagsTable)) {
             ImGui::TableSetupColumn("Enemy Health Bar settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);

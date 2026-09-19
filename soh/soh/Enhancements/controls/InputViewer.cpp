@@ -12,6 +12,7 @@
 
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
+#include "soh/SohGui/UiTranslation.h"
 
 using namespace UIWidgets;
 
@@ -427,7 +428,7 @@ void InputViewer::DrawElement() {
                 }
 
                 // Render text
-                ImGui::Text("X: %-3d  Y: %-3d", pads[0].stick_x, pads[0].stick_y);
+                ImGui::Text(SohGui::Tr("X: %-3d  Y: %-3d").c_str(), pads[0].stick_x, pads[0].stick_y);
                 // Restore original color
                 ImGui::PopStyleColor();
                 // Restore original font scale
@@ -471,7 +472,7 @@ void InputViewerSettingsWindow::DrawElement() {
     UIWidgets::PaddedSeparator(true, true);
 
     PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader("Buttons")) {
+    if (ImGui::CollapsingHeader(SohGui::Tr("Buttons").c_str())) {
 
         // gInputViewer.ButtonOutlineMode
         CVarCombobox(
@@ -612,7 +613,7 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader("Analog Stick")) {
+    if (ImGui::CollapsingHeader(SohGui::Tr("Analog Stick").c_str())) {
         // gInputViewer.AnalogStick.VisibilityMode
         CVarCombobox(
             "Analog Stick Visibility", CVAR_INPUT_VIEWER("AnalogStick.VisibilityMode"), stickModeOptions,
@@ -645,7 +646,7 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader("Additional (\"Right\") Stick")) {
+    if (ImGui::CollapsingHeader(SohGui::Tr("Additional (\"Right\") Stick").c_str())) {
         // gInputViewer.RightStick.VisibilityMode
         CVarCombobox(
             "Right Stick Visibility", CVAR_INPUT_VIEWER("RightStick.VisibilityMode"), stickModeOptions,
@@ -678,7 +679,7 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader("Analog Angle Values")) {
+    if (ImGui::CollapsingHeader(SohGui::Tr("Analog Angle Values").c_str())) {
         // gAnalogAngles
         CVarCheckbox(
             "Show Analog Stick Angle Values", CVAR_INPUT_VIEWER("AnalogAngles.Enabled"),
