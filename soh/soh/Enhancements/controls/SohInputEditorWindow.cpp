@@ -666,7 +666,7 @@ void SohInputEditorWindow::DrawStickSection(uint8_t port, uint8_t stick, int32_t
                            Ship::RIGHT, color);
     ImGui::EndGroup();
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    if (ImGui::TreeNode(StringHelper::Sprintf("Analog Stick Options##%d", id).c_str())) {
+    if (ImGui::TreeNode(StringHelper::Sprintf("%s##%d", SohGui::Tr("Analog Stick Options").c_str(), id).c_str())) {
         ImGui::TextUnformatted(SohGui::Tr("Sensitivity:").c_str());
 
         int32_t sensitivityPercentage = controllerStick->GetSensitivityPercentage();
@@ -701,7 +701,7 @@ void SohInputEditorWindow::DrawStickSection(uint8_t port, uint8_t stick, int32_t
         }
         if (!controllerStick->SensitivityIsDefault()) {
             ImGui::SameLine();
-            if (ImGui::Button(StringHelper::Sprintf("Reset to Default###resetStickSensitivity%d", id).c_str())) {
+            if (ImGui::Button(StringHelper::Sprintf("%s###resetStickSensitivity%d", SohGui::Tr("Reset to Default").c_str(), id).c_str())) {
                 controllerStick->ResetSensitivityToDefault();
             }
         }
@@ -740,7 +740,7 @@ void SohInputEditorWindow::DrawStickSection(uint8_t port, uint8_t stick, int32_t
         }
         if (!controllerStick->DeadzoneIsDefault()) {
             ImGui::SameLine();
-            if (ImGui::Button(StringHelper::Sprintf("Reset to Default###resetStickDeadzone%d", id).c_str())) {
+            if (ImGui::Button(StringHelper::Sprintf("%s###resetStickDeadzone%d", SohGui::Tr("Reset to Default").c_str(), id).c_str())) {
                 controllerStick->ResetDeadzoneToDefault();
             }
         }
@@ -778,7 +778,7 @@ void SohInputEditorWindow::DrawStickSection(uint8_t port, uint8_t stick, int32_t
         }
         if (!controllerStick->NotchSnapAngleIsDefault()) {
             ImGui::SameLine();
-            if (ImGui::Button(StringHelper::Sprintf("Reset to Default###resetStickSnap%d", id).c_str())) {
+            if (ImGui::Button(StringHelper::Sprintf("%s###resetStickSnap%d", SohGui::Tr("Reset to Default").c_str(), id).c_str())) {
                 controllerStick->ResetNotchSnapAngleToDefault();
             }
         }
@@ -949,7 +949,7 @@ void SohInputEditorWindow::DrawRumbleSection(uint8_t port) {
             }
             if (!mapping->HighFrequencyIntensityIsDefault()) {
                 ImGui::SameLine();
-                if (ImGui::Button(StringHelper::Sprintf("Reset to Default###resetHighFrequencyIntensity%s", id.c_str())
+                if (ImGui::Button(StringHelper::Sprintf("%s###resetHighFrequencyIntensity%s", SohGui::Tr("Reset to Default").c_str(), id.c_str())
                                       .c_str())) {
                     mapping->ResetHighFrequencyIntensityToDefault();
                 }
@@ -993,7 +993,7 @@ void SohInputEditorWindow::DrawRumbleSection(uint8_t port) {
             if (!mapping->LowFrequencyIntensityIsDefault()) {
                 ImGui::SameLine();
                 if (ImGui::Button(
-                        StringHelper::Sprintf("Reset to Default###resetLowFrequencyIntensity%s", id.c_str()).c_str())) {
+                        StringHelper::Sprintf("%s###resetLowFrequencyIntensity%s", SohGui::Tr("Reset to Default").c_str(), id.c_str()).c_str())) {
                     mapping->ResetLowFrequencyIntensityToDefault();
                 }
             }
@@ -1242,7 +1242,7 @@ void SohInputEditorWindow::DrawGyroSection(uint8_t port) {
 
         if (!mapping->SensitivityIsDefault()) {
             ImGui::SameLine();
-            if (ImGui::Button(StringHelper::Sprintf("Reset to Default###resetGyroSensitivity%s", id.c_str()).c_str())) {
+            if (ImGui::Button(StringHelper::Sprintf("%s###resetGyroSensitivity%s", SohGui::Tr("Reset to Default").c_str(), id.c_str()).c_str())) {
                 mapping->ResetSensitivityToDefault();
             }
         }
@@ -1500,7 +1500,7 @@ void SohInputEditorWindow::DrawDeviceToggles(uint8_t portIndex) {
     GetButtonColorsForDeviceType(Ship::PhysicalDeviceType::Keyboard, keyboardButtonColor, keyboardButtonHoveredColor);
     ImGui::PushStyleColor(ImGuiCol_Button, keyboardButtonColor);
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, keyboardButtonHoveredColor);
-    ImGui::Button(StringHelper::Sprintf("%s Keyboard", ICON_FA_KEYBOARD_O).c_str());
+    ImGui::Button(StringHelper::Sprintf("%s %s", ICON_FA_KEYBOARD_O, SohGui::Tr("Keyboard").c_str()).c_str());
     ImGui::PopStyleColor();
     ImGui::PopStyleColor();
 
@@ -1756,8 +1756,9 @@ void SohInputEditorWindow::DrawSetDefaultsButton(uint8_t portIndex) {
     ImGui::SameLine();
     auto popupId = StringHelper::Sprintf("setDefaultsPopup##%d", portIndex);
     PushStyleButton(THEME_COLOR);
-    if (ImGui::Button(StringHelper::Sprintf("Set Defaults##%d", portIndex).c_str(),
-                      ImVec2(ImGui::CalcTextSize("Set Defaults") * 2))) {
+    const std::string setDefaultsLabel = SohGui::Tr("Set Defaults");
+    if (ImGui::Button((setDefaultsLabel + "##" + std::to_string(portIndex)).c_str(),
+                      ImVec2(ImGui::CalcTextSize(setDefaultsLabel.c_str()) * 2))) {
         ImGui::OpenPopup(popupId.c_str());
     }
     PopStyleButton();
@@ -1765,11 +1766,11 @@ void SohInputEditorWindow::DrawSetDefaultsButton(uint8_t portIndex) {
     if (ImGui::BeginPopup(popupId.c_str())) {
         bool shouldClose = false;
         PushStyleButton(BUTTON_COLOR_KEYBOARD_BEIGE);
-        if (ImGui::Button(StringHelper::Sprintf("%s Keyboard", ICON_FA_KEYBOARD_O).c_str())) {
-            ImGui::OpenPopup("Set Defaults for Keyboard");
+        if (ImGui::Button(StringHelper::Sprintf("%s %s", ICON_FA_KEYBOARD_O, SohGui::Tr("Keyboard").c_str()).c_str())) {
+            ImGui::OpenPopup(SohGui::Tr("Set Defaults for Keyboard").c_str());
         }
         PopStyleButton();
-        if (ImGui::BeginPopupModal("Set Defaults for Keyboard", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+        if (ImGui::BeginPopupModal(SohGui::Tr("Set Defaults for Keyboard").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text(SohGui::Tr("This will clear all existing mappings for\nKeyboard on port %d.\n\nContinue?").c_str(), portIndex + 1);
             PushStyleButton(THEME_COLOR);
             if (ImGui::Button(SohGui::Tr("Cancel").c_str())) {
@@ -1794,11 +1795,11 @@ void SohInputEditorWindow::DrawSetDefaultsButton(uint8_t portIndex) {
         auto buttonHoveredColor = ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered);
         GetButtonColorsForDeviceType(Ship::PhysicalDeviceType::SDLGamepad, buttonColor, buttonHoveredColor);
         PushStyleButton(buttonColor);
-        if (ImGui::Button(StringHelper::Sprintf("%s %s", ICON_FA_GAMEPAD, "Gamepad (SDL)").c_str())) {
-            ImGui::OpenPopup("Set Defaults for Gamepad (SDL)");
+        if (ImGui::Button(StringHelper::Sprintf("%s %s", ICON_FA_GAMEPAD, SohGui::Tr("Gamepad (SDL)").c_str()).c_str())) {
+            ImGui::OpenPopup(SohGui::Tr("Set Defaults for Gamepad (SDL)").c_str());
         }
         PopStyleButton();
-        if (ImGui::BeginPopupModal("Set Defaults for Gamepad (SDL)", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+        if (ImGui::BeginPopupModal(SohGui::Tr("Set Defaults for Gamepad (SDL)").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text(SohGui::Tr("This will clear all existing mappings for\nGamepad (SDL) on port %d.\n\nContinue?").c_str(),
                         portIndex + 1);
             PushStyleButton(THEME_COLOR);
