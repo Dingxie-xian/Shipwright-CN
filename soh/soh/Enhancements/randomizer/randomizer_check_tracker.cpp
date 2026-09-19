@@ -1191,7 +1191,7 @@ void CheckTrackerWindow::DrawElement() {
                         collapseLogic = false;
                     }
                 }
-                stemp = RandomizerCheckObjects::GetRCAreaName(rcArea) + "##TreeNode";
+                stemp = SohGui::Tr(RandomizerCheckObjects::GetRCAreaName(rcArea)) + "##TreeNode";
                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(mainColor.r / 255.0f, mainColor.g / 255.0f,
                                                             mainColor.b / 255.0f, mainColor.a / 255.0f));
                 if (doingCollapseOrExpand) {
@@ -1805,9 +1805,9 @@ void DrawLocation(RandomizerCheck rc) {
 
     // Main Text
     if (checkNameOverrides.contains(loc->GetRandomizerCheck())) {
-        txt = checkNameOverrides[loc->GetRandomizerCheck()];
+        txt = SohGui::Tr(checkNameOverrides[loc->GetRandomizerCheck()]);
     } else {
-        txt = loc->GetShortName();
+        txt = SohGui::Tr(loc->GetShortName());
     }
 
     if (lastLocationChecked == loc->GetRandomizerCheck()) {

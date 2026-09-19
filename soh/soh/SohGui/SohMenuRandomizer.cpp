@@ -93,7 +93,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
 
             if (hasItems) {
                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                if (ImGui::TreeNode(RandomizerCheckObjects::GetRCAreaName(rcArea).c_str())) {
+                if (ImGui::TreeNode(SohGui::Tr(RandomizerCheckObjects::GetRCAreaName(rcArea)).c_str())) {
                     for (auto& location : locations) {
                         if (ctx->GetItemLocation(location)->IsVisible() && !excludedLocations.count(location) &&
                             locationSearch.PassFilter(Rando::StaticData::GetLocation(location)->GetName().c_str())) {
@@ -140,7 +140,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
 
             if (hasItems) {
                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                if (ImGui::TreeNode(RandomizerCheckObjects::GetRCAreaName(rcArea).c_str())) {
+                if (ImGui::TreeNode(SohGui::Tr(RandomizerCheckObjects::GetRCAreaName(rcArea)).c_str())) {
                     for (auto& location : locations) {
                         auto elfound = excludedLocations.find(location);
                         if (ctx->GetItemLocation(location)->IsVisible() && elfound != excludedLocations.end()) {
