@@ -66,6 +66,7 @@
 #include <functions.h>
 #include "Enhancements/item-tables/ItemTableManager.h"
 #include "soh/SohGui/ImGuiUtils.h"
+#include "soh/SohGui/UiTranslation.h"
 #include "ActorDB.h"
 #include "SaveManager.h"
 #include "soh/Network/CrowdControl/CrowdControl.h"
@@ -1934,7 +1935,7 @@ ImFont* OTRGlobals::CreateFontWithSize(float size, std::string fontPath, bool is
         cjkConfig.PixelSnapH = true;
         cjkConfig.FontDataOwnedByAtlas = false;
         mImGuiIo->Fonts->AddFontFromMemoryTTF(cjkFontData->Data, cjkFontData->DataSize, size, &cjkConfig,
-                                              mImGuiIo->Fonts->GetGlyphRangesChineseSimplifiedCommon());
+                                              SohGui::GetUiGlyphRanges());
     }
 
     return font;

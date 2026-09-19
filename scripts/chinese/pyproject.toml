@@ -3,6 +3,7 @@ name = "chinese"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "fonttools>=4.60",
     "openpyxl>=3.1.5",
     "pillow>=12.2.0",
 ]
