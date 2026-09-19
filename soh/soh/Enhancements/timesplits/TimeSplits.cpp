@@ -644,12 +644,12 @@ void TimeSplitsDrawSplitsList() {
     ImGui::BeginChild("SplitTable", ImVec2(0.0f, ImGui::GetWindowHeight() - 128.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(4, 0));
     if (ImGui::BeginTable("Splits", 5, ImGuiTableFlags_Hideable | ImGuiTableFlags_Reorderable)) {
-        ImGui::TableSetupColumn("Item Image", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel,
+        ImGui::TableSetupColumn(SohGui::Tr("Item Image").c_str(), ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel,
                                 34.0f);
-        ImGui::TableSetupColumn("Item Name");
-        ImGui::TableSetupColumn("Current Time");
-        ImGui::TableSetupColumn("+/-");
-        ImGui::TableSetupColumn("Prev. Best");
+        ImGui::TableSetupColumn(SohGui::Tr("Item Name").c_str());
+        ImGui::TableSetupColumn(SohGui::Tr("Current Time").c_str());
+        ImGui::TableSetupColumn(SohGui::Tr("+/-").c_str());
+        ImGui::TableSetupColumn(SohGui::Tr("Prev. Best").c_str());
         ImGui::TableHeadersRow();
 
         SplitsPushImageButtonStyle();
@@ -728,11 +728,11 @@ void TimeSplitsDrawItemList(uint32_t type) {
     ImGui::BeginTable("Item List", tableSize);
     for (size_t i = 0; i < tableSize; i++) {
         if (i == 0) {
-            ImGui::TableSetupColumn("Item Image",
+            ImGui::TableSetupColumn(SohGui::Tr("Item Image").c_str(),
                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel, 39.0f);
         } else {
             if (type > SPLIT_TYPE_QUEST) {
-                ImGui::TableSetupColumn("Item Name");
+                ImGui::TableSetupColumn(SohGui::Tr("Item Name").c_str());
             } else {
                 ImGui::TableSetupColumn(std::to_string(i).c_str(),
                                         ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel, 39.0f);
@@ -869,8 +869,8 @@ void TimeSplitsDrawManageList() {
     ImGui::BeginChild("SplitTable", ImVec2(0.0f, ImGui::GetWindowHeight() - 128.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(4, 0));
     if (ImGui::BeginTable("List Management", 2, ImGuiTableFlags_BordersInnerV)) {
-        ImGui::TableSetupColumn("Preview", ImGuiTableColumnFlags_WidthFixed, 120.0f);
-        ImGui::TableSetupColumn("Options", ImGuiTableColumnFlags_NoHeaderLabel);
+        ImGui::TableSetupColumn(SohGui::Tr("Preview").c_str(), ImGuiTableColumnFlags_WidthFixed, 120.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("Options").c_str(), ImGuiTableColumnFlags_NoHeaderLabel);
 
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.2f));

@@ -2044,8 +2044,8 @@ static std::map<int32_t, const char*> minimalDisplayTypes = { { SECTION_DISPLAY_
 void ItemTrackerSettingsWindow::DrawElement() {
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 8.0f, 8.0f });
     if (ImGui::BeginTable("itemTrackerSettingsTable", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("General settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        ImGui::TableSetupColumn("Section settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("General settings").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("Section settings").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::TableHeadersRow();
         ImGui::TableNextRow();
         ImGui::TableNextColumn();

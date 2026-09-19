@@ -1697,7 +1697,7 @@ void Draw_Placements() {
     UIWidgets::Separator(true, true, 2.0f, 2.0f);
     if (ImGui::CollapsingHeader(SohGui::Tr("Hearts count position").c_str())) {
         if (ImGui::BeginTable("tableHeartsCounts", 1, FlagsTable)) {
-            ImGui::TableSetupColumn("Hearts counts settings", FlagsCell, TablesCellsWidth);
+            ImGui::TableSetupColumn(SohGui::Tr("Hearts counts settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
             DrawUseMarginsSlider("Hearts counts", CVAR_COSMETIC("HUD.Hearts"));
             DrawPositionsRadioBoxes(CVAR_COSMETIC("HUD.HeartsCount"));
@@ -1719,7 +1719,7 @@ void Draw_Placements() {
     }
     if (ImGui::CollapsingHeader(SohGui::Tr("Magic Meter position").c_str())) {
         if (ImGui::BeginTable("tablemmpos", 1, FlagsTable)) {
-            ImGui::TableSetupColumn("Magic meter settings", FlagsCell, TablesCellsWidth);
+            ImGui::TableSetupColumn(SohGui::Tr("Magic meter settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
             DrawUseMarginsSlider("Magic meter", CVAR_COSMETIC("HUD.MagicBar"));
             DrawPositionsRadioBoxes(CVAR_COSMETIC("HUD.MagicBar"));
@@ -1738,7 +1738,7 @@ void Draw_Placements() {
     if (CVarGetInteger(CVAR_ENHANCEMENT("VisualAgony"), 0) &&
         ImGui::CollapsingHeader(SohGui::Tr("Visual stone of agony position").c_str())) {
         if (ImGui::BeginTable("tabledvisualstoneofagony", 1, FlagsTable)) {
-            ImGui::TableSetupColumn("Visual stone of agony settings", FlagsCell, TablesCellsWidth);
+            ImGui::TableSetupColumn(SohGui::Tr("Visual stone of agony settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
             DrawUseMarginsSlider("Visual stone of agony", CVAR_COSMETIC("HUD.VisualSoA"));
             DrawPositionsRadioBoxes(CVAR_COSMETIC("HUD.VisualSoA"));
@@ -1774,7 +1774,7 @@ void Draw_Placements() {
                       CVAR_COSMETIC("HUD.CRightButton"), CVAR_COSMETIC("HUD.CRightButton.PosType"), 0.87f);
     if (CVarGetInteger(CVAR_ENHANCEMENT("DpadEquips"), 0) && ImGui::CollapsingHeader(SohGui::Tr("DPad items position").c_str())) {
         if (ImGui::BeginTable("tabledpaditems", 1, FlagsTable)) {
-            ImGui::TableSetupColumn("DPad items settings", FlagsCell, TablesCellsWidth);
+            ImGui::TableSetupColumn(SohGui::Tr("DPad items settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
             DrawUseMarginsSlider("DPad items", CVAR_COSMETIC("HUD.Dpad"));
             DrawPositionsRadioBoxes(CVAR_COSMETIC("HUD.Dpad"));
@@ -1826,7 +1826,7 @@ void Draw_Placements() {
                         static_cast<int>(ImGui::GetWindowViewport()->Size.x / 2) + 10, 1.0f);
     if (ImGui::CollapsingHeader(SohGui::Tr("Enemy Health Bar position").c_str())) {
         if (ImGui::BeginTable("enemyhealthbar", 1, FlagsTable)) {
-            ImGui::TableSetupColumn("Enemy Health Bar settings", FlagsCell, TablesCellsWidth);
+            ImGui::TableSetupColumn(SohGui::Tr("Enemy Health Bar settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
             std::string posTypeCVar = CVAR_COSMETIC("HUD.EnemyHealthBar.PosType");
             UIWidgets::CVarRadioButton(

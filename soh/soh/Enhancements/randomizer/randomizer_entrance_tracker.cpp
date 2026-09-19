@@ -749,8 +749,8 @@ void EntranceTrackerSettingsWindow::DrawElement() {
 
     if (ImGui::BeginTable("entranceTrackerSubSettings", 2,
                           ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_SizingStretchProp)) {
-        ImGui::TableSetupColumn("column 1", ImGuiTableColumnFlags_WidthStretch, 150.0f);
-        ImGui::TableSetupColumn("column 2", ImGuiTableColumnFlags_WidthStretch, 150.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("column 1").c_str(), ImGuiTableColumnFlags_WidthStretch, 150.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("column 2").c_str(), ImGuiTableColumnFlags_WidthStretch, 150.0f);
 
         ImGui::TableNextColumn();
 

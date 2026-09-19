@@ -63,8 +63,8 @@ void DrawLocationsMenu(WidgetInfo& info) {
     }
 
     if (ImGui::BeginTable("tableRandoLocations", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("Included", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        ImGui::TableSetupColumn("Excluded", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("Included").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("Excluded").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
         ImGui::TableHeadersRow();
         ImGui::PopItemFlag();
@@ -351,8 +351,8 @@ void DrawTricksMenu(WidgetInfo& info) {
     }
 
     if (ImGui::BeginTable("tableRandoTricks", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("Disabled Tricks", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        ImGui::TableSetupColumn("Enabled Tricks", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("Disabled Tricks").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("Enabled Tricks").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
         ImGui::TableHeadersRow();
         ImGui::PopItemFlag();

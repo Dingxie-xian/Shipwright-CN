@@ -445,7 +445,7 @@ const char* ResolveSceneID(int sceneID, int roomID) {
 void DrawGameplayStatsHeader() {
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 4.0f, 4.0f });
     ImGui::BeginTable("gameplayStatsHeader", 1, ImGuiTableFlags_BordersOuter);
-    ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn(SohGui::Tr("stat").c_str(), ImGuiTableColumnFlags_WidthStretch);
     // if tag is empty (not a release build)
     if (gGitCommitTag[0] == 0) {
         GameplayStatsRow("Git Branch:", (char*)gGitBranch);
@@ -495,7 +495,7 @@ void DrawGameplayStatsTimestampsTab() {
 
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 4.0f, 4.0f });
     ImGui::BeginTable("gameplayStatsTimestamps", 1, ImGuiTableFlags_BordersOuter);
-    ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn(SohGui::Tr("stat").c_str(), ImGuiTableColumnFlags_WidthStretch);
     for (int i = 0; i < TIMESTAMP_MAX; i++) {
         // To be shown, the entry must have a non-zero time and a string for its display name
         if (itemTimestampDisplay[i].time > 0 && strnlen(itemTimestampDisplay[i].name, 21) > 1) {
@@ -532,7 +532,7 @@ void DrawGameplayStatsCountsTab() {
 
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 4.0f, 4.0f });
     ImGui::BeginTable("gameplayStatsCounts", 1, ImGuiTableFlags_BordersOuter);
-    ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn(SohGui::Tr("stat").c_str(), ImGuiTableColumnFlags_WidthStretch);
     GameplayStatsRow("Enemies Defeated:", formatIntGameplayStat(enemiesDefeated));
     if (enemiesDefeated > 0) {
         ImGui::TableNextRow();
@@ -613,7 +613,7 @@ void DrawGameplayStatsBreakdownTab() {
 
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 4.0f, 4.0f });
     ImGui::BeginTable("gameplayStatsCounts", 1, ImGuiTableFlags_BordersOuter);
-    ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn(SohGui::Tr("stat").c_str(), ImGuiTableColumnFlags_WidthStretch);
     for (int i = 0; i < gSaveContext.ship.stats.tsIdx; i++) {
         TimestampInfo tsInfo = sceneTimestampDisplay[i];
         bool canShow = !tsInfo.isRoom || CVarGetInteger(CVAR_GAMEPLAY_STATS("RoomBreakdown"), 0);

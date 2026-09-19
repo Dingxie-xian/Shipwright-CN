@@ -2124,8 +2124,8 @@ void CheckTrackerWindow::Draw() {
 void CheckTrackerSettingsWindow::DrawElement() {
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 8.0f, 8.0f });
     if (ImGui::BeginTable("CheckTrackerSettingsTable", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("General settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        ImGui::TableSetupColumn("Section settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("General settings").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("Section settings").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::TableHeadersRow();
         ImGui::TableNextRow();
         ImGui::TableNextColumn();

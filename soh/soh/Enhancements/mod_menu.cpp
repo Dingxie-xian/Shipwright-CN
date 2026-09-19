@@ -342,8 +342,8 @@ void ModMenuWindow::DrawElement() {
     }
     ImGui::BeginDisabled(!editing);
     if (ImGui::BeginTable("tableMods", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("Enabled Mods", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        // ImGui::TableSetupColumn("Disabled Mods", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("Enabled Mods").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        // ImGui::TableSetupColumn(SohGui::Tr("Disabled Mods").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
         ImGui::TableHeadersRow();
         ImGui::PopItemFlag();

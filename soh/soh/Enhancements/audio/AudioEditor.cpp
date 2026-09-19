@@ -11,6 +11,7 @@
 #include "soh/cvar_prefixes.h"
 #include <ship/utils/StringHelper.h>
 #include "soh/SohGui/SohMenu.h"
+#include "soh/SohGui/UiTranslation.h"
 #include "soh/SohGui/SohGui.hpp"
 #include "AudioCollection.h"
 #include "soh/Enhancements/enhancementTypes.h"
@@ -311,9 +312,9 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
     // Longest text in Audio Editor
     ImVec2 columnSize = ImGui::CalcTextSize("Navi - Look/Hey/Watchout (Target Enemy)");
     ImGui::BeginTable(tabId.c_str(), 3, ImGuiTableFlags_SizingFixedFit);
-    ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, columnSize.x + 30);
-    ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, columnSize.x + 30);
-    ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, 160.0f);
+    ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthFixed, columnSize.x + 30);
+    ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthFixed, columnSize.x + 30);
+    ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthFixed, 160.0f);
     for (const auto& [defaultValue, seqData] : map) {
         if (~(seqData.category) & type) {
             continue;
@@ -577,7 +578,7 @@ void AudioEditor::DrawElement() {
         if (ImGui::BeginTabItem("Audio Options")) {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, cellPadding);
             ImGui::BeginTable("Audio Options", 1, ImGuiTableFlags_SizingStretchSame);
-            ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthStretch);
+            ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthStretch);
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             if (ImGui::BeginChild("SfxOptions", ImVec2(0, -8))) {
@@ -731,8 +732,8 @@ void AudioEditor::DrawElement() {
             ImGui::EndTable();
 
             if (ImGui::BeginTable("tableAllSequences", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-                ImGui::TableSetupColumn("Included", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-                ImGui::TableSetupColumn("Excluded", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+                ImGui::TableSetupColumn(SohGui::Tr("Included").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+                ImGui::TableSetupColumn(SohGui::Tr("Excluded").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
                 ImGui::TableHeadersRow();
                 ImGui::TableNextRow();
 

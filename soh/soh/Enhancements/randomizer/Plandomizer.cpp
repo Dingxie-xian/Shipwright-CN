@@ -848,8 +848,8 @@ void PlandomizerDrawIceTrapSetup(uint32_t index) {
 
     ImGui::PushID(index);
     ImGui::BeginTable("IceTrap", 2, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersInner);
-    ImGui::TableSetupColumn("Model", ImGuiTableColumnFlags_WidthFixed, 36.0f);
-    ImGui::TableSetupColumn("Trap Options");
+    ImGui::TableSetupColumn(SohGui::Tr("Model").c_str(), ImGuiTableColumnFlags_WidthFixed, 36.0f);
+    ImGui::TableSetupColumn(SohGui::Tr("Trap Options").c_str());
     ImGui::TableHeadersRow();
 
     ImGui::TableNextColumn();
@@ -934,8 +934,8 @@ static std::map<RandomizerCheckArea, const char*> rcAreaNameMap = {
 };
 void PlandomizerDrawOptions() {
     if (ImGui::BeginTable("LoadSpoiler", 2)) {
-        ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthStretch);
-        ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthStretch);
+        ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthStretch);
+        ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableNextColumn();
         ImGui::SeparatorText(SohGui::Tr("Load/Save Spoiler Log").c_str());
         PlandomizerPopulateSeedList();
@@ -966,7 +966,7 @@ void PlandomizerDrawOptions() {
         if (spoilerLogData.size() > 0) {
             if (ImGui::BeginTable("HashIcons", 5)) {
                 for (int i = 0; i < 5; i++) {
-                    ImGui::TableSetupColumn("Icon", ImGuiTableColumnFlags_WidthFixed, 34.0f);
+                    ImGui::TableSetupColumn(SohGui::Tr("Icon").c_str(), ImGuiTableColumnFlags_WidthFixed, 34.0f);
                 }
                 ImGui::TableNextColumn();
 
@@ -1059,7 +1059,7 @@ void PlandomizerDrawHintsWindow() {
 
     ImGui::BeginChild("Hints");
     if (ImGui::BeginTable("Hints Window", 1, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_ScrollY)) {
-        ImGui::TableSetupColumn("Hint Entries");
+        ImGui::TableSetupColumn(SohGui::Tr("Hint Entries").c_str());
         ImGui::TableSetupScrollFreeze(0, 1);
         ImGui::TableHeadersRow();
 
@@ -1105,11 +1105,11 @@ void PlandomizerDrawLocationsWindow(RandomizerCheckArea rcArea) {
     uint32_t index = 0;
     ImGui::BeginChild("Locations");
     if (ImGui::BeginTable("Locations Window", 4, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_ScrollY)) {
-        ImGui::TableSetupColumn("Spoiler Log Check Name", ImGuiTableColumnFlags_WidthFixed, 250.0f);
-        ImGui::TableSetupColumn("Spoiler Log Reward", ImGuiTableColumnFlags_WidthFixed, 190.0f);
-        ImGui::TableSetupColumn("New Reward", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel,
+        ImGui::TableSetupColumn(SohGui::Tr("Spoiler Log Check Name").c_str(), ImGuiTableColumnFlags_WidthFixed, 250.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("Spoiler Log Reward").c_str(), ImGuiTableColumnFlags_WidthFixed, 190.0f);
+        ImGui::TableSetupColumn(SohGui::Tr("New Reward").c_str(), ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel,
                                 34.0f);
-        ImGui::TableSetupColumn("Additional Options");
+        ImGui::TableSetupColumn(SohGui::Tr("Additional Options").c_str());
         ImGui::TableSetupScrollFreeze(0, 1);
         ImGui::TableHeadersRow();
 
@@ -1129,7 +1129,7 @@ void PlandomizerDrawLocationsWindow(RandomizerCheckArea rcArea) {
                 } else if (spoilerData.shopPrice != -1) {
                     ImGui::TableNextColumn();
                     ImGui::BeginTable("Shops", 1, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersInner);
-                    ImGui::TableSetupColumn("Shop Price");
+                    ImGui::TableSetupColumn(SohGui::Tr("Shop Price").c_str());
                     ImGui::TableHeadersRow();
                     ImGui::TableNextColumn();
                     PlandomizerDrawShopSlider(index);

@@ -29,10 +29,10 @@ void DrawHookRegisteringInfos(const char* hookName) {
     if (ImGui::BeginTable(("Table##" + std::string(hookName)).c_str(), 4,
                           ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable |
                               ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit)) {
-        ImGui::TableSetupColumn("ID", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn("Registration Info", ImGuiTableColumnFlags_WidthStretch);
-        ImGui::TableSetupColumn("# Calls", ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(SohGui::Tr("ID").c_str(), ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(SohGui::Tr("Type").c_str(), ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(SohGui::Tr("Registration Info").c_str(), ImGuiTableColumnFlags_WidthStretch);
+        ImGui::TableSetupColumn(SohGui::Tr("# Calls").c_str(), ImGuiTableColumnFlags_WidthFixed);
         ImGui::TableHeadersRow();
         for (auto& [id, hookInfo] : (*hookData[hookName])) {
             ImGui::TableNextRow();

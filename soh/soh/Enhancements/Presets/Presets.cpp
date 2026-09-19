@@ -380,13 +380,13 @@ void PresetsCustomWidget(WidgetInfo& info) {
     bool hideBuiltIn = CVarGetInteger(CVAR_GENERAL("HideBuiltInPresets"), 0);
     UIWidgets::PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTable("PresetWidgetTable", PRESET_SECTION_MAX + 3)) {
-        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthFixed, 400);
+        ImGui::TableSetupColumn(SohGui::Tr("Name").c_str(), ImGuiTableColumnFlags_WidthFixed, 400);
         for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
             ImGui::TableSetupColumn(blockInfo[i].names[0].c_str());
         }
-        ImGui::TableSetupColumn("Apply", ImGuiTableColumnFlags_WidthFixed,
+        ImGui::TableSetupColumn(SohGui::Tr("Apply").c_str(), ImGuiTableColumnFlags_WidthFixed,
                                 ImGui::CalcTextSize("Apply").x + ImGui::GetStyle().FramePadding.x * 2);
-        ImGui::TableSetupColumn("Delete", ImGuiTableColumnFlags_WidthFixed,
+        ImGui::TableSetupColumn(SohGui::Tr("Delete").c_str(), ImGuiTableColumnFlags_WidthFixed,
                                 ImGui::CalcTextSize("Delete").x + ImGui::GetStyle().FramePadding.x * 2);
         BlankButton();
         ImGui::TableNextRow();
