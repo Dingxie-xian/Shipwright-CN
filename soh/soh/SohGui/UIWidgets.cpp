@@ -8,32 +8,142 @@
 #include <libultraship/libultra/types.h>
 #include <spdlog/fmt/fmt.h>
 #include "soh/OTRGlobals.h"
+#include "UiTranslation.h"
 
 namespace UIWidgets {
 
-// Automatically adds newlines to break up text longer than a specified number of characters
+namespace {
+
+// Byte length of the UTF-8 sequence starting at `i`, or 1 for anything malformed.
+// Only the length matters here, never the decoded value.
+size_t Utf8SequenceLength(const std::string& text, size_t i) {
+    const unsigned char lead = static_cast<unsigned char>(text[i]);
+    size_t length = 1;
+    if ((lead & 0xE0) == 0xC0) {
+        length = 2;
+    } else if ((lead & 0xF0) == 0xE0) {
+        length = 3;
+    } else if ((lead & 0xF8) == 0xF0) {
+        length = 4;
+    }
+    return std::min(length, text.size() - i);
+}
+
+uint32_t Utf8Decode(const std::string& text, size_t i) {
+    const unsigned char lead = static_cast<unsigned char>(text[i]);
+    const size_t length = Utf8SequenceLength(text, i);
+    uint32_t code = lead;
+    if (length == 1) {
+        return code;
+    }
+    code &= (0xFFu >> (length + 1));
+    for (size_t k = 1; k < length; k++) {
+        code = (code << 6) | (static_cast<unsigned char>(text[i + k]) & 0x3F);
+    }
+    return code;
+}
+
+// East Asian Wide/Fullwidth ranges. Anything here occupies two columns in a
+// monospaced context, which is what the Latin tooltips were tuned against.
+bool IsWideCodePoint(uint32_t code) {
+    return (code >= 0x1100 && code <= 0x115F) ||  // Hangul Jamo
+           (code >= 0x2E80 && code <= 0x303E) ||  // CJK radicals, Kangxi, CJK punctuation
+           (code >= 0x3041 && code <= 0x33FF) ||  // Kana, CJK compatibility
+           (code >= 0x3400 && code <= 0x4DBF) ||  // CJK Ext A
+           (code >= 0x4E00 && code <= 0x9FFF) ||  // CJK Unified Ideographs
+           (code >= 0xA000 && code <= 0xA4CF) ||  // Yi
+           (code >= 0xAC00 && code <= 0xD7A3) ||  // Hangul syllables
+           (code >= 0xF900 && code <= 0xFAFF) ||  // CJK compatibility ideographs
+           (code >= 0xFE30 && code <= 0xFE4F) ||  // CJK compatibility forms
+           (code >= 0xFF00 && code <= 0xFF60) ||  // Fullwidth forms
+           (code >= 0xFFE0 && code <= 0xFFE6) || (code >= 0x20000 && code <= 0x3FFFD);  // CJK Ext B+
+}
+
+// Punctuation that must not begin a line in Chinese/Japanese typesetting.
+bool IsNoLineStart(uint32_t code) {
+    static const uint32_t forbidden[] = {
+        0x00B7,  // ·
+        0x2014,  // —
+        0x2026,  // …
+        0x2103,  // ℃
+        0x3001,  // 、
+        0x3002,  // 。
+        0x3009,  // 〉
+        0x300B,  // 》
+        0x300D,  // 」
+        0x300F,  // 』
+        0x3011,  // 】
+        0xFF01,  // ！
+        0xFF05,  // ％
+        0xFF09,  // ）
+        0xFF0C,  // ，
+        0xFF1A,  // ：
+        0xFF1B,  // ；
+        0xFF1F,  // ？
+    };
+    for (const uint32_t candidate : forbidden) {
+        if (candidate == code) {
+            return true;
+        }
+    }
+    return false;
+}
+
+}  // namespace
+
+// Automatically adds newlines to break up text longer than a specified number of columns
 // Manually included newlines will still be respected and reset the line length
 // If line is midword when it hits the limit, text should break at the last encountered space
+// CJK characters count as two columns and may break between any two of them, because
+// Chinese has no spaces to break on and would otherwise overflow in a single long line.
 std::string WrappedText(const char* text, unsigned int charactersPerLine) {
-    std::string newText(text);
-    const size_t tipLength = newText.length();
-    int lastSpace = -1;
-    int currentLineLength = 0;
-    for (unsigned int currentCharacter = 0; currentCharacter < tipLength; currentCharacter++) {
-        if (newText[currentCharacter] == '\n') {
-            currentLineLength = 0;
-            lastSpace = -1;
+    const std::string source(text);
+    std::string newText;
+    newText.reserve(source.size() + source.size() / 8 + 1);
+
+    int lineColumns = 0;
+    size_t lastSpace = std::string::npos;  // index in newText of the last space on this line
+    int columnsAfterLastSpace = 0;
+
+    for (size_t i = 0; i < source.size();) {
+        const size_t length = Utf8SequenceLength(source, i);
+        const uint32_t code = Utf8Decode(source, i);
+        const std::string character = source.substr(i, length);
+
+        if (character == "\n") {
+            newText += '\n';
+            lineColumns = 0;
+            lastSpace = std::string::npos;
+            columnsAfterLastSpace = 0;
+            i += length;
             continue;
-        } else if (newText[currentCharacter] == ' ') {
-            lastSpace = currentCharacter;
         }
 
-        if ((currentLineLength >= charactersPerLine) && (lastSpace >= 0)) {
-            newText[lastSpace] = '\n';
-            currentLineLength = currentCharacter - lastSpace - 1;
-            lastSpace = -1;
+        const int columns = IsWideCodePoint(code) ? 2 : 1;
+
+        if (lineColumns + columns > static_cast<int>(charactersPerLine) && !IsNoLineStart(code)) {
+            if (lastSpace != std::string::npos) {
+                // Re-flow to the space rather than breaking mid-word.
+                newText[lastSpace] = '\n';
+                lineColumns = columnsAfterLastSpace;
+            } else {
+                newText += '\n';
+                lineColumns = 0;
+            }
+            lastSpace = std::string::npos;
+            columnsAfterLastSpace = 0;
         }
-        currentLineLength++;
+
+        const size_t offset = newText.size();
+        newText += character;
+        lineColumns += columns;
+        if (character == " ") {
+            lastSpace = offset;
+            columnsAfterLastSpace = 0;
+        } else if (lastSpace != std::string::npos) {
+            columnsAfterLastSpace += columns;
+        }
+        i += length;
     }
 
     return newText;
@@ -55,7 +165,16 @@ void PaddedSeparator(bool padTop, bool padBottom, float extraVerticalTopPadding,
 
 void Tooltip(const char* text) {
     if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("%s", WrappedText(text).c_str());
+        ImGui::SetTooltip("%s", WrappedText(SohGui::Tr(text)).c_str());
+    }
+}
+
+void RenderTooltip(const WidgetOptions& options) {
+    if (options.disabled && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) &&
+        !Ship_IsCStringEmpty(options.disabledTooltip)) {
+        ImGui::SetTooltip("%s", WrappedText(SohGui::Tr(options.disabledTooltip)).c_str());
+    } else if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
+        ImGui::SetTooltip("%s", WrappedText(SohGui::Tr(options.tooltip)).c_str());
     }
 }
 
@@ -77,7 +196,9 @@ void PopStyleMenu() {
     ImGui::PopStyleColor(4);
 }
 
-bool BeginMenu(const char* label, Colors color) {
+bool BeginMenu(const char* label_, Colors color) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     bool dirty = false;
     PushStyleMenu(color);
     ImGui::SetNextWindowSizeConstraints(ImVec2(200.0f, 0.0f), ImVec2(FLT_MAX, FLT_MAX));
@@ -102,7 +223,9 @@ void PopStyleMenuItem() {
     ImGui::PopStyleColor(1);
 }
 
-bool MenuItem(const char* label, const char* shortcut, Colors color) {
+bool MenuItem(const char* label_, const char* shortcut, Colors color) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     bool dirty = false;
     PushStyleMenuItem(color);
     if (ImGui::MenuItem(label, shortcut)) {
@@ -167,25 +290,22 @@ void PopStyleHeader() {
     ImGui::PopStyleColor(3);
 }
 
-bool Button(const char* label, const ButtonOptions& options) {
+bool Button(const char* label_, const ButtonOptions& options) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     ImGui::BeginDisabled(options.disabled);
     PushStyleButton(options.color, options.padding);
     bool dirty = ImGui::Button(label, options.size);
     PopStyleButton();
     ImGui::EndDisabled();
-    if (options.disabled && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) &&
-        !Ship_IsCStringEmpty(options.disabledTooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.disabledTooltip).c_str());
-    } else if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.tooltip).c_str());
-    }
+    RenderTooltip(options);
     return dirty;
 }
 
 bool WindowButton(const char* label, const char* cvarName, std::shared_ptr<Ship::GuiWindow> windowPtr,
                   const WindowButtonOptions& options) {
     ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0, 0));
-    std::string buttonText = label;
+    std::string buttonText = SohGui::Tr(label);
     bool dirty = false;
     if (CVarGetInteger(cvarName, 0)) {
         buttonText = ICON_FA_WINDOW_CLOSE " " + buttonText;
@@ -243,19 +363,13 @@ void InsertHelpHoverText(const std::string& text) {
     ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "?");
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
-        ImGui::Text("%s", WrappedText(text, 60).c_str());
+        ImGui::Text("%s", WrappedText(SohGui::Tr(text), 60).c_str());
         ImGui::EndTooltip();
     }
 }
 
 void InsertHelpHoverText(const char* text) {
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "?");
-    if (ImGui::IsItemHovered()) {
-        ImGui::BeginTooltip();
-        ImGui::Text("%s", WrappedText(text, 60).c_str());
-        ImGui::EndTooltip();
-    }
+    InsertHelpHoverText(std::string(text));
 }
 
 void RenderText(ImVec2 pos, const char* text, const char* text_end, bool hide_text_after_hash) {
@@ -292,7 +406,7 @@ bool Checkbox(const char* _label, bool* value, const CheckboxOptions& options) {
     bool none = options.labelPosition == LabelPositions::None;
 
     std::string labelStr = (none ? "##" : "");
-    labelStr.append(_label);
+    labelStr.append(SohGui::Tr(_label));
 
     const char* label = labelStr.c_str();
 
@@ -364,12 +478,7 @@ bool Checkbox(const char* _label, bool* value, const CheckboxOptions& options) {
     RenderText(labelPos, label, ImGui::FindRenderedTextEnd(label), true);
     PopStyleCheckbox();
     ImGui::EndDisabled();
-    if (options.disabled && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) &&
-        !Ship_IsCStringEmpty(options.disabledTooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.disabledTooltip).c_str());
-    } else if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.tooltip).c_str());
-    }
+    RenderTooltip(options);
     return pressed;
 }
 
@@ -385,7 +494,9 @@ bool CVarCheckbox(const char* label, const char* cvarName, const CheckboxOptions
     return dirty;
 }
 
-bool StateButton(const char* str_id, const char* label, ImVec2 size, ButtonOptions options, ImGuiButtonFlags flags) {
+bool StateButton(const char* str_id, const char* label_, ImVec2 size, ButtonOptions options, ImGuiButtonFlags flags) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
 
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -514,7 +625,9 @@ void PopStyleSlider() {
     ImGui::PopStyleColor(6);
 }
 
-bool SliderInt(const char* label, int32_t* value, const IntSliderOptions& options) {
+bool SliderInt(const char* label_, int32_t* value, const IntSliderOptions& options) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     bool dirty = false;
     std::string invisibleLabelStr = "##" + std::string(label);
     const char* invisibleLabel = invisibleLabelStr.c_str();
@@ -594,12 +707,7 @@ bool SliderInt(const char* label, int32_t* value, const IntSliderOptions& option
     PopStyleSlider();
     ImGui::EndDisabled();
     ImGui::EndGroup();
-    if (options.disabled && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) &&
-        !Ship_IsCStringEmpty(options.disabledTooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.disabledTooltip).c_str());
-    } else if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.tooltip).c_str());
-    }
+    RenderTooltip(options);
     ImGui::PopID();
     return dirty;
 }
@@ -646,7 +754,9 @@ void ClampFloat(float* value, float min, float max, float step) {
     }
 }
 
-bool SliderFloat(const char* label, float* value, const FloatSliderOptions& options) {
+bool SliderFloat(const char* label_, float* value, const FloatSliderOptions& options) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     bool dirty = false;
     std::string invisibleLabelStr = "##" + std::string(label);
     const char* invisibleLabel = invisibleLabelStr.c_str();
@@ -725,12 +835,7 @@ bool SliderFloat(const char* label, float* value, const FloatSliderOptions& opti
     PopStyleSlider();
     ImGui::EndDisabled();
     ImGui::EndGroup();
-    if (options.disabled && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) &&
-        !Ship_IsCStringEmpty(options.disabledTooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.disabledTooltip).c_str());
-    } else if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.tooltip).c_str());
-    }
+    RenderTooltip(options);
     ImGui::PopID();
     return dirty;
 }
@@ -756,7 +861,9 @@ int InputTextResizeCallback(ImGuiInputTextCallbackData* data) {
     return 0;
 }
 
-bool InputString(const char* label, std::string* value, const InputOptions& options) {
+bool InputString(const char* label_, std::string* value, const InputOptions& options) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     bool dirty = false;
     ImGui::PushID(label);
     ImGui::BeginGroup();
@@ -801,12 +908,9 @@ bool InputString(const char* label, std::string* value, const InputOptions& opti
     ImGui::EndGroup();
     if (options.hasError && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) &&
         !Ship_IsCStringEmpty(options.errorText)) {
-        ImGui::SetTooltip("%s", WrappedText(options.errorText).c_str());
-    } else if (options.disabled && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) &&
-               !Ship_IsCStringEmpty(options.disabledTooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.disabledTooltip).c_str());
-    } else if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.tooltip).c_str());
+        ImGui::SetTooltip("%s", WrappedText(SohGui::Tr(options.errorText)).c_str());
+    } else {
+        RenderTooltip(options);
     }
     ImGui::PopID();
     return dirty;
@@ -824,7 +928,9 @@ bool CVarInputString(const char* label, const char* cvarName, const InputOptions
     return dirty;
 }
 
-bool InputInt(const char* label, int32_t* value, const InputOptions& options) {
+bool InputInt(const char* label_, int32_t* value, const InputOptions& options) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     bool dirty = false;
     ImGui::PushID(label);
     ImGui::BeginGroup();
@@ -853,12 +959,7 @@ bool InputInt(const char* label, int32_t* value, const InputOptions& options) {
     PopStyleInput();
     ImGui::EndDisabled();
     ImGui::EndGroup();
-    if (options.disabled && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) &&
-        !Ship_IsCStringEmpty(options.disabledTooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.disabledTooltip).c_str());
-    } else if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.tooltip).c_str());
-    }
+    RenderTooltip(options);
     ImGui::PopID();
     return dirty;
 }
@@ -876,8 +977,10 @@ bool CVarInputInt(const char* label, const char* cvarName, const InputOptions& o
     return dirty;
 }
 
-bool CVarColorPicker(const char* label, const char* cvarName, Color_RGBA8 defaultColor, bool hasAlpha,
+bool CVarColorPicker(const char* label_, const char* cvarName, Color_RGBA8 defaultColor, bool hasAlpha,
                      uint8_t modifiers, UIWidgets::Colors themeColor) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     std::string valueCVar = std::string(cvarName) + ".Value";
     std::string rainbowCVar = std::string(cvarName) + ".Rainbow";
     std::string lockedCVar = std::string(cvarName) + ".Locked";
@@ -967,7 +1070,9 @@ bool CVarColorPicker(const char* label, const char* cvarName, Color_RGBA8 defaul
     return changed;
 }
 
-bool RadioButton(const char* label, bool active, const RadioButtonsOptions& options) {
+bool RadioButton(const char* label_, bool active, const RadioButtonsOptions& options) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     ImGuiWindow* window = ImGui::GetCurrentWindow();
     if (window->SkipItems)
         return false;
@@ -1027,7 +1132,9 @@ bool RadioButton(const char* label, bool active, const RadioButtonsOptions& opti
 }
 
 bool CVarRadioButton(const char* text, const char* cvarName, int32_t id, const RadioButtonsOptions& options) {
+    // The id stays on the untranslated text so it does not move when the language changes.
     std::string make_invisible = "##" + std::string(text) + std::string(cvarName);
+    const std::string textLabel = SohGui::Tr(text);
 
     bool ret = false;
     int val = CVarGetInteger(cvarName, options.defaultIndex);
@@ -1038,11 +1145,9 @@ bool CVarRadioButton(const char* text, const char* cvarName, int32_t id, const R
         ret = true;
     }
     ImGui::SameLine();
-    ImGui::Text("%s", text);
+    ImGui::Text("%s", textLabel.c_str());
     PopStyleCheckbox();
-    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
-        ImGui::SetTooltip("%s", WrappedText(options.tooltip).c_str());
-    }
+    RenderTooltip(options);
 
     return ret;
 }
@@ -1170,7 +1275,9 @@ std::map<std::string, int32_t> buttonMap = {
     { "Modifier 2", BTN_CUSTOM_MODIFIER2 },
 };
 
-bool BtnSelector(const char* label, int32_t* value, const BtnSelectorOptions& options) {
+bool BtnSelector(const char* label_, int32_t* value, const BtnSelectorOptions& options) {
+    const std::string labelStorage = SohGui::Tr(label_);
+    const char* label = labelStorage.c_str();
     bool dirty = false;
     ImGui::PushID(label);
     ImGui::BeginGroup();

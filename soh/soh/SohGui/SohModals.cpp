@@ -5,6 +5,7 @@
 #include <libultraship/bridge.h>
 #include <libultraship/libultraship.h>
 #include "UIWidgets.hpp"
+#include "UiTranslation.h"
 #include "SohGui.hpp"
 #include "soh/OTRGlobals.h"
 #include "z64.h"
@@ -34,8 +35,11 @@ void SohModalWindow::Draw() {
 void SohModalWindow::DrawElement() {
     if (modals.size() > 0) {
         SohModal curModal = modals.at(0);
-        if (!ImGui::IsPopupOpen(curModal.title_.c_str())) {
-            ImGui::OpenPopup(curModal.title_.c_str());
+        // Popups are identified by their title, so the id is pinned to the untranslated
+        // title while the visible part is the translation.
+        const std::string titleLabel = SohGui::Tr(curModal.title_) + "##" + curModal.title_;
+        if (!ImGui::IsPopupOpen(titleLabel.c_str())) {
+            ImGui::OpenPopup(titleLabel.c_str());
         }
         if (closePopup) {
             ImGui::CloseCurrentPopup();
@@ -43,13 +47,14 @@ void SohModalWindow::DrawElement() {
             closePopup = false;
         }
         ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-        if (ImGui::BeginPopupModal(curModal.title_.c_str(), NULL,
+        if (ImGui::BeginPopupModal(titleLabel.c_str(), NULL,
                                    ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize |
                                        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
                                        ImGuiWindowFlags_NoSavedSettings)) {
-            ImGui::Text("%s", curModal.message_.c_str());
+            ImGui::Text("%s", SohGui::Tr(curModal.message_).c_str());
             UIWidgets::PushStyleButton(THEME_COLOR);
-            if (ImGui::Button(curModal.button1_.c_str())) {
+            const std::string button1Label = SohGui::Tr(curModal.button1_) + "##" + curModal.button1_;
+            if (ImGui::Button(button1Label.c_str())) {
                 if (curModal.button1callback_ != nullptr) {
                     curModal.button1callback_();
                 }
@@ -60,7 +65,8 @@ void SohModalWindow::DrawElement() {
             if (curModal.button2_ != "") {
                 ImGui::SameLine();
                 UIWidgets::PushStyleButton(THEME_COLOR);
-                if (ImGui::Button(curModal.button2_.c_str())) {
+                const std::string button2Label = SohGui::Tr(curModal.button2_) + "##" + curModal.button2_;
+                if (ImGui::Button(button2Label.c_str())) {
                     if (curModal.button2callback_ != nullptr) {
                         curModal.button2callback_();
                     }

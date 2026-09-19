@@ -210,7 +210,9 @@ uint32_t Menu::DrawSearchResults(std::string& menuSearchText) {
                             continue;
                         }
                         const char* tooltip = info.options->tooltip;
-                        std::string widgetStr = std::string(info.name) + std::string(tooltip != NULL ? tooltip : "");
+                        std::string widgetStr = std::string(info.name) + SohGui::Tr(info.name) +
+                                                std::string(tooltip != NULL ? tooltip : "") +
+                                                (tooltip != NULL ? SohGui::Tr(tooltip) : std::string());
                         std::transform(widgetStr.begin(), widgetStr.end(), widgetStr.begin(), ::tolower);
                         widgetStr.erase(std::remove(widgetStr.begin(), widgetStr.end(), ' '), widgetStr.end());
                         if (widgetStr.find(menuSearchText) != std::string::npos) {
@@ -228,8 +230,8 @@ uint32_t Menu::DrawSearchResults(std::string& menuSearchText) {
                             }
                             MenuDrawItem(info, 400, menuThemeIndex);
                             ImGui::PushStyleColor(ImGuiCol_Text, UIWidgets::ColorValues.at(UIWidgets::Colors::Gray));
-                            std::string origin =
-                                fmt::format("  ({} -> {}, Col {})", menuEntry.label, sidebarLabel, i + 1);
+                            std::string origin = fmt::format("  ({} -> {}, Col {})", SohGui::Tr(menuEntry.label),
+                                                             SohGui::Tr(sidebarLabel), i + 1);
                             ImGui::Text("%s", origin.c_str());
                             ImGui::PopStyleColor();
                             searchCount++;
@@ -249,14 +251,17 @@ uint32_t Menu::DrawSearchResults(std::string& menuSearchText) {
                 entry.info.type == WIDGET_SEPARATOR_TEXT || entry.info.isHidden || entry.info.hideInSearch) {
                 continue;
             }
-            std::string widgetStr =
-                entry.info.name + entry.info.options->tooltip + entry.extraTerms + entry.sidebarName;
+            const std::string extraTooltip = entry.info.options->tooltip != nullptr ? entry.info.options->tooltip : "";
+            std::string widgetStr = entry.info.name + SohGui::Tr(entry.info.name) + extraTooltip +
+                                    SohGui::Tr(extraTooltip) + entry.extraTerms + entry.sidebarName +
+                                    SohGui::Tr(entry.sidebarName);
             std::transform(widgetStr.begin(), widgetStr.end(), widgetStr.begin(), ::tolower);
             widgetStr.erase(std::remove(widgetStr.begin(), widgetStr.end(), ' '), widgetStr.end());
             if (widgetStr.find(menuSearchText) != std::string::npos) {
                 MenuDrawItem(entry.info, 400, menuThemeIndex);
                 ImGui::PushStyleColor(ImGuiCol_Text, UIWidgets::ColorValues.at(UIWidgets::Colors::Gray));
-                std::string origin = fmt::format("  ({} -> {}, {})", entry.menuName, entry.sidebarName, entry.location);
+                std::string origin = fmt::format("  ({} -> {}, {})", SohGui::Tr(entry.menuName),
+                                                 SohGui::Tr(entry.sidebarName), entry.location);
                 ImGui::Text("%s", origin.c_str());
                 ImGui::PopStyleColor();
                 searchCount++;
@@ -285,7 +290,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
     // favorites are keyed on — so translate a copy for drawing instead of the stored label.
     const std::string displayName = SohGui::Tr(widget.name);
 
-    disabledTempTooltip = "This setting is disabled because: \n";
+    disabledTempTooltip = SohGui::Tr("This setting is disabled because: ") + "\n";
     disabledValue = false;
     disabledTooltip = " ";
 
@@ -298,14 +303,14 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
         if (!widget.activeDisables.empty()) {
             widget.options->disabled = true;
             for (auto option : widget.activeDisables) {
-                disabledTempTooltip += std::string("\n- ") + disabledMap.at(option).reason;
+                disabledTempTooltip += std::string("\n- ") + SohGui::Tr(disabledMap.at(option).reason);
             }
             widget.options->disabledTooltip = disabledTempTooltip.c_str();
         }
     }
     if (widget.raceDisable && raceDisableActive) {
         widget.options->disabled = true;
-        disabledTempTooltip += std::string("\n- Race Lockout Active");
+        disabledTempTooltip += std::string("\n- ") + SohGui::Tr("Race Lockout Active");
         widget.options->disabledTooltip = disabledTempTooltip.c_str();
     }
 
@@ -348,7 +353,8 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                 options.tooltip = "Sets the audio API used by the game. Requires a relaunch to take effect.";
                 options.disabled = Ship::Context::GetInstance()->GetAudio()->GetAvailableAudioBackends()->size() <= 1;
                 options.disabledTooltip = "Only one audio API is available on this platform.";
-                if (UIWidgets::Combobox("Audio API", &currentAudioBackend, audioBackendsMap, options)) {
+                if (UIWidgets::Combobox(SohGui::Tr("Audio API").c_str(), &currentAudioBackend, audioBackendsMap,
+                                        options)) {
                     Ship::Context::GetInstance()->GetAudio()->SetCurrentAudioBackend(currentAudioBackend);
                 }
             } break;
@@ -358,8 +364,8 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                 options.tooltip = "Sets the renderer API used by the game.";
                 options.disabled = availableWindowBackends->size() <= 1;
                 options.disabledTooltip = "Only one renderer API is available on this platform.";
-                if (UIWidgets::Combobox("Renderer API (Needs reload)", &configWindowBackend, availableWindowBackendsMap,
-                                        options)) {
+                if (UIWidgets::Combobox(SohGui::Tr("Renderer API (Needs reload)").c_str(), &configWindowBackend,
+                                        availableWindowBackendsMap, options)) {
                     Ship::Context::GetInstance()->GetConfig()->SetInt("Window.Backend.Id",
                                                                       (int32_t)(configWindowBackend));
                     Ship::Context::GetInstance()->GetConfig()->SetString("Window.Backend.Name",
@@ -527,7 +533,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
             } break;
             case WIDGET_SEARCH: {
                 UIWidgets::PushStyleButton(menuThemeIndex);
-                if (ImGui::Button("Clear")) {
+                if (ImGui::Button(SohGui::Tr("Clear").c_str())) {
                     menuSearch.Clear();
                 }
                 ImGui::SameLine();
@@ -545,7 +551,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                 std::string menuSearchText(menuSearch.InputBuf);
 
                 if (menuSearchText == "") {
-                    ImGui::Text("Start typing to see results.");
+                    ImGui::Text("%s", SohGui::Tr("Start typing to see results.").c_str());
                     return;
                 }
                 DrawSearchResults(menuSearchText);
@@ -670,7 +676,9 @@ void Menu::DrawElement() {
         headerWidth += 200.0f;
     }
     for (auto& label : menuOrder) {
-        ImVec2 size = ImGui::CalcTextSize(label.c_str());
+        // The label is drawn translated, so it has to be measured translated too.
+        const std::string headerLabel = SohGui::Tr(label);
+        ImVec2 size = ImGui::CalcTextSize(headerLabel.c_str());
         headerSizes.push_back(size);
         headerWidth += size.x + style.FramePadding.x * 2 + style.ItemSpacing.x;
     }
@@ -755,7 +763,7 @@ void Menu::DrawElement() {
         menuSearchText.erase(std::remove(menuSearchText.begin(), menuSearchText.end(), ' '), menuSearchText.end());
         if (menuSearchText.length() < 1) {
             ImGui::SameLine(headerWidth - 200.0f + style.ItemSpacing.x);
-            ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "Search...");
+            ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "%s", SohGui::Tr("Search...").c_str());
         }
         ImGui::PopStyleVar();
         ImGui::PopStyleColor();
@@ -889,12 +897,12 @@ void Menu::DrawElement() {
     if (headerSearch && menuSearchText.length() > 0) {
         ImGui::AlignTextToFramePadding();
         ImGui::PushFont(OTRGlobals::Instance->fontMonoLargest);
-        ImGui::Text("Search Results");
+        ImGui::Text("%s", SohGui::Tr("Search Results").c_str());
         ImGui::PopFont();
         ImGui::SameLine();
         UIWidgets::ButtonOptions clearBtnOpts = {};
         clearBtnOpts.size = UIWidgets::Sizes::Inline;
-        if (UIWidgets::Button("Clear Search", clearBtnOpts)) {
+        if (UIWidgets::Button(SohGui::Tr("Clear Search").c_str(), clearBtnOpts)) {
             menuSearch.Clear();
         }
         ImGui::BeginChild("searchSeparator", ImVec2(ImGui::GetContentRegionAvail().x / 2, 20),
@@ -903,9 +911,10 @@ void Menu::DrawElement() {
         ImGui::EndChild();
         uint32_t searchCount = DrawSearchResults(menuSearchText);
         if (searchCount == 0) {
-            ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("No results found").x) / 2);
+            const std::string noResults = SohGui::Tr("No results found");
+            ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(noResults.c_str()).x) / 2);
             ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.0f);
-            ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "No results found");
+            ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "%s", noResults.c_str());
         }
     } else {
         std::string menuLabel = menuEntries.at(headerIndex).label;
