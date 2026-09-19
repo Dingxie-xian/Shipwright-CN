@@ -727,8 +727,8 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                 }
                 extractionTask.reset();
             } else {
-                if (!ImGui::IsPopupOpen("ROM Extraction")) {
-                    ImGui::OpenPopup("ROM Extraction");
+                if (!ImGui::IsPopupOpen(SohGui::Tr("ROM Extraction").c_str())) {
+                    ImGui::OpenPopup(SohGui::Tr("ROM Extraction").c_str());
                 }
                 ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
                 ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 8.0f));
@@ -736,7 +736,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                 ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(color.x, color.y, color.z, 0.6f));
                 ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImVec4(color.x, color.y, color.z, 1.0f));
                 ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 0.0f, 0.0f, 0.3f));
-                if (ImGui::BeginPopupModal("ROM Extraction", NULL,
+                if (ImGui::BeginPopupModal(SohGui::Tr("ROM Extraction").c_str(), NULL,
                                            ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize |
                                                ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
                                                ImGuiWindowFlags_NoSavedSettings)) {

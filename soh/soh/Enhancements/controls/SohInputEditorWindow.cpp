@@ -1734,10 +1734,10 @@ void SohInputEditorWindow::DrawDebugPortTab(uint8_t portIndex, std::string custo
 void SohInputEditorWindow::DrawClearAllButton(uint8_t portIndex) {
     PushStyleButton(THEME_COLOR);
     if (ImGui::Button(SohGui::Tr("Clear All").c_str(), ImGui::CalcTextSize("Clear All") * 2)) {
-        ImGui::OpenPopup("Clear All##clearAllPopup");
+        ImGui::OpenPopup(SohGui::Tr("Clear All##clearAllPopup").c_str());
     }
     PopStyleButton();
-    if (ImGui::BeginPopupModal("Clear All##clearAllPopup", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+    if (ImGui::BeginPopupModal(SohGui::Tr("Clear All##clearAllPopup").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text(SohGui::Tr("This will clear all mappings for port %d.\n\nContinue?").c_str(), portIndex + 1);
         PushStyleButton(THEME_COLOR);
         if (ImGui::Button(SohGui::Tr("Cancel").c_str())) {
