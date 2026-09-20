@@ -77,6 +77,9 @@ def main():
         for name, offset, args in calls(source):
             if not args:
                 continue
+            if name.startswith(('CVarSet', 'CVarGet', 'CVarClear')):
+                if any(token[0] in ('Tr', 'TrLabel') for arg in args for token in arg):
+                    errors.append(f'Translation used in configuration access: {path.relative_to(ROOT)}:{name}')
             if name in ('SohGui::Tr', 'SohGui::TrLabel'):
                 key = literal(args[0])
                 if key is not None:
