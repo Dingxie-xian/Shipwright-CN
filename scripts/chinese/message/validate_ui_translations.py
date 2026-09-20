@@ -81,6 +81,11 @@ def main():
                 key = literal(args[0])
                 if key is not None:
                     seen.add(key.split('##')[0])
+            if name.endswith('RegisterPopup'):
+                for arg in args[:4]:
+                    key = literal(arg)
+                    if key:
+                        seen.add(key)
             if name in ('SEQUENCE_MAP_ENTRY', 'COSMETIC_OPTION') and len(args) > 1:
                 key = literal(args[1])
                 if key:
