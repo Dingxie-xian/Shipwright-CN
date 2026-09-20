@@ -92,6 +92,11 @@ def main():
     args=parser.parse_args()
     with tempfile.TemporaryDirectory(dir=args.build_dir) as directory:
         temp=Path(directory)
+        c_header_test=temp/'include_window.c'
+        c_header_test.write_text('#include "soh/soh/SohGui/LocalizedWindow.h"\nint main(void) { return 0; }\n',encoding='utf-8')
+        subprocess.run([args.cxx,'-x','c','-std=c11','-Werror','-fsyntax-only','-I',str(ROOT),
+                        str(c_header_test)],check=True)
+        print('PASS: mixed C/C++ headers can include the window adapter from C',flush=True)
         (temp/'ship/window/gui').mkdir(parents=True)
         (temp/'imgui.h').write_text(IMGUI,encoding='utf-8')
         (temp/'ship/window/gui/GuiWindow.h').write_text(BASE,encoding='utf-8')

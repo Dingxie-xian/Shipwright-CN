@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef __cplusplus
+
 #include <ship/window/gui/GuiWindow.h>
 #include "UiTranslation.h"
 
@@ -39,3 +41,5 @@ class LocalizedWindow : public Ship::GuiWindow {
 };
 
 } // namespace SohGui
+
+#endif // __cplusplus
