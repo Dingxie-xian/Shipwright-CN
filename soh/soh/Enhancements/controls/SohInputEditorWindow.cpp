@@ -27,6 +27,27 @@ namespace SohGui {
 extern std::shared_ptr<SohMenu> mSohMenu;
 }
 
+static std::string TranslatePhysicalInputName(const std::string& name) {
+    // Input names come from SDL/the platform, not from the menu's static labels.
+    // Keep their translations contextual (Return is a key here), and preserve
+    // hardware markings, unknown names, axis numbers and direction icons.
+    const std::string key = "Input/" + name;
+    const std::string translated = SohGui::Tr(key);
+    if (translated != key) {
+        return translated;
+    }
+    for (const std::string prefix : { "Left Stick", "Right Stick", "D-Pad", "Axis" }) {
+        if (name.compare(0, prefix.size() + 1, prefix + " ") == 0) {
+            const std::string prefixKey = "Input/" + prefix;
+            const std::string translatedPrefix = SohGui::Tr(prefixKey);
+            if (translatedPrefix != prefixKey) {
+                return translatedPrefix + name.substr(prefix.size());
+            }
+        }
+    }
+    return name;
+}
+
 SohInputEditorWindow::~SohInputEditorWindow() {
 }
 
@@ -285,7 +306,7 @@ void SohInputEditorWindow::DrawButtonLineEditMappingButton(uint8_t port, N64Butt
     auto buttonColor = ImGui::GetStyleColorVec4(ImGuiCol_Button);
     auto buttonHoveredColor = ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered);
     auto physicalInputDisplayName =
-        StringHelper::Sprintf("%s %s", icon.c_str(), mapping->GetPhysicalInputName().c_str());
+        StringHelper::Sprintf("%s %s", icon.c_str(), TranslatePhysicalInputName(mapping->GetPhysicalInputName()).c_str());
     GetButtonColorsForDeviceType(mapping->GetPhysicalDeviceType(), buttonColor, buttonHoveredColor);
     ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonHoveredColor);
@@ -297,7 +318,7 @@ void SohInputEditorWindow::DrawButtonLineEditMappingButton(uint8_t port, N64Butt
         ImGui::OpenPopup(popupId.c_str());
     }
     if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal | ImGuiHoveredFlags_NoSharedDelay)) {
-        ImGui::SetTooltip("%s", mapping->GetPhysicalDeviceName().c_str());
+        ImGui::SetTooltip("%s", SohGui::Tr(mapping->GetPhysicalDeviceName()).c_str());
     }
     ImGui::PopStyleColor();
     ImGui::PopStyleColor();
@@ -549,7 +570,7 @@ void SohInputEditorWindow::DrawStickDirectionLineEditMappingButton(uint8_t port,
     auto buttonColor = ImGui::GetStyleColorVec4(ImGuiCol_Button);
     auto buttonHoveredColor = ImGui::GetStyleColorVec4(ImGuiCol_ButtonHovered);
     auto physicalInputDisplayName =
-        StringHelper::Sprintf("%s %s", icon.c_str(), mapping->GetPhysicalInputName().c_str());
+        StringHelper::Sprintf("%s %s", icon.c_str(), TranslatePhysicalInputName(mapping->GetPhysicalInputName()).c_str());
     GetButtonColorsForDeviceType(mapping->GetPhysicalDeviceType(), buttonColor, buttonHoveredColor);
     ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonHoveredColor);
@@ -562,7 +583,7 @@ void SohInputEditorWindow::DrawStickDirectionLineEditMappingButton(uint8_t port,
         ImGui::OpenPopup(popupId.c_str());
     }
     if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal | ImGuiHoveredFlags_NoSharedDelay)) {
-        ImGui::SetTooltip("%s", mapping->GetPhysicalDeviceName().c_str());
+        ImGui::SetTooltip("%s", SohGui::Tr(mapping->GetPhysicalDeviceName()).c_str());
     }
     ImGui::PopStyleColor();
     ImGui::PopStyleColor();
@@ -893,7 +914,7 @@ void SohInputEditorWindow::DrawRumbleSection(uint8_t port) {
 
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
         ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
-        ImGui::Button(mapping->GetPhysicalDeviceName().c_str());
+        ImGui::Button(SohGui::TrLabel(mapping->GetPhysicalDeviceName()).c_str());
         ImGui::PopStyleColor();
         ImGui::PopItemFlag();
 
@@ -1054,7 +1075,7 @@ void SohInputEditorWindow::DrawLEDSection(uint8_t port) {
         ImGui::AlignTextToFramePadding();
         ImGui::SetNextItemOpen(true, ImGuiCond_Once);
         auto open = ImGui::TreeNode(
-            StringHelper::Sprintf("%s##LED%s", mapping->GetPhysicalDeviceName().c_str(), id.c_str()).c_str());
+            SohGui::TrLabel(StringHelper::Sprintf("%s##LED%s", mapping->GetPhysicalDeviceName().c_str(), id.c_str())).c_str());
         DrawRemoveLEDMappingButton(port, id);
         if (open) {
             ImGui::AlignTextToFramePadding();
@@ -1186,7 +1207,7 @@ void SohInputEditorWindow::DrawGyroSection(uint8_t port) {
         auto id = mapping->GetGyroMappingId();
         ImGui::AlignTextToFramePadding();
         ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-        ImGui::BulletText("%s", mapping->GetPhysicalDeviceName().c_str());
+        ImGui::BulletText("%s", SohGui::Tr(mapping->GetPhysicalDeviceName()).c_str());
         DrawRemoveGyroMappingButton(port, id);
 
         static float sPitch, sYaw = 0.0f;
