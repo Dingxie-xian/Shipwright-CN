@@ -1,9 +1,8 @@
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 
-class GameplayStatsWindow final : public SohGui::LocalizedWindow {
+class GameplayStatsWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
     void InitElement() override;
     void DrawElement() override;

@@ -6,13 +6,12 @@
 #include "soh/SohGui/UIWidgets.hpp"
 
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 
 namespace CheckTracker {
 
-class CheckTrackerSettingsWindow final : public SohGui::LocalizedWindow {
+class CheckTrackerSettingsWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
     ~CheckTrackerSettingsWindow(){};
 
   protected:
@@ -21,9 +20,9 @@ class CheckTrackerSettingsWindow final : public SohGui::LocalizedWindow {
     void UpdateElement() override{};
 };
 
-class CheckTrackerWindow final : public SohGui::LocalizedWindow {
+class CheckTrackerWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
     void Draw() override;
     ~CheckTrackerWindow(){};
 

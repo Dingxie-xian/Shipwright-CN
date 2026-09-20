@@ -1,6 +1,5 @@
 #pragma once
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 
 // Not to be confused with tabs, groups are 1:1 with the boxes shown in the UI, grouping them allows us to
 // reset/randomize every item in a group at once. If you are looking for tabs they are rendered manually in ImGui in
@@ -62,9 +61,9 @@ void CosmeticsEditor_ResetAll();
 void CosmeticsEditor_ResetGroup(CosmeticGroup group);
 void ApplyOrResetCustomGfxPatches(bool manualChange = true);
 
-class CosmeticsEditorWindow final : public SohGui::LocalizedWindow {
+class CosmeticsEditorWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
     void InitElement() override;
     void DrawElement() override;

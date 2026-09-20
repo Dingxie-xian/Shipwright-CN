@@ -4,7 +4,6 @@
 
 #ifdef __cplusplus
 #include <ship/window/gui/GuiWindow.h>
-#include "soh/SohGui/LocalizedWindow.h"
 #include <unordered_map>
 extern "C" {
 #endif
@@ -26,10 +25,10 @@ void MessageDebug_DisplayCustomMessage(const char* customMessage);
 #ifdef __cplusplus
 }
 
-class MessageViewer final : public SohGui::LocalizedWindow {
+class MessageViewer final : public Ship::GuiWindow {
   public:
     static inline const char* TABLE_ID = "MessageViewer";
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
     void InitElement() override;
     void DrawElement() override;

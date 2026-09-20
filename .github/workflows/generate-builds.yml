@@ -16,9 +16,9 @@ jobs:
         submodules: true
     - name: Validate menu translations and label identities
       run: |
+        python3 scripts/chinese/message/test_lus_ui_hooks.py
         python3 scripts/chinese/message/validate_ui_translations.py
         python3 scripts/chinese/message/test_ui_label_ids.py
-        python3 scripts/chinese/message/test_localized_window.py
     - name: Configure ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:

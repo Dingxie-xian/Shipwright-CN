@@ -3,7 +3,6 @@
 #ifdef __cplusplus
 
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 
 typedef enum {
     TYPE_S8,
@@ -34,9 +33,9 @@ typedef struct {
     uint32_t y;
 } ValueTableElement;
 
-class ValueViewerWindow final : public SohGui::LocalizedWindow {
+class ValueViewerWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
     void InitElement() override;
     void DrawElement() override;

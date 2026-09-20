@@ -13,13 +13,12 @@ extern "C" {
 #endif // PLANDOMIZER_H
 
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 #include "soh/Enhancements/randomizer/item.h"
 
 #ifdef __cplusplus
-class PlandomizerWindow final : public SohGui::LocalizedWindow {
+class PlandomizerWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
     void InitElement() override;
     void DrawElement() override;

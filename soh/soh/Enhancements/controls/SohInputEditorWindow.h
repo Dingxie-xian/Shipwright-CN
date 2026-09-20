@@ -2,7 +2,6 @@
 
 #include "stdint.h"
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 #include <imgui.h>
 #include <unordered_map>
 #include <string>
@@ -18,9 +17,9 @@ typedef struct {
     N64ButtonMask defaultBtn;
 } CustomButtonMap;
 
-class SohInputEditorWindow final : public SohGui::LocalizedWindow {
+class SohInputEditorWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
     ~SohInputEditorWindow();
 
     void DrawButton(const char* label, int32_t n64Btn, int32_t currentPort, int32_t* btnReading);

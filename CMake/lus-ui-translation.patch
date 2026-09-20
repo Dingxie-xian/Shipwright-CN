@@ -1,0 +1,236 @@
+diff --git a/include/ship/window/gui/GuiWindow.h b/include/ship/window/gui/GuiWindow.h
+--- a/include/ship/window/gui/GuiWindow.h
++++ b/include/ship/window/gui/GuiWindow.h
+@@ -20,6 +20,12 @@
+     void Draw() override;
+     std::string GetName();
+ 
++    // Optional application-owned localization. Internal window names stay raw.
++    using TextTranslator = std::string (*)(const std::string&);
++    static void SetTextTranslators(TextTranslator text, TextTranslator label);
++    static std::string TranslateText(const std::string& text);
++    static std::string TranslateLabel(const std::string& label);
++
+   protected:
+     void SetVisibility(bool visible) override;
+     void BeginGroupPanel(const char* name, const ImVec2& size);
+diff --git a/src/ship/window/gui/GuiWindow.cpp b/src/ship/window/gui/GuiWindow.cpp
+--- a/src/ship/window/gui/GuiWindow.cpp
++++ b/src/ship/window/gui/GuiWindow.cpp
+@@ -5,6 +5,24 @@
+ #include "ship/window/gui/Gui.h"
+ 
+ namespace Ship {
++namespace {
++GuiWindow::TextTranslator textTranslator = nullptr;
++GuiWindow::TextTranslator labelTranslator = nullptr;
++}
++
++void GuiWindow::SetTextTranslators(TextTranslator text, TextTranslator label) {
++    textTranslator = text;
++    labelTranslator = label;
++}
++
++std::string GuiWindow::TranslateText(const std::string& text) {
++    return textTranslator != nullptr ? textTranslator(text) : text;
++}
++
++std::string GuiWindow::TranslateLabel(const std::string& label) {
++    return labelTranslator != nullptr ? labelTranslator(label) : label;
++}
++
+ GuiWindow::GuiWindow(const std::string& consoleVariable, bool isVisible, const std::string& name, ImVec2 originalSize,
+                      uint32_t windowFlags)
+     : GuiElement(isVisible), mName(name), mVisibilityConsoleVariable(consoleVariable), mOriginalSize(originalSize),
+@@ -69,7 +87,7 @@
+     if (mOriginalSize != ImVec2{ -1, -1 }) {
+         ImGui::SetNextWindowSize(mOriginalSize, ImGuiCond_FirstUseEver);
+     }
+-    if (!ImGui::Begin(mName.c_str(), &mIsVisible, mWindowFlags)) {
++    if (!ImGui::Begin(TranslateLabel(mName).c_str(), &mIsVisible, mWindowFlags)) {
+         ImGui::End();
+     } else {
+         DrawElement();
+@@ -107,7 +125,7 @@
+     ImGui::BeginGroup();
+     ImGui::Dummy(ImVec2(frameHeight * 0.5f, 0.0f));
+     ImGui::SameLine(0.0f, 0.0f);
+-    ImGui::TextUnformatted(name);
++    ImGui::TextUnformatted(TranslateText(name).c_str());
+     auto labelMin = ImGui::GetItemRectMin();
+     auto labelMax = ImGui::GetItemRectMax();
+     ImGui::SameLine(0.0f, 0.0f);
+diff --git a/src/ship/window/gui/ConsoleWindow.cpp b/src/ship/window/gui/ConsoleWindow.cpp
+--- a/src/ship/window/gui/ConsoleWindow.cpp
++++ b/src/ship/window/gui/ConsoleWindow.cpp
+@@ -377,7 +377,7 @@
+     }
+ 
+     if (ImGui::BeginPopupContextWindow("Context Menu")) {
+-        if (ImGui::MenuItem("Copy Text")) {
++        if (ImGui::MenuItem(Ship::GuiWindow::TranslateLabel("Copy Text").c_str())) {
+             ImGui::SetClipboardText(mLog[mCurrentChannel][mSelectedId].Text.c_str());
+             mSelectedId = -1;
+         }
+@@ -388,17 +388,17 @@
+     }
+ 
+     // Renders top bar filters
+-    if (ImGui::Button("Clear")) {
++    if (ImGui::Button(Ship::GuiWindow::TranslateLabel("Clear").c_str())) {
+         ClearLogs(mCurrentChannel);
+     }
+ 
+     if (Ship::Context::GetInstance()->GetConsoleVariables()->GetInteger("gSinkEnabled", 0)) {
+         ImGui::SameLine();
+         ImGui::SetNextItemWidth(150);
+-        if (ImGui::BeginCombo("##channel", mCurrentChannel.c_str())) {
++        if (ImGui::BeginCombo("##channel", Ship::GuiWindow::TranslateText(mCurrentChannel).c_str())) {
+             for (const auto& channel : mLogChannels) {
+                 const bool isSelected = (channel == std::string(mCurrentChannel));
+-                if (ImGui::Selectable(channel.c_str(), isSelected)) {
++                if (ImGui::Selectable(Ship::GuiWindow::TranslateLabel(channel).c_str(), isSelected)) {
+                     mCurrentChannel = channel;
+                 }
+                 if (isSelected) {
+@@ -414,10 +414,10 @@
+     ImGui::SetNextItemWidth(150);
+ 
+     if (mCurrentChannel != "Console") {
+-        if (ImGui::BeginCombo("##level", spdlog::level::to_string_view(mLevelFilter).data())) {
++        if (ImGui::BeginCombo("##level", Ship::GuiWindow::TranslateText(spdlog::level::to_string_view(mLevelFilter).data()).c_str())) {
+             for (const auto& priorityFilter : mPriorityFilters) {
+                 const bool isSelected = priorityFilter == mLevelFilter;
+-                if (ImGui::Selectable(spdlog::level::to_string_view(priorityFilter).data(), isSelected)) {
++                if (ImGui::Selectable(Ship::GuiWindow::TranslateLabel(spdlog::level::to_string_view(priorityFilter).data()).c_str(), isSelected)) {
+                     mLevelFilter = priorityFilter;
+                     if (isSelected) {
+                         ImGui::SetItemDefaultFocus();
+@@ -431,7 +431,7 @@
+     }
+     ImGui::SameLine();
+     ImGui::PushItemWidth(-1);
+-    if (ImGui::InputTextWithHint("##input", "Filter", mFilterBuffer, gMaxBufferSize)) {
++    if (ImGui::InputTextWithHint("##input", Ship::GuiWindow::TranslateText("Filter").c_str(), mFilterBuffer, gMaxBufferSize)) {
+         mFilter = std::string(mFilterBuffer);
+     }
+     ImGui::PopItemWidth();
+@@ -527,7 +527,7 @@
+         ImGui::SameLine();
+         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x - 50);
+ 
+-        if (ImGui::Button("Submit") && !inputFocus && mInputBuffer[0] != '\0' && mInputBuffer[0] != ' ') {
++        if (ImGui::Button(Ship::GuiWindow::TranslateLabel("Submit").c_str()) && !inputFocus && mInputBuffer[0] != '\0' && mInputBuffer[0] != ' ') {
+             Dispatch(std::string(mInputBuffer));
+             memset(mInputBuffer, 0, gMaxBufferSize);
+         }
+diff --git a/src/libultraship/window/gui/GfxDebuggerWindow.cpp b/src/libultraship/window/gui/GfxDebuggerWindow.cpp
+--- a/src/libultraship/window/gui/GfxDebuggerWindow.cpp
++++ b/src/libultraship/window/gui/GfxDebuggerWindow.cpp
+@@ -66,15 +66,15 @@
+         }
+ 
+         if (ImGui::BeginPopupContextItem(nullptr, ImGuiPopupFlags_MouseButtonRight)) {
+-            if (ImGui::Selectable("Copy text")) {
++            if (ImGui::Selectable(Ship::GuiWindow::TranslateLabel("Copy text").c_str())) {
+                 SDL_SetClipboardText(text.c_str());
+             }
+-            if (ImGui::Selectable("Copy address")) {
++            if (ImGui::Selectable(Ship::GuiWindow::TranslateLabel("Copy address").c_str())) {
+                 std::string address = fmt::format("0x{:x}", (uintptr_t)cmd);
+                 SDL_SetClipboardText(address.c_str());
+             }
+             if (parentPosY > 0) {
+-                scrollTo = ImGui::Selectable("Scroll to parent");
++                scrollTo = ImGui::Selectable(Ship::GuiWindow::TranslateLabel("Scroll to parent").c_str());
+             }
+             ImGui::EndPopup();
+         }
+@@ -575,12 +575,12 @@
+ 
+     auto dbg = Ship::Context::GetInstance()->GetGfxDebugger();
+     auto dlist = dbg->GetDisplayList();
+-    ImGui::Text("dlist: %p", dlist);
++    ImGui::Text(Ship::GuiWindow::TranslateText("dlist: %p").c_str(), dlist);
+     std::string bp = "";
+     for (auto& gfx : dbg->GetBreakPoint()) {
+         bp += fmt::format("/{}", (const void*)gfx);
+     }
+-    ImGui::Text("BreakPoint: %s", bp.c_str());
++    ImGui::Text(Ship::GuiWindow::TranslateText("BreakPoint: %s").c_str(), bp.c_str());
+ 
+     bool isNew = !bpEquals(mLastBreakPoint, dbg->GetBreakPoint());
+     if (isNew) {
+@@ -597,7 +597,7 @@
+     {
+         ImGui::BeginGroup();
+         {
+-            ImGui::Text("Disp Stack");
++            ImGui::Text(Ship::GuiWindow::TranslateText("Disp Stack").c_str());
+             ImGui::BeginChild("### Disp Stack", ImVec2(400.0f, 0.0f), true, ImGuiWindowFlags_HorizontalScrollbar);
+             for (auto& disp : g_exec_stack.disp_stack) {
+                 ImGui::Text("%s", fmt::format("{}:{}", disp.file, disp.line).c_str());
+@@ -609,7 +609,7 @@
+ 
+         ImGui::BeginGroup();
+         {
+-            ImGui::Text("Tiles");
++            ImGui::Text(Ship::GuiWindow::TranslateText("Tiles").c_str());
+             ImGui::BeginChild("### Tile", ImVec2(400.0f, 0.0f), true);
+             // for (size_t i = 0; i < 8; i++) {
+             //     auto& tile = g_rdp.texture_tile[i];
+@@ -622,10 +622,10 @@
+             auto draw_img = [isNew, &gui](std::optional<std::string> prefix, const std::string& name,
+                                           const RawTexMetadata& metadata) {
+                 if (prefix) {
+-                    ImGui::Text("%s: %dx%d; type=%s", prefix->c_str(), metadata.width, metadata.height,
++                    ImGui::Text(Ship::GuiWindow::TranslateText("%s: %dx%d; type=%s").c_str(), prefix->c_str(), metadata.width, metadata.height,
+                                 getTexType(metadata.type));
+                 } else {
+-                    ImGui::Text("%dx%d; type=%s", metadata.width, metadata.height, getTexType(metadata.type));
++                    ImGui::Text(Ship::GuiWindow::TranslateText("%dx%d; type=%s").c_str(), metadata.width, metadata.height, getTexType(metadata.type));
+                 }
+ 
+                 if (isNew && metadata.resource != nullptr) {
+@@ -636,7 +636,7 @@
+                 ImGui::Image(gui->GetTextureByName(name), ImVec2{ 100.0f, 100.0f });
+             };
+ 
+-            ImGui::Text("Loaded Textures");
++            ImGui::Text(Ship::GuiWindow::TranslateText("Loaded Textures").c_str());
+             for (size_t i = 0; i < 2; i++) {
+                 auto& tex = mInterpreter.lock()->mRdp->loaded_texture[i];
+                 // ImGui::Text("%s", fmt::format("{}: {}x{} type={}", i, tex.raw_tex_metadata.width,
+@@ -644,7 +644,7 @@
+                 //                       .c_str());
+                 draw_img(std::to_string(i), fmt::format("GfxDebuggerWindowLoadedTexture{}", i), tex.raw_tex_metadata);
+             }
+-            ImGui::Text("Texture To Load");
++            ImGui::Text(Ship::GuiWindow::TranslateText("Texture To Load").c_str());
+             {
+                 auto& tex = mInterpreter.lock()->mRdp->texture_to_load;
+                 // ImGui::Text("%s", fmt::format("{}x{} type={}", tex.raw_tex_metadata.width,
+@@ -671,7 +671,7 @@
+         {
+             auto showColor = [](const char* text, RGBA c) {
+                 float cf[] = { c.r / 255.0f, c.g / 255.0f, c.b / 255.0f, c.a / 255.0f };
+-                ImGui::ColorEdit3(text, cf, ImGuiColorEditFlags_NoInputs);
++                ImGui::ColorEdit3(Ship::GuiWindow::TranslateLabel(text).c_str(), cf, ImGuiColorEditFlags_NoInputs);
+             };
+ 
+             showColor("Env Color", mInterpreter.lock()->mRdp->env_color);
+@@ -699,12 +699,12 @@
+     // const ImVec2 size = ImGui::GetWindowSize();
+ 
+     if (!dbg->IsDebugging()) {
+-        if (ImGui::Button("Debug")) {
++        if (ImGui::Button(Ship::GuiWindow::TranslateLabel("Debug").c_str())) {
+             dbg->RequestDebugging();
+         }
+     } else {
+         bool resumed = false;
+-        if (ImGui::Button("Resume Game")) {
++        if (ImGui::Button(Ship::GuiWindow::TranslateLabel("Resume Game").c_str())) {
+             dbg->ResumeGame();
+             resumed = true;
+         }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 
 #define CVAR_INPUT_VIEWER(var) "gInputViewer." var
 
@@ -18,9 +17,9 @@ typedef enum {
     STICK_MODE_ALWAYS_HIDDEN,
 } StickMode;
 
-class InputViewer final : public SohGui::LocalizedWindow {
+class InputViewer final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
     void Draw() override;
     void InitElement() override{};
@@ -34,9 +33,9 @@ class InputViewer final : public SohGui::LocalizedWindow {
     void RenderButton(std::string btn, std::string btnOutline, int state, ImVec2 size, int outlineMode);
 };
 
-class InputViewerSettingsWindow final : public SohGui::LocalizedWindow {
+class InputViewerSettingsWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
     void InitElement() override{};
     void DrawElement() override;

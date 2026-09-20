@@ -2,11 +2,10 @@
 #define hookDebugger_h
 
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 
-class HookDebuggerWindow final : public SohGui::LocalizedWindow {
+class HookDebuggerWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
     void InitElement() override;
     void DrawElement() override;

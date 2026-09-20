@@ -1,9 +1,8 @@
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 
-class TimeDisplayWindow final : public SohGui::LocalizedWindow {
+class TimeDisplayWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
     void InitElement() override;
     void DrawElement() override{};

@@ -4,7 +4,6 @@
 #include <vector>
 #include <cstdint>
 #include <libultraship/libultraship.h>
-#include "soh/SohGui/LocalizedWindow.h"
 
 void DrawItemAmmo(int itemId);
 
@@ -48,9 +47,9 @@ typedef struct ItemTrackerDungeon {
     std::vector<uint32_t> items;
 } ItemTrackerDungeon;
 
-class ItemTrackerSettingsWindow final : public SohGui::LocalizedWindow {
+class ItemTrackerSettingsWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
 
   protected:
     void InitElement() override{};
@@ -58,9 +57,9 @@ class ItemTrackerSettingsWindow final : public SohGui::LocalizedWindow {
     void UpdateElement() override{};
 };
 
-class ItemTrackerWindow final : public SohGui::LocalizedWindow {
+class ItemTrackerWindow final : public Ship::GuiWindow {
   public:
-    using LocalizedWindow::LocalizedWindow;
+    using GuiWindow::GuiWindow;
     void Draw() override;
 
   protected:

@@ -6,6 +6,7 @@
 //
 
 #include "SohGui.hpp"
+#include "UiTranslation.h"
 
 #include <spdlog/spdlog.h>
 #include <imgui.h>
@@ -123,6 +124,7 @@ void SetupMenuElements() {
 
 void SetupGuiElements() {
     auto gui = Ship::Context::GetInstance()->GetWindow()->GetGui();
+    Ship::GuiWindow::SetTextTranslators(SohGui::Tr, SohGui::TrLabel);
 
     mConsoleWindow = std::make_shared<SohConsoleWindow>(CVAR_WINDOW("SohConsole"), "Console##SoH", ImVec2(820, 630));
     gui->AddGuiWindow(mConsoleWindow);

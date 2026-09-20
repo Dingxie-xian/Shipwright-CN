@@ -103,7 +103,7 @@ void AnchorMainMenu(WidgetInfo& info) {
     const char* buttonLabel = anchor->isEnabled ? "Disable" : "Enable";
     UIWidgets::PushStyleButton(anchor->isEnabled ? UIWidgets::ColorValues.at(UIWidgets::Colors::Red)
                                                  : UIWidgets::ColorValues.at(UIWidgets::Colors::Green));
-    if (ImGui::Button(buttonLabel, ImVec2(-1.0f, 0.0f))) {
+    if (ImGui::Button(SohGui::TrLabel(buttonLabel).c_str(), ImVec2(-1.0f, 0.0f))) {
         if (anchor->isEnabled) {
             CVarClear(CVAR_REMOTE_ANCHOR("Enabled"));
             Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
