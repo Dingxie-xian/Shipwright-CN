@@ -5017,7 +5017,7 @@
     "Bosses": "首领",
     "Breakdown": "明细",
     "Counts": "统计",
-    "Effects": "音效",
+    "Effects": "特效",
     "Ending": "结局",
     "Events": "事件",
     "Fanfares": "号角曲",
@@ -5772,5 +5772,8 @@
     "Application currently requires a restart. Save the mod info and close SoH?": "更改需要重启后生效。要保存模组设置并关闭 SoH 吗？",
     "Clear Config": "清除配置",
     "This will completely erase the controls config, including registered devices.\nContinue?": "这将彻底清除操作配置，包括已登记的设备。\n要继续吗？",
-    "Old Spoiler Version": "剧透文件版本过旧"
+    "Old Spoiler Version": "剧透文件版本过旧",
+    " Significant frame rate (FPS) drops may be occuring.": "警告：帧率（FPS）可能出现明显下降。",
+    " The Network features are unavailable because SoH was compiled without network support (\"ENABLE_REMOTE_CONTROL\" build flag).": "此版本未启用网络支持（ENABLE_REMOTE_CONTROL），网络功能不可用。",
+    " WARNING!!!! ": "警告！！！！"
 }

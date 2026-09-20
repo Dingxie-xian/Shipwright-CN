@@ -388,7 +388,7 @@ void RenderText(ImVec2 pos, const char* text, const char* text_end, bool hide_te
     }
 }
 
-bool Checkbox(const char* _label, bool* value, const CheckboxOptions& options) {
+bool Checkbox(const char* label_, bool* value, const CheckboxOptions& options) {
     ImGuiWindow* window = ImGui::GetCurrentWindow();
     if (window->SkipItems)
         return false;
@@ -401,7 +401,7 @@ bool Checkbox(const char* _label, bool* value, const CheckboxOptions& options) {
     bool none = options.labelPosition == LabelPositions::None;
 
     std::string labelStr = (none ? "##" : "");
-    labelStr.append(SohGui::Tr(_label));
+    labelStr.append(SohGui::Tr(label_));
 
     const char* label = labelStr.c_str();
 
