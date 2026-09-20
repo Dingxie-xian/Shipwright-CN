@@ -277,7 +277,7 @@ void DrawInfoTab() {
     // until it is done being edited
     int16_t healthIntermediary = gSaveContext.healthCapacity;
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Max Health", ImGuiDataType_S16, &healthIntermediary);
+    ImGui::InputScalar(SohGui::Tr("Max Health").c_str(), ImGuiDataType_S16, &healthIntermediary);
     PopStyleInput();
     if (ImGui::IsItemDeactivated()) {
         gSaveContext.healthCapacity = healthIntermediary;
@@ -320,7 +320,7 @@ void DrawInfoTab() {
     }
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Rupees", ImGuiDataType_S16, &gSaveContext.rupees);
+    ImGui::InputScalar(SohGui::Tr("Rupees").c_str(), ImGuiDataType_S16, &gSaveContext.rupees);
     Tooltip("Current rupees");
     PopStyleInput();
 
@@ -342,12 +342,12 @@ void DrawInfoTab() {
     }
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Total Days", ImGuiDataType_S32, &gSaveContext.totalDays);
+    ImGui::InputScalar(SohGui::Tr("Total Days").c_str(), ImGuiDataType_S32, &gSaveContext.totalDays);
     Tooltip("Total number of days elapsed since the start of the game");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Deaths", ImGuiDataType_U16, &gSaveContext.deaths);
+    ImGui::InputScalar(SohGui::Tr("Deaths").c_str(), ImGuiDataType_U16, &gSaveContext.deaths);
     Tooltip("Total number of deaths");
     PopStyleInput();
 
@@ -355,47 +355,47 @@ void DrawInfoTab() {
              checkboxOptionsBase.Tooltip("Is Biggoron sword unlocked? Replaces Giant's knife"));
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Sword Health", ImGuiDataType_U16, &gSaveContext.swordHealth);
+    ImGui::InputScalar(SohGui::Tr("Sword Health").c_str(), ImGuiDataType_U16, &gSaveContext.swordHealth);
     Tooltip("Giant's knife health. Default is 8. Must be >0 for Biggoron sword to work");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Bgs Day Count", ImGuiDataType_S32, &gSaveContext.bgsDayCount);
+    ImGui::InputScalar(SohGui::Tr("Bgs Day Count").c_str(), ImGuiDataType_S32, &gSaveContext.bgsDayCount);
     Tooltip("Total number of days elapsed since receiving claim check from Biggoron");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Entrance Index", ImGuiDataType_S32, &gSaveContext.entranceIndex);
+    ImGui::InputScalar(SohGui::Tr("Entrance Index").c_str(), ImGuiDataType_S32, &gSaveContext.entranceIndex);
     Tooltip("From which entrance did Link arrive?");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Cutscene Index", ImGuiDataType_S32, &gSaveContext.cutsceneIndex);
+    ImGui::InputScalar(SohGui::Tr("Cutscene Index").c_str(), ImGuiDataType_S32, &gSaveContext.cutsceneIndex);
     Tooltip("Which cutscene is this?");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Navi Timer", ImGuiDataType_U16, &gSaveContext.naviTimer);
+    ImGui::InputScalar(SohGui::Tr("Navi Timer").c_str(), ImGuiDataType_U16, &gSaveContext.naviTimer);
     Tooltip("Navi wants to talk at 600 units, decides not to at 3000.");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Timer State", ImGuiDataType_S16, &gSaveContext.timerState);
+    ImGui::InputScalar(SohGui::Tr("Timer State").c_str(), ImGuiDataType_S16, &gSaveContext.timerState);
     Tooltip("Heat timer, race timer, etc. Has white font");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Timer Seconds", ImGuiDataType_S16, &gSaveContext.timerSeconds, &one, NULL);
+    ImGui::InputScalar(SohGui::Tr("Timer Seconds").c_str(), ImGuiDataType_S16, &gSaveContext.timerSeconds, &one, NULL);
     Tooltip("Time, in seconds");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Sub-Timer State", ImGuiDataType_S16, &gSaveContext.subTimerState);
+    ImGui::InputScalar(SohGui::Tr("Sub-Timer State").c_str(), ImGuiDataType_S16, &gSaveContext.subTimerState);
     Tooltip("Trade timer, Ganon collapse timer, etc. Has yellow font");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Sub-Timer Seconds", ImGuiDataType_S16, &gSaveContext.subTimerSeconds, &one, NULL);
+    ImGui::InputScalar(SohGui::Tr("Sub-Timer Seconds").c_str(), ImGuiDataType_S16, &gSaveContext.subTimerSeconds, &one, NULL);
     Tooltip("Time, in seconds");
     PopStyleInput();
 
@@ -410,7 +410,7 @@ void DrawInfoTab() {
     if (IS_RANDO &&
         (OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_TRIFORCE_HUNT) != RO_TRIFORCE_HUNT_OFF)) {
         PushStyleInput(THEME_COLOR);
-        ImGui::InputScalar("Triforce Pieces", ImGuiDataType_U8,
+        ImGui::InputScalar(SohGui::Tr("Triforce Pieces").c_str(), ImGuiDataType_U8,
                            &gSaveContext.ship.quest.data.randomizer.triforcePiecesCollected);
         Tooltip("Currently obtained Triforce Pieces. For Triforce Hunt.");
         PopStyleInput();
@@ -427,7 +427,7 @@ void DrawInfoTab() {
             if (i == 2 && ImGui::TreeNode(SohGui::Tr("Fishing").c_str())) { // fishing has a few more flags to it
                 u8 fishSize = gSaveContext.highScores[i] & 0x7F;
                 PushStyleInput(THEME_COLOR);
-                if (ImGui::InputScalar("Child Size Record", ImGuiDataType_U8, &fishSize)) {
+                if (ImGui::InputScalar(SohGui::Tr("Child Size Record").c_str(), ImGuiDataType_U8, &fishSize)) {
                     gSaveContext.highScores[i] &= ~0x7F;
                     gSaveContext.highScores[i] |= fishSize & 0x7F;
                 }
@@ -443,7 +443,7 @@ void DrawInfoTab() {
                 }
                 fishSize = (gSaveContext.highScores[i] & 0x7F000000) >> 0x18;
                 PushStyleInput(THEME_COLOR);
-                if (ImGui::InputScalar("Adult Size Record", ImGuiDataType_U8, &fishSize)) {
+                if (ImGui::InputScalar(SohGui::Tr("Adult Size Record").c_str(), ImGuiDataType_U8, &fishSize)) {
                     gSaveContext.highScores[i] &= ~0x7F000000;
                     gSaveContext.highScores[i] |= (fishSize & 0x7F) << 0x18;
                 }
@@ -491,7 +491,7 @@ void DrawInfoTab() {
                 }
                 fishSize = (gSaveContext.highScores[i] & 0xFF0000) >> 16;
                 PushStyleInput(THEME_COLOR);
-                if (ImGui::InputScalar("Times Played", ImGuiDataType_U8, &fishSize)) {
+                if (ImGui::InputScalar(SohGui::Tr("Times Played").c_str(), ImGuiDataType_U8, &fishSize)) {
                     gSaveContext.highScores[i] &= ~0xFF0000;
                     gSaveContext.highScores[i] |= (fishSize) << 16;
                 }
@@ -644,7 +644,7 @@ void DrawInventoryTab() {
             ImGui::Image(Ship::Context::GetInstance()->GetWindow()->GetGui()->GetTextureByName(itemMapping[item].name),
                          ImVec2(IMAGE_SIZE, IMAGE_SIZE));
             PushStyleInput(THEME_COLOR);
-            ImGui::InputScalar("##ammoInput", ImGuiDataType_S8, &AMMO(item));
+            ImGui::InputScalar(SohGui::Tr("##ammoInput").c_str(), ImGuiDataType_S8, &AMMO(item));
             PopStyleInput();
 
             ImGui::EndGroup();
@@ -1520,7 +1520,7 @@ void DrawQuestStatusTab() {
     }
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("GS Count", ImGuiDataType_S16, &gSaveContext.inventory.gsTokens);
+    ImGui::InputScalar(SohGui::Tr("GS Count").c_str(), ImGuiDataType_S16, &gSaveContext.inventory.gsTokens);
     PopStyleInput();
     InsertHelpHoverText("Number of gold skulltula tokens aquired");
 
@@ -1589,7 +1589,7 @@ void DrawQuestStatusTab() {
                              ImVec2(lineHeight, lineHeight));
                 ImGui::SameLine();
                 PushStyleInput(THEME_COLOR);
-                if (ImGui::InputScalar("##Keys", ImGuiDataType_S8,
+                if (ImGui::InputScalar(SohGui::Tr("##Keys").c_str(), ImGuiDataType_S8,
                                        gSaveContext.inventory.dungeonKeys + dungeonItemsScene)) {
                     gSaveContext.ship.stats.dungeonKeys[dungeonItemsScene] =
                         gSaveContext.inventory.dungeonKeys[dungeonItemsScene];
@@ -1684,9 +1684,9 @@ void DrawPlayerTab() {
             [&]() {
                 ImGui::TextUnformatted(SohGui::Tr("Link's Position").c_str());
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
-                ImGui::InputScalar("X##Pos", ImGuiDataType_Float, &player->actor.world.pos.x);
-                ImGui::InputScalar("Y##Pos", ImGuiDataType_Float, &player->actor.world.pos.y);
-                ImGui::InputScalar("Z##Pos", ImGuiDataType_Float, &player->actor.world.pos.z);
+                ImGui::InputScalar(SohGui::Tr("X##Pos").c_str(), ImGuiDataType_Float, &player->actor.world.pos.x);
+                ImGui::InputScalar(SohGui::Tr("Y##Pos").c_str(), ImGuiDataType_Float, &player->actor.world.pos.y);
+                ImGui::InputScalar(SohGui::Tr("Z##Pos").c_str(), ImGuiDataType_Float, &player->actor.world.pos.z);
                 ImGui::PopItemWidth();
             },
             "Link's Position");
@@ -1696,9 +1696,9 @@ void DrawPlayerTab() {
                 ImGui::TextUnformatted(SohGui::Tr("Link's Rotation").c_str());
                 InsertHelpHoverText("For Link's rotation in relation to the world");
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
-                ImGui::InputScalar("X##Rot", ImGuiDataType_S16, &player->actor.world.rot.x);
-                ImGui::InputScalar("Y##Rot", ImGuiDataType_S16, &player->actor.world.rot.y);
-                ImGui::InputScalar("Z##Rot", ImGuiDataType_S16, &player->actor.world.rot.z);
+                ImGui::InputScalar(SohGui::Tr("X##Rot").c_str(), ImGuiDataType_S16, &player->actor.world.rot.x);
+                ImGui::InputScalar(SohGui::Tr("Y##Rot").c_str(), ImGuiDataType_S16, &player->actor.world.rot.y);
+                ImGui::InputScalar(SohGui::Tr("Z##Rot").c_str(), ImGuiDataType_S16, &player->actor.world.rot.z);
                 ImGui::PopItemWidth();
             },
             "Link's Rotation");
@@ -1708,26 +1708,26 @@ void DrawPlayerTab() {
                 ImGui::TextUnformatted(SohGui::Tr("Link's Model Rotation").c_str());
                 InsertHelpHoverText("For Link's actual model");
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
-                ImGui::InputScalar("X##ModRot", ImGuiDataType_S16, &player->actor.shape.rot.x);
-                ImGui::InputScalar("Y##ModRot", ImGuiDataType_S16, &player->actor.shape.rot.y);
-                ImGui::InputScalar("Z##ModRot", ImGuiDataType_S16, &player->actor.shape.rot.z);
+                ImGui::InputScalar(SohGui::Tr("X##ModRot").c_str(), ImGuiDataType_S16, &player->actor.shape.rot.x);
+                ImGui::InputScalar(SohGui::Tr("Y##ModRot").c_str(), ImGuiDataType_S16, &player->actor.shape.rot.y);
+                ImGui::InputScalar(SohGui::Tr("Z##ModRot").c_str(), ImGuiDataType_S16, &player->actor.shape.rot.z);
                 ImGui::PopItemWidth();
             },
             "Link's Model Rotation");
 
-        ImGui::InputScalar("Linear Velocity", ImGuiDataType_Float, &player->linearVelocity);
+        ImGui::InputScalar(SohGui::Tr("Linear Velocity").c_str(), ImGuiDataType_Float, &player->linearVelocity);
         InsertHelpHoverText("Link's speed along the XZ plane");
 
-        ImGui::InputScalar("Y Velocity", ImGuiDataType_Float, &player->actor.velocity.y);
+        ImGui::InputScalar(SohGui::Tr("Y Velocity").c_str(), ImGuiDataType_Float, &player->actor.velocity.y);
         InsertHelpHoverText("Link's speed along the Y plane. Caps at -20");
 
-        ImGui::InputScalar("Wall Height", ImGuiDataType_Float, &player->yDistToLedge);
+        ImGui::InputScalar(SohGui::Tr("Wall Height").c_str(), ImGuiDataType_Float, &player->yDistToLedge);
         InsertHelpHoverText("Height used to determine whether Link can climb or grab a ledge at the top");
 
-        ImGui::InputScalar("Invincibility Timer", ImGuiDataType_S8, &player->invincibilityTimer);
+        ImGui::InputScalar(SohGui::Tr("Invincibility Timer").c_str(), ImGuiDataType_S8, &player->invincibilityTimer);
         InsertHelpHoverText("Can't take damage while this is nonzero");
 
-        ImGui::InputScalar("Gravity", ImGuiDataType_Float, &player->actor.gravity);
+        ImGui::InputScalar(SohGui::Tr("Gravity").c_str(), ImGuiDataType_Float, &player->actor.gravity);
         InsertHelpHoverText("Rate at which Link falls. Default -4.0f");
         PopStyleInput();
 
@@ -1853,10 +1853,10 @@ void DrawPlayerTab() {
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
                 PushStyleInput(THEME_COLOR);
                 ImGui::TextUnformatted(SohGui::Tr("Current Items").c_str());
-                ImGui::InputScalar("B Button", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[0], &one, NULL);
-                ImGui::InputScalar("C Left", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[1], &one, NULL);
-                ImGui::InputScalar("C Down", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[2], &one, NULL);
-                ImGui::InputScalar("C Right", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[3], &one, NULL);
+                ImGui::InputScalar(SohGui::Tr("B Button").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[0], &one, NULL);
+                ImGui::InputScalar(SohGui::Tr("C Left").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[1], &one, NULL);
+                ImGui::InputScalar(SohGui::Tr("C Down").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[2], &one, NULL);
+                ImGui::InputScalar(SohGui::Tr("C Right").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[3], &one, NULL);
                 PopStyleInput();
                 ImGui::PopItemWidth();
             },
@@ -1870,10 +1870,10 @@ void DrawPlayerTab() {
                     PushStyleInput(THEME_COLOR);
                     ImGui::TextUnformatted(SohGui::Tr("Current D-pad Items").c_str());
                     // Two spaces at the end for aligning, not elegant but it's working
-                    ImGui::InputScalar("D-pad Up  ", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[4], &one, NULL);
-                    ImGui::InputScalar("D-pad Down", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[5], &one, NULL);
-                    ImGui::InputScalar("D-pad Left", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[6], &one, NULL);
-                    ImGui::InputScalar("D-pad Right", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[7], &one,
+                    ImGui::InputScalar(SohGui::Tr("D-pad Up  ").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[4], &one, NULL);
+                    ImGui::InputScalar(SohGui::Tr("D-pad Down").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[5], &one, NULL);
+                    ImGui::InputScalar(SohGui::Tr("D-pad Left").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[6], &one, NULL);
+                    ImGui::InputScalar(SohGui::Tr("D-pad Right").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[7], &one,
                                        NULL);
                     PopStyleInput();
                     ImGui::PopItemWidth();

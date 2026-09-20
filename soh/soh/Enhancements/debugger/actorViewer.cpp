@@ -249,7 +249,7 @@ void CreateActorSpecificData() {
         }
         ImGui::Checkbox(SohGui::Tr("Flower").c_str(), &isFlower);
         if (!isFlower) {
-            ImGui::InputScalar("Shots Per Round", ImGuiDataType_S16, &shotsPerRound);
+            ImGui::InputScalar(SohGui::Tr("Shots Per Round").c_str(), ImGuiDataType_S16, &shotsPerRound);
         }
 
         return isFlower ? DEKUNUTS_FLOWER : (shotsPerRound << 8);
@@ -371,7 +371,7 @@ void CreateActorSpecificData() {
         bool autoCollect = params & 0x8000;
         ImGui::Checkbox(SohGui::Tr("Automatically Collect").c_str(), &autoCollect);
         u8 collectibleFlag = (params & 0x3F00) >> 8;
-        ImGui::InputScalar("Collectible Flag", ImGuiDataType_U8, &collectibleFlag);
+        ImGui::InputScalar(SohGui::Tr("Collectible Flag").c_str(), ImGuiDataType_U8, &collectibleFlag);
         if (collectibleFlag > 0x3F) {
             collectibleFlag = 0x3F;
         }
@@ -404,7 +404,7 @@ void CreateActorSpecificData() {
 
         u8 collectibleFlag = (params & 0x3F00) >> 8;
         if (selectedItem == 6) {
-            ImGui::InputScalar("PoH Collectible Flag", ImGuiDataType_U8, &collectibleFlag);
+            ImGui::InputScalar(SohGui::Tr("PoH Collectible Flag").c_str(), ImGuiDataType_U8, &collectibleFlag);
             if (collectibleFlag > 0x3F) {
                 collectibleFlag = 0x3F;
             }
@@ -416,7 +416,7 @@ void CreateActorSpecificData() {
     actorSpecificData[ACTOR_EN_GM] = [](s16 params) -> s16 {
         u8 switchFlag = (params & 0x3F00) >> 8;
 
-        ImGui::InputScalar("Switch Flag", ImGuiDataType_U8, &switchFlag);
+        ImGui::InputScalar(SohGui::Tr("Switch Flag").c_str(), ImGuiDataType_U8, &switchFlag);
         if (switchFlag > 0x3F) {
             switchFlag = 0x3F;
         }
@@ -616,7 +616,7 @@ void CreateActorSpecificData() {
 
     actorSpecificData[ACTOR_EN_SKB] = [](s16 params) -> s16 {
         u8 size = params;
-        ImGui::InputScalar("Size", ImGuiDataType_U8, &size);
+        ImGui::InputScalar(SohGui::Tr("Size").c_str(), ImGuiDataType_U8, &size);
 
         return size;
     };
@@ -628,7 +628,7 @@ void CreateActorSpecificData() {
         ImGui::Combo(SohGui::Tr("Type").c_str(), &selectedItem, items, IM_ARRAYSIZE(items));
 
         u8 switchFlag = (params & 0x3F00) >> 8;
-        ImGui::InputScalar("Switch Flag", ImGuiDataType_U8, &switchFlag);
+        ImGui::InputScalar(SohGui::Tr("Switch Flag").c_str(), ImGuiDataType_U8, &switchFlag);
         return (switchFlag << 8) + selectedItem;
     };
 
@@ -639,13 +639,13 @@ void CreateActorSpecificData() {
         type        = (params >> 12) & 0xF; //0b1111 0000 0000 0000
         */
         u8 treasureFlag = params & 0x1F;
-        ImGui::InputScalar("Treasure Flag", ImGuiDataType_U8, &treasureFlag);
+        ImGui::InputScalar(SohGui::Tr("Treasure Flag").c_str(), ImGuiDataType_U8, &treasureFlag);
         if (treasureFlag > 0x1F) {
             treasureFlag = 0x1F;
         }
 
         u8 itemId = (params >> 5) & 0x7F;
-        ImGui::InputScalar("Item Id", ImGuiDataType_U8, &itemId);
+        ImGui::InputScalar(SohGui::Tr("Item Id").c_str(), ImGuiDataType_U8, &itemId);
         if (itemId > 0x7F) {
             itemId = 0x7F;
         }
@@ -693,7 +693,7 @@ void CreateActorSpecificData() {
          *
          */
         u8 transitionIndex = params >> 10;
-        ImGui::InputScalar("Transition Index", ImGuiDataType_U8, &transitionIndex);
+        ImGui::InputScalar(SohGui::Tr("Transition Index").c_str(), ImGuiDataType_U8, &transitionIndex);
         if (transitionIndex > 0x3F) {
             transitionIndex = 0x3F;
         }
@@ -720,12 +720,12 @@ void CreateActorSpecificData() {
 
         u8 lowerBits = params & 0x3F;
         if (type == 1) {
-            ImGui::InputScalar("Switch Flag", ImGuiDataType_U8, &lowerBits);
+            ImGui::InputScalar(SohGui::Tr("Switch Flag").c_str(), ImGuiDataType_U8, &lowerBits);
             if (lowerBits > 0x3F) {
                 lowerBits = 0x3F;
             }
         } else if (type == 5) {
-            ImGui::InputScalar("Text ID - 0x200", ImGuiDataType_U8, &lowerBits);
+            ImGui::InputScalar(SohGui::Tr("Text ID - 0x200").c_str(), ImGuiDataType_U8, &lowerBits);
             if (lowerBits > 0x3F) {
                 lowerBits = 0x3F;
             }
@@ -739,7 +739,7 @@ void CreateActorSpecificData() {
     actorSpecificData[ACTOR_EN_PO_DESERT] = [](s16 params) -> s16 {
         u8 switchFlag = params >> 8;
 
-        ImGui::InputScalar("Path", ImGuiDataType_U8, &switchFlag);
+        ImGui::InputScalar(SohGui::Tr("Path").c_str(), ImGuiDataType_U8, &switchFlag);
 
         return switchFlag << 8;
     };
@@ -756,7 +756,7 @@ void CreateActorSpecificData() {
 
         u8 textId = params;
         if (!piece && !fishingSign) {
-            if (ImGui::InputScalar("Text ID", ImGuiDataType_U8, &textId)) {
+            if (ImGui::InputScalar(SohGui::Tr("Text ID").c_str(), ImGuiDataType_U8, &textId)) {
                 textId |= 0x300;
             }
         }
@@ -775,7 +775,7 @@ void CreateActorSpecificData() {
 
         u8 drop = (params >> 8) & 0xF;
         if (type == 2) {
-            ImGui::InputScalar("Random Drop Params", ImGuiDataType_U8, &drop);
+            ImGui::InputScalar(SohGui::Tr("Random Drop Params").c_str(), ImGuiDataType_U8, &drop);
             if (drop > 0xD) {
                 drop = 0xD;
             }
@@ -981,9 +981,9 @@ void ActorViewerWindow::DrawElement() {
                         ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
                         PushStyleInput(THEME_COLOR);
                         ImGui::TextUnformatted(SohGui::Tr("Actor Position").c_str());
-                        ImGui::InputScalar("X##CurPos", ImGuiDataType_Float, &display->world.pos.x);
-                        ImGui::InputScalar("Y##CurPos", ImGuiDataType_Float, &display->world.pos.y);
-                        ImGui::InputScalar("Z##CurPos", ImGuiDataType_Float, &display->world.pos.z);
+                        ImGui::InputScalar(SohGui::Tr("X##CurPos").c_str(), ImGuiDataType_Float, &display->world.pos.x);
+                        ImGui::InputScalar(SohGui::Tr("Y##CurPos").c_str(), ImGuiDataType_Float, &display->world.pos.y);
+                        ImGui::InputScalar(SohGui::Tr("Z##CurPos").c_str(), ImGuiDataType_Float, &display->world.pos.z);
                         ImGui::PopItemWidth();
                         PopStyleInput();
                     },
@@ -994,9 +994,9 @@ void ActorViewerWindow::DrawElement() {
                         PushStyleInput(THEME_COLOR);
                         ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
                         ImGui::TextUnformatted(SohGui::Tr("Actor Rotation").c_str());
-                        ImGui::InputScalar("X##CurRot", ImGuiDataType_S16, &display->world.rot.x);
-                        ImGui::InputScalar("Y##CurRot", ImGuiDataType_S16, &display->world.rot.y);
-                        ImGui::InputScalar("Z##CurRot", ImGuiDataType_S16, &display->world.rot.z);
+                        ImGui::InputScalar(SohGui::Tr("X##CurRot").c_str(), ImGuiDataType_S16, &display->world.rot.x);
+                        ImGui::InputScalar(SohGui::Tr("Y##CurRot").c_str(), ImGuiDataType_S16, &display->world.rot.y);
+                        ImGui::InputScalar(SohGui::Tr("Z##CurRot").c_str(), ImGuiDataType_S16, &display->world.rot.z);
                         ImGui::PopItemWidth();
                         PopStyleInput();
                     },
@@ -1004,7 +1004,7 @@ void ActorViewerWindow::DrawElement() {
 
                 if (display->category == ACTORCAT_BOSS || display->category == ACTORCAT_ENEMY) {
                     PushStyleInput(THEME_COLOR);
-                    ImGui::InputScalar("Enemy Health", ImGuiDataType_U8, &display->colChkInfo.health);
+                    ImGui::InputScalar(SohGui::Tr("Enemy Health").c_str(), ImGuiDataType_U8, &display->colChkInfo.health);
                     PopStyleInput();
                     UIWidgets::InsertHelpHoverText("Some actors might not use this!");
                 }
@@ -1095,7 +1095,7 @@ void ActorViewerWindow::DrawElement() {
             }
 
             ImGui::Text("%s", GetActorDescription(newActor.id).c_str());
-            if (ImGui::InputScalar("ID", ImGuiDataType_S16, &newActor.id, &one)) {
+            if (ImGui::InputScalar(SohGui::Tr("ID").c_str(), ImGuiDataType_S16, &newActor.id, &one)) {
                 newActor.params = 0;
             }
 
@@ -1104,13 +1104,13 @@ void ActorViewerWindow::DrawElement() {
 
             if (CVarGetInteger(CVAR_DEVELOPER_TOOLS("ActorViewer.AdvancedParams"), 0)) {
                 PushStyleInput(THEME_COLOR);
-                ImGui::InputScalar("params", ImGuiDataType_S16, &newActor.params, &one);
+                ImGui::InputScalar(SohGui::Tr("params").c_str(), ImGuiDataType_S16, &newActor.params, &one);
                 PopStyleInput();
             } else if (std::find(noParamsActors.begin(), noParamsActors.end(), newActor.id) == noParamsActors.end()) {
                 CreateActorSpecificData();
                 if (actorSpecificData.find(newActor.id) == actorSpecificData.end()) {
                     PushStyleInput(THEME_COLOR);
-                    ImGui::InputScalar("params", ImGuiDataType_S16, &newActor.params, &one);
+                    ImGui::InputScalar(SohGui::Tr("params").c_str(), ImGuiDataType_S16, &newActor.params, &one);
                     PopStyleInput();
                 } else {
                     DrawGroupWithBorder(
@@ -1129,9 +1129,9 @@ void ActorViewerWindow::DrawElement() {
                     PushStyleInput(THEME_COLOR);
                     ImGui::TextUnformatted(SohGui::Tr("New Actor Position").c_str());
                     ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
-                    ImGui::InputScalar("X##NewPos", ImGuiDataType_Float, &newActor.pos.x);
-                    ImGui::InputScalar("Y##NewPos", ImGuiDataType_Float, &newActor.pos.y);
-                    ImGui::InputScalar("Z##NewPos", ImGuiDataType_Float, &newActor.pos.z);
+                    ImGui::InputScalar(SohGui::Tr("X##NewPos").c_str(), ImGuiDataType_Float, &newActor.pos.x);
+                    ImGui::InputScalar(SohGui::Tr("Y##NewPos").c_str(), ImGuiDataType_Float, &newActor.pos.y);
+                    ImGui::InputScalar(SohGui::Tr("Z##NewPos").c_str(), ImGuiDataType_Float, &newActor.pos.z);
                     ImGui::PopItemWidth();
                     PopStyleInput();
                 },
@@ -1142,9 +1142,9 @@ void ActorViewerWindow::DrawElement() {
                     PushStyleInput(THEME_COLOR);
                     ImGui::TextUnformatted(SohGui::Tr("New Actor Rotation").c_str());
                     ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
-                    ImGui::InputScalar("X##NewRot", ImGuiDataType_S16, &newActor.rot.x);
-                    ImGui::InputScalar("Y##NewRot", ImGuiDataType_S16, &newActor.rot.y);
-                    ImGui::InputScalar("Z##NewRot", ImGuiDataType_S16, &newActor.rot.z);
+                    ImGui::InputScalar(SohGui::Tr("X##NewRot").c_str(), ImGuiDataType_S16, &newActor.rot.x);
+                    ImGui::InputScalar(SohGui::Tr("Y##NewRot").c_str(), ImGuiDataType_S16, &newActor.rot.y);
+                    ImGui::InputScalar(SohGui::Tr("Z##NewRot").c_str(), ImGuiDataType_S16, &newActor.rot.z);
                     ImGui::PopItemWidth();
                     PopStyleInput();
                 },

@@ -338,7 +338,7 @@ void SohInputEditorWindow::DrawButtonLineEditMappingButton(uint8_t port, N64Butt
             ImGui::OpenPopup(popupId.c_str());
         }
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal | ImGuiHoveredFlags_NoSharedDelay)) {
-            ImGui::SetTooltip("Edit axis threshold");
+            ImGui::SetTooltip(SohGui::Tr("Edit axis threshold").c_str();
         }
         ImGui::PopStyleColor();
         ImGui::PopStyleColor();

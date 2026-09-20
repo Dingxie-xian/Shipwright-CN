@@ -41,7 +41,7 @@ void AnchorMainMenu(WidgetInfo& info) {
     ImGui::SameLine();
     UIWidgets::PushStyleInput(THEME_COLOR);
     ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-    if (ImGui::InputScalar("##Port", ImGuiDataType_U16, &port)) {
+    if (ImGui::InputScalar(SohGui::Tr("##Port").c_str(), ImGuiDataType_U16, &port)) {
         CVarSetInteger(CVAR_REMOTE_ANCHOR("Port"), port);
         Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
