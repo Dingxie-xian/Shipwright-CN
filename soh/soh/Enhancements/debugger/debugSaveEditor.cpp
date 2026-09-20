@@ -277,7 +277,7 @@ void DrawInfoTab() {
     // until it is done being edited
     int16_t healthIntermediary = gSaveContext.healthCapacity;
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Max Health").c_str(), ImGuiDataType_S16, &healthIntermediary);
+    ImGui::InputScalar(SohGui::TrLabel("Max Health").c_str(), ImGuiDataType_S16, &healthIntermediary);
     PopStyleInput();
     if (ImGui::IsItemDeactivated()) {
         gSaveContext.healthCapacity = healthIntermediary;
@@ -320,7 +320,7 @@ void DrawInfoTab() {
     }
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Rupees").c_str(), ImGuiDataType_S16, &gSaveContext.rupees);
+    ImGui::InputScalar(SohGui::TrLabel("Rupees").c_str(), ImGuiDataType_S16, &gSaveContext.rupees);
     Tooltip("Current rupees");
     PopStyleInput();
 
@@ -342,12 +342,12 @@ void DrawInfoTab() {
     }
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Total Days").c_str(), ImGuiDataType_S32, &gSaveContext.totalDays);
+    ImGui::InputScalar(SohGui::TrLabel("Total Days").c_str(), ImGuiDataType_S32, &gSaveContext.totalDays);
     Tooltip("Total number of days elapsed since the start of the game");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Deaths").c_str(), ImGuiDataType_U16, &gSaveContext.deaths);
+    ImGui::InputScalar(SohGui::TrLabel("Deaths").c_str(), ImGuiDataType_U16, &gSaveContext.deaths);
     Tooltip("Total number of deaths");
     PopStyleInput();
 
@@ -355,47 +355,47 @@ void DrawInfoTab() {
              checkboxOptionsBase.Tooltip("Is Biggoron sword unlocked? Replaces Giant's knife"));
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Sword Health").c_str(), ImGuiDataType_U16, &gSaveContext.swordHealth);
+    ImGui::InputScalar(SohGui::TrLabel("Sword Health").c_str(), ImGuiDataType_U16, &gSaveContext.swordHealth);
     Tooltip("Giant's knife health. Default is 8. Must be >0 for Biggoron sword to work");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Bgs Day Count").c_str(), ImGuiDataType_S32, &gSaveContext.bgsDayCount);
+    ImGui::InputScalar(SohGui::TrLabel("Bgs Day Count").c_str(), ImGuiDataType_S32, &gSaveContext.bgsDayCount);
     Tooltip("Total number of days elapsed since receiving claim check from Biggoron");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Entrance Index").c_str(), ImGuiDataType_S32, &gSaveContext.entranceIndex);
+    ImGui::InputScalar(SohGui::TrLabel("Entrance Index").c_str(), ImGuiDataType_S32, &gSaveContext.entranceIndex);
     Tooltip("From which entrance did Link arrive?");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Cutscene Index").c_str(), ImGuiDataType_S32, &gSaveContext.cutsceneIndex);
+    ImGui::InputScalar(SohGui::TrLabel("Cutscene Index").c_str(), ImGuiDataType_S32, &gSaveContext.cutsceneIndex);
     Tooltip("Which cutscene is this?");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Navi Timer").c_str(), ImGuiDataType_U16, &gSaveContext.naviTimer);
+    ImGui::InputScalar(SohGui::TrLabel("Navi Timer").c_str(), ImGuiDataType_U16, &gSaveContext.naviTimer);
     Tooltip("Navi wants to talk at 600 units, decides not to at 3000.");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Timer State").c_str(), ImGuiDataType_S16, &gSaveContext.timerState);
+    ImGui::InputScalar(SohGui::TrLabel("Timer State").c_str(), ImGuiDataType_S16, &gSaveContext.timerState);
     Tooltip("Heat timer, race timer, etc. Has white font");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Timer Seconds").c_str(), ImGuiDataType_S16, &gSaveContext.timerSeconds, &one, NULL);
+    ImGui::InputScalar(SohGui::TrLabel("Timer Seconds").c_str(), ImGuiDataType_S16, &gSaveContext.timerSeconds, &one, NULL);
     Tooltip("Time, in seconds");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Sub-Timer State").c_str(), ImGuiDataType_S16, &gSaveContext.subTimerState);
+    ImGui::InputScalar(SohGui::TrLabel("Sub-Timer State").c_str(), ImGuiDataType_S16, &gSaveContext.subTimerState);
     Tooltip("Trade timer, Ganon collapse timer, etc. Has yellow font");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("Sub-Timer Seconds").c_str(), ImGuiDataType_S16, &gSaveContext.subTimerSeconds, &one, NULL);
+    ImGui::InputScalar(SohGui::TrLabel("Sub-Timer Seconds").c_str(), ImGuiDataType_S16, &gSaveContext.subTimerSeconds, &one, NULL);
     Tooltip("Time, in seconds");
     PopStyleInput();
 
@@ -410,7 +410,7 @@ void DrawInfoTab() {
     if (IS_RANDO &&
         (OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_TRIFORCE_HUNT) != RO_TRIFORCE_HUNT_OFF)) {
         PushStyleInput(THEME_COLOR);
-        ImGui::InputScalar(SohGui::Tr("Triforce Pieces").c_str(), ImGuiDataType_U8,
+        ImGui::InputScalar(SohGui::TrLabel("Triforce Pieces").c_str(), ImGuiDataType_U8,
                            &gSaveContext.ship.quest.data.randomizer.triforcePiecesCollected);
         Tooltip("Currently obtained Triforce Pieces. For Triforce Hunt.");
         PopStyleInput();
@@ -422,12 +422,12 @@ void DrawInfoTab() {
                                                      "Running Man Race",  "?",
                                                      "Dampe's Race" };
 
-    if (ImGui::TreeNode(SohGui::Tr("Minigames").c_str())) {
+    if (ImGui::TreeNode(SohGui::TrLabel("Minigames").c_str())) {
         for (int i = 0; i < 7; i++) {
-            if (i == 2 && ImGui::TreeNode(SohGui::Tr("Fishing").c_str())) { // fishing has a few more flags to it
+            if (i == 2 && ImGui::TreeNode(SohGui::TrLabel("Fishing").c_str())) { // fishing has a few more flags to it
                 u8 fishSize = gSaveContext.highScores[i] & 0x7F;
                 PushStyleInput(THEME_COLOR);
-                if (ImGui::InputScalar(SohGui::Tr("Child Size Record").c_str(), ImGuiDataType_U8, &fishSize)) {
+                if (ImGui::InputScalar(SohGui::TrLabel("Child Size Record").c_str(), ImGuiDataType_U8, &fishSize)) {
                     gSaveContext.highScores[i] &= ~0x7F;
                     gSaveContext.highScores[i] |= fishSize & 0x7F;
                 }
@@ -443,7 +443,7 @@ void DrawInfoTab() {
                 }
                 fishSize = (gSaveContext.highScores[i] & 0x7F000000) >> 0x18;
                 PushStyleInput(THEME_COLOR);
-                if (ImGui::InputScalar(SohGui::Tr("Adult Size Record").c_str(), ImGuiDataType_U8, &fishSize)) {
+                if (ImGui::InputScalar(SohGui::TrLabel("Adult Size Record").c_str(), ImGuiDataType_U8, &fishSize)) {
                     gSaveContext.highScores[i] &= ~0x7F000000;
                     gSaveContext.highScores[i] |= (fishSize & 0x7F) << 0x18;
                 }
@@ -491,7 +491,7 @@ void DrawInfoTab() {
                 }
                 fishSize = (gSaveContext.highScores[i] & 0xFF0000) >> 16;
                 PushStyleInput(THEME_COLOR);
-                if (ImGui::InputScalar(SohGui::Tr("Times Played").c_str(), ImGuiDataType_U8, &fishSize)) {
+                if (ImGui::InputScalar(SohGui::TrLabel("Times Played").c_str(), ImGuiDataType_U8, &fishSize)) {
                     gSaveContext.highScores[i] &= ~0xFF0000;
                     gSaveContext.highScores[i] |= (fishSize) << 16;
                 }
@@ -644,7 +644,7 @@ void DrawInventoryTab() {
             ImGui::Image(Ship::Context::GetInstance()->GetWindow()->GetGui()->GetTextureByName(itemMapping[item].name),
                          ImVec2(IMAGE_SIZE, IMAGE_SIZE));
             PushStyleInput(THEME_COLOR);
-            ImGui::InputScalar(SohGui::Tr("##ammoInput").c_str(), ImGuiDataType_S8, &AMMO(item));
+            ImGui::InputScalar(SohGui::TrLabel("##ammoInput").c_str(), ImGuiDataType_S8, &AMMO(item));
             PopStyleInput();
 
             ImGui::EndGroup();
@@ -656,7 +656,7 @@ void DrawInventoryTab() {
     // Trade quest flags are only used when shuffling the trade sequence, so
     // don't show this if it isn't needed.
     if (IS_RANDO && OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_SHUFFLE_ADULT_TRADE) &&
-        ImGui::TreeNode(SohGui::Tr("Adult trade quest items").c_str())) {
+        ImGui::TreeNode(SohGui::TrLabel("Adult trade quest items").c_str())) {
         for (int i = ITEM_POCKET_EGG; i <= ITEM_CLAIM_CHECK; i++) {
             DrawBGSItemFlag(i);
         }
@@ -773,7 +773,7 @@ static void DrawFlagTableSearchResults(const FlagTable& flagTable, ImGuiTextFilt
 }
 
 void DrawFlagsTab() {
-    if (ImGui::TreeNode(SohGui::Tr("Player State").c_str())) {
+    if (ImGui::TreeNode(SohGui::TrLabel("Player State").c_str())) {
         if (gPlayState != nullptr) {
             Player* player = GET_PLAYER(gPlayState);
 
@@ -811,7 +811,7 @@ void DrawFlagsTab() {
         }
         ImGui::TreePop();
     }
-    if (ImGui::TreeNode(SohGui::Tr("Current Scene").c_str())) {
+    if (ImGui::TreeNode(SohGui::TrLabel("Current Scene").c_str())) {
         if (gPlayState != nullptr) {
             ActorContext* act = &gPlayState->actorCtx;
             DrawGroupWithBorder(
@@ -961,13 +961,13 @@ void DrawFlagsTab() {
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode(SohGui::Tr("Saved Scene Flags").c_str())) {
+    if (ImGui::TreeNode(SohGui::TrLabel("Saved Scene Flags").c_str())) {
         static uint32_t selectedSceneFlagMap = 0;
         ImGui::AlignTextToFramePadding();
         ImGui::TextUnformatted(SohGui::Tr("Map").c_str());
         ImGui::SameLine();
         PushStyleCombobox(THEME_COLOR);
-        if (ImGui::BeginCombo("##Map", SohUtils::GetSceneName(selectedSceneFlagMap).c_str())) {
+        if (ImGui::BeginCombo("##Map", SohGui::Tr(SohUtils::GetSceneName(selectedSceneFlagMap)).c_str())) {
             for (int32_t sceneIndex = 0; sceneIndex < SCENE_ID_MAX; sceneIndex++) {
                 if (ImGui::Selectable(SohUtils::GetSceneName(sceneIndex).c_str())) {
                     selectedSceneFlagMap = sceneIndex;
@@ -1048,7 +1048,7 @@ void DrawFlagsTab() {
             PushStyleCombobox(THEME_COLOR);
             static size_t selectedGsMap = 0;
             ImGui::TextUnformatted(SohGui::Tr("Gold Skulltulas").c_str());
-            if (ImGui::BeginCombo("##GSMap", gsMapping[selectedGsMap])) {
+            if (ImGui::BeginCombo("##GSMap", SohGui::Tr(gsMapping[selectedGsMap]).c_str())) {
                 for (size_t index = 0; index < gsMapping.size(); index++) {
                     if (ImGui::Selectable(gsMapping[index])) {
                         selectedGsMap = index;
@@ -1168,25 +1168,25 @@ void DrawFlagsTab() {
             uint8_t fsMode = OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_FISHSANITY);
             if (flagTable.flagTableType == RANDOMIZER_INF && fsMode != RO_FISHSANITY_OFF &&
                 fsMode != RO_FISHSANITY_OVERWORLD) {
-                if (ImGui::Button(SohGui::Tr("Catch All (Child)").c_str())) {
+                if (ImGui::Button(SohGui::TrLabel("Catch All (Child)").c_str())) {
                     for (int k = RAND_INF_CHILD_FISH_1; k <= RAND_INF_CHILD_LOACH_2; k++) {
                         Flags_SetRandomizerInf((RandomizerInf)k);
                     }
                 }
                 ImGui::SameLine();
-                if (ImGui::Button(SohGui::Tr("Uncatch All (Child)").c_str())) {
+                if (ImGui::Button(SohGui::TrLabel("Uncatch All (Child)").c_str())) {
                     for (int k = RAND_INF_CHILD_FISH_1; k <= RAND_INF_CHILD_LOACH_2; k++) {
                         Flags_UnsetRandomizerInf((RandomizerInf)k);
                     }
                 }
 
-                if (ImGui::Button(SohGui::Tr("Catch All (Adult)").c_str())) {
+                if (ImGui::Button(SohGui::TrLabel("Catch All (Adult)").c_str())) {
                     for (int k = RAND_INF_ADULT_FISH_1; k <= RAND_INF_ADULT_LOACH; k++) {
                         Flags_SetRandomizerInf((RandomizerInf)k);
                     }
                 }
                 ImGui::SameLine();
-                if (ImGui::Button(SohGui::Tr("Uncatch All (Adult)").c_str())) {
+                if (ImGui::Button(SohGui::TrLabel("Uncatch All (Adult)").c_str())) {
                     for (int k = RAND_INF_ADULT_FISH_1; k <= RAND_INF_ADULT_LOACH; k++) {
                         Flags_UnsetRandomizerInf((RandomizerInf)k);
                     }
@@ -1201,14 +1201,14 @@ void DrawFlagsTab() {
 
 // Draws a combo that lets you choose and upgrade value from a drop-down of text values
 void DrawUpgrade(const std::string& categoryName, int32_t categoryId, const std::vector<std::string>& names) {
-    ImGui::Text("%s", categoryName.c_str());
+    ImGui::Text("%s", SohGui::Tr(categoryName).c_str());
     ImGui::SameLine();
     ImGui::PushID(categoryName.c_str());
     PushStyleCombobox(THEME_COLOR);
     ImGui::AlignTextToFramePadding();
     auto value = (size_t)CUR_UPG_VALUE(categoryId);
     auto name = value < names.size() ? names[value].c_str() : "Glitched";
-    if (ImGui::BeginCombo("##upgrade", name)) {
+    if (ImGui::BeginCombo("##upgrade", SohGui::Tr(name).c_str())) {
         for (size_t i = 0; i < names.size(); i++) {
             if (ImGui::Selectable(names[i].c_str())) {
                 Inventory_ChangeUpgrade(categoryId, i);
@@ -1403,14 +1403,14 @@ void DrawEquipmentTab() {
             "30",
             "50",
         };
-        ImGui::Text("%s", "Bombchu Bag Capacity");
+        ImGui::Text("%s", SohGui::Tr("Bombchu Bag Capacity").c_str());
         ImGui::SameLine();
         ImGui::PushID("Bombchu Bag Capacity");
         PushStyleCombobox(THEME_COLOR);
         ImGui::AlignTextToFramePadding();
         auto value = gSaveContext.ship.quest.data.randomizer.bombchuUpgradeLevel;
         auto name = value < bombchuNames.size() ? bombchuNames[value].c_str() : "Glitched";
-        if (ImGui::BeginCombo("##upgrade", name)) {
+        if (ImGui::BeginCombo("##upgrade", SohGui::Tr(name).c_str())) {
             for (size_t i = 0; i < bombchuNames.size(); i++) {
                 if (ImGui::Selectable(bombchuNames[i].c_str())) {
                     gSaveContext.ship.quest.data.randomizer.bombchuUpgradeLevel = i;
@@ -1520,7 +1520,7 @@ void DrawQuestStatusTab() {
     }
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar(SohGui::Tr("GS Count").c_str(), ImGuiDataType_S16, &gSaveContext.inventory.gsTokens);
+    ImGui::InputScalar(SohGui::TrLabel("GS Count").c_str(), ImGuiDataType_S16, &gSaveContext.inventory.gsTokens);
     PopStyleInput();
     InsertHelpHoverText("Number of gold skulltula tokens aquired");
 
@@ -1537,7 +1537,7 @@ void DrawQuestStatusTab() {
 
     int32_t pohCount = (gSaveContext.inventory.questItems & 0xF0000000) >> 28;
     PushStyleCombobox(THEME_COLOR);
-    if (ImGui::BeginCombo("PoH count", std::to_string(pohCount).c_str())) {
+    if (ImGui::BeginCombo(SohGui::TrLabel("PoH count").c_str(), std::to_string(pohCount).c_str())) {
         for (int32_t i = 0; i < 4; i++) {
             if (ImGui::Selectable(std::to_string(i).c_str(), pohCount == i)) {
                 gSaveContext.inventory.questItems &= ~0xF0000000;
@@ -1564,7 +1564,7 @@ void DrawQuestStatusTab() {
             }
 
             PushStyleCombobox(THEME_COLOR);
-            if (ImGui::BeginCombo("##DungeonSelect", SohUtils::GetSceneName(dungeonItemsScene).c_str())) {
+            if (ImGui::BeginCombo("##DungeonSelect", SohGui::Tr(SohUtils::GetSceneName(dungeonItemsScene)).c_str())) {
                 for (int32_t dungeonIndex = SCENE_DEKU_TREE; dungeonIndex < SCENE_JABU_JABU_BOSS + 1; dungeonIndex++) {
                     if (ImGui::Selectable(SohUtils::GetSceneName(dungeonIndex).c_str(),
                                           dungeonIndex == dungeonItemsScene)) {
@@ -1589,7 +1589,7 @@ void DrawQuestStatusTab() {
                              ImVec2(lineHeight, lineHeight));
                 ImGui::SameLine();
                 PushStyleInput(THEME_COLOR);
-                if (ImGui::InputScalar(SohGui::Tr("##Keys").c_str(), ImGuiDataType_S8,
+                if (ImGui::InputScalar(SohGui::TrLabel("##Keys").c_str(), ImGuiDataType_S8,
                                        gSaveContext.inventory.dungeonKeys + dungeonItemsScene)) {
                     gSaveContext.ship.stats.dungeonKeys[dungeonItemsScene] =
                         gSaveContext.inventory.dungeonKeys[dungeonItemsScene];
@@ -1684,9 +1684,9 @@ void DrawPlayerTab() {
             [&]() {
                 ImGui::TextUnformatted(SohGui::Tr("Link's Position").c_str());
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
-                ImGui::InputScalar(SohGui::Tr("X##Pos").c_str(), ImGuiDataType_Float, &player->actor.world.pos.x);
-                ImGui::InputScalar(SohGui::Tr("Y##Pos").c_str(), ImGuiDataType_Float, &player->actor.world.pos.y);
-                ImGui::InputScalar(SohGui::Tr("Z##Pos").c_str(), ImGuiDataType_Float, &player->actor.world.pos.z);
+                ImGui::InputScalar(SohGui::TrLabel("X##Pos").c_str(), ImGuiDataType_Float, &player->actor.world.pos.x);
+                ImGui::InputScalar(SohGui::TrLabel("Y##Pos").c_str(), ImGuiDataType_Float, &player->actor.world.pos.y);
+                ImGui::InputScalar(SohGui::TrLabel("Z##Pos").c_str(), ImGuiDataType_Float, &player->actor.world.pos.z);
                 ImGui::PopItemWidth();
             },
             "Link's Position");
@@ -1696,9 +1696,9 @@ void DrawPlayerTab() {
                 ImGui::TextUnformatted(SohGui::Tr("Link's Rotation").c_str());
                 InsertHelpHoverText("For Link's rotation in relation to the world");
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
-                ImGui::InputScalar(SohGui::Tr("X##Rot").c_str(), ImGuiDataType_S16, &player->actor.world.rot.x);
-                ImGui::InputScalar(SohGui::Tr("Y##Rot").c_str(), ImGuiDataType_S16, &player->actor.world.rot.y);
-                ImGui::InputScalar(SohGui::Tr("Z##Rot").c_str(), ImGuiDataType_S16, &player->actor.world.rot.z);
+                ImGui::InputScalar(SohGui::TrLabel("X##Rot").c_str(), ImGuiDataType_S16, &player->actor.world.rot.x);
+                ImGui::InputScalar(SohGui::TrLabel("Y##Rot").c_str(), ImGuiDataType_S16, &player->actor.world.rot.y);
+                ImGui::InputScalar(SohGui::TrLabel("Z##Rot").c_str(), ImGuiDataType_S16, &player->actor.world.rot.z);
                 ImGui::PopItemWidth();
             },
             "Link's Rotation");
@@ -1708,35 +1708,35 @@ void DrawPlayerTab() {
                 ImGui::TextUnformatted(SohGui::Tr("Link's Model Rotation").c_str());
                 InsertHelpHoverText("For Link's actual model");
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
-                ImGui::InputScalar(SohGui::Tr("X##ModRot").c_str(), ImGuiDataType_S16, &player->actor.shape.rot.x);
-                ImGui::InputScalar(SohGui::Tr("Y##ModRot").c_str(), ImGuiDataType_S16, &player->actor.shape.rot.y);
-                ImGui::InputScalar(SohGui::Tr("Z##ModRot").c_str(), ImGuiDataType_S16, &player->actor.shape.rot.z);
+                ImGui::InputScalar(SohGui::TrLabel("X##ModRot").c_str(), ImGuiDataType_S16, &player->actor.shape.rot.x);
+                ImGui::InputScalar(SohGui::TrLabel("Y##ModRot").c_str(), ImGuiDataType_S16, &player->actor.shape.rot.y);
+                ImGui::InputScalar(SohGui::TrLabel("Z##ModRot").c_str(), ImGuiDataType_S16, &player->actor.shape.rot.z);
                 ImGui::PopItemWidth();
             },
             "Link's Model Rotation");
 
-        ImGui::InputScalar(SohGui::Tr("Linear Velocity").c_str(), ImGuiDataType_Float, &player->linearVelocity);
+        ImGui::InputScalar(SohGui::TrLabel("Linear Velocity").c_str(), ImGuiDataType_Float, &player->linearVelocity);
         InsertHelpHoverText("Link's speed along the XZ plane");
 
-        ImGui::InputScalar(SohGui::Tr("Y Velocity").c_str(), ImGuiDataType_Float, &player->actor.velocity.y);
+        ImGui::InputScalar(SohGui::TrLabel("Y Velocity").c_str(), ImGuiDataType_Float, &player->actor.velocity.y);
         InsertHelpHoverText("Link's speed along the Y plane. Caps at -20");
 
-        ImGui::InputScalar(SohGui::Tr("Wall Height").c_str(), ImGuiDataType_Float, &player->yDistToLedge);
+        ImGui::InputScalar(SohGui::TrLabel("Wall Height").c_str(), ImGuiDataType_Float, &player->yDistToLedge);
         InsertHelpHoverText("Height used to determine whether Link can climb or grab a ledge at the top");
 
-        ImGui::InputScalar(SohGui::Tr("Invincibility Timer").c_str(), ImGuiDataType_S8, &player->invincibilityTimer);
+        ImGui::InputScalar(SohGui::TrLabel("Invincibility Timer").c_str(), ImGuiDataType_S8, &player->invincibilityTimer);
         InsertHelpHoverText("Can't take damage while this is nonzero");
 
-        ImGui::InputScalar(SohGui::Tr("Gravity").c_str(), ImGuiDataType_Float, &player->actor.gravity);
+        ImGui::InputScalar(SohGui::TrLabel("Gravity").c_str(), ImGuiDataType_Float, &player->actor.gravity);
         InsertHelpHoverText("Rate at which Link falls. Default -4.0f");
         PopStyleInput();
 
         PushStyleCombobox(THEME_COLOR);
-        if (ImGui::BeginCombo("Link Age on Load", gPlayState->linkAgeOnLoad == 0 ? "Adult" : "Child")) {
-            if (ImGui::Selectable(SohGui::Tr("Adult").c_str())) {
+        if (ImGui::BeginCombo(SohGui::TrLabel("Link Age on Load").c_str(), gPlayState->linkAgeOnLoad == 0 ? "Adult" : "Child")) {
+            if (ImGui::Selectable(SohGui::TrLabel("Adult").c_str())) {
                 gPlayState->linkAgeOnLoad = 0;
             }
-            if (ImGui::Selectable(SohGui::Tr("Child").c_str())) {
+            if (ImGui::Selectable(SohGui::TrLabel("Child").c_str())) {
                 gPlayState->linkAgeOnLoad = 1;
             }
             ImGui::EndCombo();
@@ -1750,23 +1750,23 @@ void DrawPlayerTab() {
                 PushStyleCombobox(THEME_COLOR);
                 ImGui::TextUnformatted(SohGui::Tr("Link's Current Equipment").c_str());
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
-                if (ImGui::BeginCombo("Sword", curSword)) {
-                    if (ImGui::Selectable(SohGui::Tr("None").c_str())) {
+                if (ImGui::BeginCombo(SohGui::TrLabel("Sword").c_str(), curSword)) {
+                    if (ImGui::Selectable(SohGui::TrLabel("None").c_str())) {
                         player->currentSwordItemId = ITEM_NONE;
                         gSaveContext.equips.buttonItems[0] = ITEM_NONE;
                         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_NONE);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Kokiri Sword").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Kokiri Sword").c_str())) {
                         player->currentSwordItemId = ITEM_SWORD_KOKIRI;
                         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;
                         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_KOKIRI);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Master Sword").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Master Sword").c_str())) {
                         player->currentSwordItemId = ITEM_SWORD_MASTER;
                         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
                         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Biggoron's Sword").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Biggoron's Sword").c_str())) {
                         if (gSaveContext.bgsFlag) {
                             if (gSaveContext.swordHealth < 8) {
                                 gSaveContext.swordHealth = 8;
@@ -1783,59 +1783,59 @@ void DrawPlayerTab() {
 
                         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_BIGGORON);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Fishing Pole").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Fishing Pole").c_str())) {
                         player->currentSwordItemId = ITEM_FISHING_POLE;
                         gSaveContext.equips.buttonItems[0] = ITEM_FISHING_POLE;
                         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
                     }
                     ImGui::EndCombo();
                 }
-                if (ImGui::BeginCombo("Shield", curShield)) {
-                    if (ImGui::Selectable(SohGui::Tr("None").c_str())) {
+                if (ImGui::BeginCombo(SohGui::TrLabel("Shield").c_str(), curShield)) {
+                    if (ImGui::Selectable(SohGui::TrLabel("None").c_str())) {
                         player->currentShield = PLAYER_SHIELD_NONE;
                         Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_NONE);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Deku Shield").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Deku Shield").c_str())) {
                         player->currentShield = PLAYER_SHIELD_DEKU;
                         Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_DEKU);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Hylian Shield").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Hylian Shield").c_str())) {
                         player->currentShield = PLAYER_SHIELD_HYLIAN;
                         Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_HYLIAN);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Mirror Shield").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Mirror Shield").c_str())) {
                         player->currentShield = PLAYER_SHIELD_MIRROR;
                         Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_MIRROR);
                     }
                     ImGui::EndCombo();
                 }
 
-                if (ImGui::BeginCombo("Tunic", curTunic)) {
-                    if (ImGui::Selectable(SohGui::Tr("Kokiri Tunic").c_str())) {
+                if (ImGui::BeginCombo(SohGui::TrLabel("Tunic").c_str(), curTunic)) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Kokiri Tunic").c_str())) {
                         player->currentTunic = PLAYER_TUNIC_KOKIRI;
                         Inventory_ChangeEquipment(EQUIP_TYPE_TUNIC, EQUIP_VALUE_TUNIC_KOKIRI);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Goron Tunic").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Goron Tunic").c_str())) {
                         player->currentTunic = PLAYER_TUNIC_GORON;
                         Inventory_ChangeEquipment(EQUIP_TYPE_TUNIC, EQUIP_VALUE_TUNIC_GORON);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Zora Tunic").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Zora Tunic").c_str())) {
                         player->currentTunic = PLAYER_TUNIC_ZORA;
                         Inventory_ChangeEquipment(EQUIP_TYPE_TUNIC, EQUIP_VALUE_TUNIC_ZORA);
                     }
                     ImGui::EndCombo();
                 }
 
-                if (ImGui::BeginCombo("Boots", curBoots)) {
-                    if (ImGui::Selectable(SohGui::Tr("Kokiri Boots").c_str())) {
+                if (ImGui::BeginCombo(SohGui::TrLabel("Boots").c_str(), curBoots)) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Kokiri Boots").c_str())) {
                         player->currentBoots = PLAYER_BOOTS_KOKIRI;
                         Inventory_ChangeEquipment(EQUIP_TYPE_BOOTS, EQUIP_VALUE_BOOTS_KOKIRI);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Iron Boots").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Iron Boots").c_str())) {
                         player->currentBoots = PLAYER_BOOTS_IRON;
                         Inventory_ChangeEquipment(EQUIP_TYPE_BOOTS, EQUIP_VALUE_BOOTS_IRON);
                     }
-                    if (ImGui::Selectable(SohGui::Tr("Hover Boots").c_str())) {
+                    if (ImGui::Selectable(SohGui::TrLabel("Hover Boots").c_str())) {
                         player->currentBoots = PLAYER_BOOTS_HOVER;
                         Inventory_ChangeEquipment(EQUIP_TYPE_BOOTS, EQUIP_VALUE_BOOTS_HOVER);
                     }
@@ -1853,10 +1853,10 @@ void DrawPlayerTab() {
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
                 PushStyleInput(THEME_COLOR);
                 ImGui::TextUnformatted(SohGui::Tr("Current Items").c_str());
-                ImGui::InputScalar(SohGui::Tr("B Button").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[0], &one, NULL);
-                ImGui::InputScalar(SohGui::Tr("C Left").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[1], &one, NULL);
-                ImGui::InputScalar(SohGui::Tr("C Down").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[2], &one, NULL);
-                ImGui::InputScalar(SohGui::Tr("C Right").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[3], &one, NULL);
+                ImGui::InputScalar(SohGui::TrLabel("B Button").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[0], &one, NULL);
+                ImGui::InputScalar(SohGui::TrLabel("C Left").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[1], &one, NULL);
+                ImGui::InputScalar(SohGui::TrLabel("C Down").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[2], &one, NULL);
+                ImGui::InputScalar(SohGui::TrLabel("C Right").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[3], &one, NULL);
                 PopStyleInput();
                 ImGui::PopItemWidth();
             },
@@ -1870,10 +1870,10 @@ void DrawPlayerTab() {
                     PushStyleInput(THEME_COLOR);
                     ImGui::TextUnformatted(SohGui::Tr("Current D-pad Items").c_str());
                     // Two spaces at the end for aligning, not elegant but it's working
-                    ImGui::InputScalar(SohGui::Tr("D-pad Up  ").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[4], &one, NULL);
-                    ImGui::InputScalar(SohGui::Tr("D-pad Down").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[5], &one, NULL);
-                    ImGui::InputScalar(SohGui::Tr("D-pad Left").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[6], &one, NULL);
-                    ImGui::InputScalar(SohGui::Tr("D-pad Right").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[7], &one,
+                    ImGui::InputScalar(SohGui::TrLabel("D-pad Up  ").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[4], &one, NULL);
+                    ImGui::InputScalar(SohGui::TrLabel("D-pad Down").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[5], &one, NULL);
+                    ImGui::InputScalar(SohGui::TrLabel("D-pad Left").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[6], &one, NULL);
+                    ImGui::InputScalar(SohGui::TrLabel("D-pad Right").c_str(), ImGuiDataType_U8, &gSaveContext.equips.buttonItems[7], &one,
                                        NULL);
                     PopStyleInput();
                     ImGui::PopItemWidth();
@@ -1890,12 +1890,12 @@ void DrawPlayerTab() {
             std::string label = fmt::format(fmt::runtime(SohGui::Tr("State Flags {}")), j + 1);
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("%s", label.c_str());
+                    ImGui::Text("%s", SohGui::Tr(label).c_str());
                     std::vector<std::string> state = flag_strs[j];
                     for (int i = 0; i <= 31; i++) {
                         bit[i] = ((flags[j] >> i) & 1);
                         if (bit[i] != 0) {
-                            ImGui::Text("%s", state[i].c_str());
+                            ImGui::Text("%s", SohGui::Tr(state[i]).c_str());
                         }
                     }
                 },
@@ -1931,37 +1931,37 @@ void SaveEditorWindow::DrawElement() {
 
     if (ImGui::BeginTabBar("SaveContextTabBar", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
         ResetBaseOptions();
-        if (ImGui::BeginTabItem(SohGui::Tr("Info").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Info").c_str())) {
             DrawInfoTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem(SohGui::Tr("Inventory").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Inventory").c_str())) {
             DrawInventoryTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem(SohGui::Tr("Flags").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Flags").c_str())) {
             DrawFlagsTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem(SohGui::Tr("Equipment").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Equipment").c_str())) {
             DrawEquipmentTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem(SohGui::Tr("Quest Status").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Quest Status").c_str())) {
             DrawQuestStatusTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem(SohGui::Tr("Player").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Player").c_str())) {
             DrawPlayerTab();
             ImGui::EndTabItem();
         }

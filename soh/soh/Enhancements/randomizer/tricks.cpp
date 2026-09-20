@@ -104,7 +104,7 @@ void Tricks::DrawTagChips(const std::set<Tag>& rtTags, std::string trickName) {
         ImGui::SameLine();
         ImGui::BeginDisabled();
         UIWidgets::PushStyleButton(GetTagColor(rtTag));
-        ImGui::SmallButton(tagId.c_str());
+        ImGui::SmallButton(SohGui::TrLabel(tagId).c_str());
         UIWidgets::PopStyleButton();
         ImGui::EndDisabled();
     }

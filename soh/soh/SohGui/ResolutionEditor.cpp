@@ -111,7 +111,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
     //     UIWidgets::DisableComponent(ImGui::GetStyle().Alpha * 0.5f);
     // }
     UIWidgets::PushStyleCombobox(THEME_COLOR);
-    if (ImGui::Combo(SohGui::Tr("Pixel Count Presets").c_str(), &item_pixelCount, pixelCountPresetLabels,
+    if (ImGui::Combo(SohGui::TrLabel("Pixel Count Presets").c_str(), &item_pixelCount, pixelCountPresetLabels,
                      IM_ARRAYSIZE(pixelCountPresetLabels)) &&
         item_pixelCount != default_pixelCount) { // don't change anything if "Custom" is selected.
         verticalPixelCount = pixelCountPresets[item_pixelCount];
@@ -131,7 +131,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
         if ((aspectRatioX > 0.0f) && (aspectRatioY > 0.0f)) {
             // So basically we're "faking" this one by setting aspectRatioX instead.
             UIWidgets::PushStyleInput(THEME_COLOR);
-            if (ImGui::InputInt(SohGui::Tr("Horiz. Pixel Count").c_str(), &horizontalPixelCount, 8, 320)) {
+            if (ImGui::InputInt(SohGui::TrLabel("Horiz. Pixel Count").c_str(), &horizontalPixelCount, 8, 320)) {
                 item_aspectRatio = default_aspectRatio;
                 if (horizontalPixelCount < SCREEN_WIDTH) {
                     horizontalPixelCount = SCREEN_WIDTH;
@@ -143,8 +143,8 @@ void ResolutionCustomWidget(WidgetInfo& info) {
             }
             UIWidgets::PopStyleInput();
         } else { // Display a notice instead.
-            ImGui::TextColored(messageColor[MESSAGE_QUESTION],
-                               ICON_FA_QUESTION_CIRCLE " \"Force aspect ratio\" required.");
+            ImGui::TextColored(messageColor[MESSAGE_QUESTION], "%s %s", ICON_FA_QUESTION_CIRCLE,
+                               SohGui::Tr("\"Force aspect ratio\" required.").c_str());
             // ImGui::Text(" ");
             ImGui::SameLine();
             if (UIWidgets::Button("Click to resolve", UIWidgets::ButtonOptions().Color(THEME_COLOR))) {
@@ -159,7 +159,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
     }
     // Vertical Resolution part 2
     UIWidgets::PushStyleInput(THEME_COLOR);
-    if (ImGui::InputInt(SohGui::Tr("Vertical Pixel Count").c_str(), &verticalPixelCount, 8, 240)) {
+    if (ImGui::InputInt(SohGui::TrLabel("Vertical Pixel Count").c_str(), &verticalPixelCount, 8, 240)) {
         item_pixelCount = default_pixelCount;
         update[UPDATE_verticalPixelCount] = true;
 
@@ -181,7 +181,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
         CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".PixelPerfectMode", 0) ? ImGuiTreeNodeFlags_DefaultOpen
                                                                                : ImGuiTreeNodeFlags_None;
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader(SohGui::Tr("Integer Scaling Settings").c_str(), IntegerScalingResolvedImGuiFlag)) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel("Integer Scaling Settings").c_str(), IntegerScalingResolvedImGuiFlag)) {
         const bool disabled_pixelPerfectMode =
             !CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".PixelPerfectMode", 0) || disabled_everything;
         // Pixel Perfect Mode
@@ -236,7 +236,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
 
     // Collapsible panel for additional settings
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader(SohGui::Tr("Additional Settings").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel("Additional Settings").c_str())) {
 #if defined(__SWITCH__) || defined(__WIIU__)
         // Disable aspect correction, stretching the framebuffer to fill the viewport.
         // This option is only really needed on systems limited to 16:9 TV resolutions, such as consoles.
@@ -257,7 +257,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
             // Having this button should hopefully prevent support headaches.
             ImGui::TextColored(messageColor[MESSAGE_QUESTION], "%s %s", ICON_FA_QUESTION_CIRCLE,
                                SohGui::Tr("If the image is stretched and you don't know why, click this.").c_str());
-            if (ImGui::Button(SohGui::Tr("Click to reenable aspect correction.").c_str())) {
+            if (ImGui::Button(SohGui::TrLabel("Click to reenable aspect correction.").c_str())) {
                 CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IgnoreAspectCorrection", 0);
                 Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
             }

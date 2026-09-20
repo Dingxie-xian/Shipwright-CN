@@ -41,7 +41,7 @@ void AnchorMainMenu(WidgetInfo& info) {
     ImGui::SameLine();
     UIWidgets::PushStyleInput(THEME_COLOR);
     ImGui::SetNextItemWidth(ImGui::GetFontSize() * 5);
-    if (ImGui::InputScalar(SohGui::Tr("##Port").c_str(), ImGuiDataType_U16, &port)) {
+    if (ImGui::InputScalar(SohGui::TrLabel("##Port").c_str(), ImGuiDataType_U16, &port)) {
         CVarSetInteger(CVAR_REMOTE_ANCHOR("Port"), port);
         Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
@@ -131,7 +131,7 @@ void AnchorMainMenu(WidgetInfo& info) {
     ImGui::Text(SohGui::Tr("%s Connected").c_str(), ICON_FA_CHECK);
 
     UIWidgets::PushStyleButton(THEME_COLOR);
-    if (ImGui::Button(SohGui::Tr("Request Team State").c_str())) {
+    if (ImGui::Button(SohGui::TrLabel("Request Team State").c_str())) {
         anchor->SendPacket_RequestTeamState();
     }
     UIWidgets::Tooltip("Try this if you are missing items or flags that your team members have collected");
@@ -157,7 +157,7 @@ void AnchorAdminMenu(WidgetInfo& info) {
     ImGui::SeparatorText(SohGui::Tr("Room Settings (Admin Only)").c_str());
 
     UIWidgets::PushStyleButton(THEME_COLOR);
-    if (ImGui::Button(SohGui::Tr("Clear All Team State").c_str())) {
+    if (ImGui::Button(SohGui::TrLabel("Clear All Team State").c_str())) {
         std::set<std::string> teams;
         for (auto& [clientId, client] : Anchor::Instance->clients) {
             teams.insert(client.teamId);
@@ -203,27 +203,27 @@ void AnchorInstructionsMenu(WidgetInfo& info) {
 
     ImGui::TextWrapped(SohGui::Tr("1. All players involved should start at the file select screen").c_str());
 
-    ImGui::TextWrapped("2. Come up with a unique Room ID (this is basically your password) and enter it, along with "
-                       "your desired player name and team ID and click Enable");
+    ImGui::TextWrapped(SohGui::Tr("2. Come up with a unique Room ID (this is basically your password) and enter it, along with "
+                       "your desired player name and team ID and click Enable").c_str());
 
-    ImGui::TextWrapped("3. The host should configure the randomizer settings and generate a seed, then share the newly "
-                       "generated JSON spoiler file with other players.");
+    ImGui::TextWrapped(SohGui::Tr("3. The host should configure the randomizer settings and generate a seed, then share the newly "
+                       "generated JSON spoiler file with other players.").c_str());
 
-    ImGui::TextWrapped("4. All players should load the same JSON spoiler file (drag it into SoH window), make sure "
-                       "seed icons match, then create a new file.");
+    ImGui::TextWrapped(SohGui::Tr("4. All players should load the same JSON spoiler file (drag it into SoH window), make sure "
+                       "seed icons match, then create a new file.").c_str());
 
-    ImGui::TextWrapped("5. All players should now load into their game. IMPORTANT! If using an existing save/seed "
-                       "ensure the player with the most progress loads the file first.");
+    ImGui::TextWrapped(SohGui::Tr("5. All players should now load into their game. IMPORTANT! If using an existing save/seed "
+                       "ensure the player with the most progress loads the file first.").c_str());
 
-    ImGui::TextWrapped("6. After everyone has loaded in, verify on the network tab that it doesn't warn about anyone "
-                       "being on a wrong version or seed.");
+    ImGui::TextWrapped(SohGui::Tr("6. After everyone has loaded in, verify on the network tab that it doesn't warn about anyone "
+                       "being on a wrong version or seed.").c_str());
 
     ImGui::Spacing();
 
     ImGui::TextWrapped(
-        "Note: Team ID is used to group players together in the same team, sharing items and flags. Make sure all "
+        SohGui::Tr("Note: Team ID is used to group players together in the same team, sharing items and flags. Make sure all "
         "players who want to share progress use the same Team ID. All players with the same Team ID should be using "
-        "the same randomizer seed, while players on different teams can use different seeds.");
+        "the same randomizer seed, while players on different teams can use different seeds.").c_str());
 }
 
 #ifdef ENABLE_REMOTE_CONTROL

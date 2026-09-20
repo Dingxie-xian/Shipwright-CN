@@ -687,12 +687,11 @@ float CalcComboWidth(const char* preview_value, ImGuiComboFlags flags);
 template <typename T>
 bool Combobox(std::string label, T* value, const std::map<T, const char*>& comboMap,
               const ComboboxOptions& options = {}) {
-    label = SohGui::Tr(label);
     bool dirty = false;
     float startX = ImGui::GetCursorPosX();
     std::string invisibleLabelStr = "##" + std::string(label);
     const char* invisibleLabel = invisibleLabelStr.c_str();
-    std::string trueLabel = label.substr(0, label.find("#"));
+    std::string trueLabel = SohGui::Tr(label.substr(0, label.find("##")));
     ImGui::PushID(label.c_str());
     ImGui::BeginGroup();
     ImGui::BeginDisabled(options.disabled);
@@ -738,7 +737,7 @@ bool Combobox(std::string label, T* value, const std::map<T, const char*>& combo
         for (const auto& pair : comboMap) {
             const size_t thisOption = optionIndex++;
             if (strlen(pair.second) > 1) {
-                const std::string option = SohGui::Tr(pair.second) + "##" + std::to_string(thisOption);
+                const std::string option = SohGui::TrLabel(std::string(pair.second) + "##" + std::to_string(thisOption));
                 if (ImGui::Selectable(option.c_str(), pair.first == *value)) {
                     *value = pair.first;
                     dirty = true;
@@ -772,12 +771,11 @@ bool Combobox(std::string label, T* value, const std::map<T, const char*>& combo
 template <typename T = size_t>
 bool Combobox(std::string label, T* value, const std::vector<const char*>& comboVector,
               const ComboboxOptions& options = {}) {
-    label = SohGui::Tr(label);
     bool dirty = false;
     size_t currentValueIndex = static_cast<size_t>(*value);
     std::string invisibleLabelStr = "##" + std::string(label);
     const char* invisibleLabel = invisibleLabelStr.c_str();
-    std::string trueLabel = label.substr(0, label.find("#"));
+    std::string trueLabel = SohGui::Tr(label.substr(0, label.find("##")));
     ImGui::PushID(label.c_str());
     ImGui::BeginGroup();
     ImGui::BeginDisabled(options.disabled);
@@ -822,7 +820,7 @@ bool Combobox(std::string label, T* value, const std::vector<const char*>& combo
             if (strlen(comboVector.at(i)) > 1) {
                 // Translate for display but keep the id keyed on the entry's position.
                 const std::string option =
-                    SohGui::Tr(comboVector.at(i)) + "##" + std::to_string(i);
+                    SohGui::TrLabel(std::string(comboVector.at(i)) + "##" + std::to_string(i));
                 if (ImGui::Selectable(option.c_str(), newValue == *value)) {
                     *value = newValue;
                     dirty = true;
@@ -857,12 +855,11 @@ bool Combobox(std::string label, T* value, const std::vector<const char*>& combo
 template <typename T = size_t>
 bool Combobox(std::string label, T* value, const std::vector<std::string>& comboVector,
               const ComboboxOptions& options = {}) {
-    label = SohGui::Tr(label);
     bool dirty = false;
     size_t currentValueIndex = static_cast<size_t>(*value);
     std::string invisibleLabelStr = "##" + std::string(label);
     const char* invisibleLabel = invisibleLabelStr.c_str();
-    std::string trueLabel = label.substr(0, label.find("#"));
+    std::string trueLabel = SohGui::Tr(label.substr(0, label.find("##")));
     ImGui::PushID(label.c_str());
     ImGui::BeginGroup();
     ImGui::BeginDisabled(options.disabled);
@@ -906,7 +903,7 @@ bool Combobox(std::string label, T* value, const std::vector<std::string>& combo
             auto newValue = static_cast<T>(i);
             if (comboVector.at(i).length() > 1) {
                 // Translate for display but keep the id keyed on the entry's position.
-                const std::string option = SohGui::Tr(comboVector.at(i)) + "##" + std::to_string(i);
+                const std::string option = SohGui::TrLabel(std::string(comboVector.at(i)) + "##" + std::to_string(i));
                 if (ImGui::Selectable(option.c_str(), newValue == *value)) {
                     *value = newValue;
                     dirty = true;
@@ -941,7 +938,6 @@ bool Combobox(std::string label, T* value, const std::vector<std::string>& combo
 
 template <typename T = size_t, size_t N>
 bool Combobox(std::string label, T* value, const char* (&comboArray)[N], const ComboboxOptions& options = {}) {
-    label = SohGui::Tr(label);
     bool dirty = false;
     size_t currentValueIndex = static_cast<size_t>(*value);
     if (currentValueIndex >= N) {
@@ -949,7 +945,7 @@ bool Combobox(std::string label, T* value, const char* (&comboArray)[N], const C
     }
     std::string invisibleLabelStr = "##" + std::string(label);
     const char* invisibleLabel = invisibleLabelStr.c_str();
-    std::string trueLabel = label.substr(0, label.find("#"));
+    std::string trueLabel = SohGui::Tr(label.substr(0, label.find("##")));
     ImGui::PushID(label.c_str());
     ImGui::BeginGroup();
     ImGui::BeginDisabled(options.disabled);
@@ -993,7 +989,7 @@ bool Combobox(std::string label, T* value, const char* (&comboArray)[N], const C
             auto newValue = static_cast<T>(i);
             if (strlen(comboArray[i]) > 1) {
                 // Translate for display but keep the id keyed on the entry's position.
-                const std::string option = SohGui::Tr(comboArray[i]) + "##" + std::to_string(i);
+                const std::string option = SohGui::TrLabel(std::string(comboArray[i]) + "##" + std::to_string(i));
                 if (ImGui::Selectable(option.c_str(), newValue == *value)) {
                     *value = newValue;
                     dirty = true;

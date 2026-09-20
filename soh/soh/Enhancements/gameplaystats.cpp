@@ -387,12 +387,12 @@ void GameplayStatsRow(const char* label, const std::string& value, ImVec4 color 
     ImGui::PushStyleColor(ImGuiCol_Text, color);
     ImGui::TableNextRow();
     ImGui::TableNextColumn();
-    ImGui::Text("%s", label);
+    ImGui::Text("%s", SohGui::Tr(label).c_str());
     ImGui::SameLine(ImGui::GetContentRegionAvail().x - (ImGui::CalcTextSize(value.c_str()).x));
     ImGui::Text("%s", value.c_str());
     ImGui::PopStyleColor();
     if (tooltip != "" && ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("%s", tooltip);
+        ImGui::SetTooltip("%s", SohGui::Tr(tooltip).c_str());
     }
 }
 
@@ -537,7 +537,7 @@ void DrawGameplayStatsCountsTab() {
     if (enemiesDefeated > 0) {
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        if (ImGui::TreeNodeEx("Enemy Details...", ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
+        if (ImGui::TreeNodeEx(SohGui::TrLabel("Enemy Details...").c_str(), ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
             for (int i = COUNT_ENEMIES_DEFEATED_ANUBIS; i <= COUNT_ENEMIES_DEFEATED_WOLFOS; i++) {
                 if (i == COUNT_ENEMIES_DEFEATED_FLOORMASTER) {
                     GameplayStatsRow(countMappings[i], formatIntGameplayStat(gSaveContext.ship.stats.count[i] / 3));
@@ -555,7 +555,7 @@ void DrawGameplayStatsCountsTab() {
     if (ammoUsed > 0) {
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        if (ImGui::TreeNodeEx("Ammo Details...", ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
+        if (ImGui::TreeNodeEx(SohGui::TrLabel("Ammo Details...").c_str(), ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
             for (int i = COUNT_AMMO_USED_STICK; i <= COUNT_AMMO_USED_BEAN; i++) {
                 GameplayStatsRow(countMappings[i], formatIntGameplayStat(gSaveContext.ship.stats.count[i]));
             }
@@ -582,7 +582,7 @@ void DrawGameplayStatsCountsTab() {
     if (buttonPresses > 0) {
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        if (ImGui::TreeNodeEx("Buttons...", ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
+        if (ImGui::TreeNodeEx(SohGui::TrLabel("Buttons...").c_str(), ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
             for (int i = COUNT_BUTTON_PRESSES_A; i <= COUNT_BUTTON_PRESSES_START; i++) {
                 GameplayStatsRow(countMappings[i], formatIntGameplayStat(gSaveContext.ship.stats.count[i]));
             }
@@ -599,7 +599,7 @@ void DrawGameplayStatsBreakdownTab() {
         std::string name;
         if (CVarGetInteger(CVAR_GAMEPLAY_STATS("RoomBreakdown"), 0) &&
             gSaveContext.ship.stats.sceneTimestamps[i].scene != SCENE_GROTTOS) {
-            name = fmt::format(fmt::runtime(SohGui::Tr("{:s} Room {:d}")), sceneName, gSaveContext.ship.stats.sceneTimestamps[i].room);
+            name = fmt::format(fmt::runtime(SohGui::Tr("{:s} Room {:d}")), SohGui::Tr(sceneName), gSaveContext.ship.stats.sceneTimestamps[i].room);
         } else {
             name = sceneName;
         }
@@ -666,19 +666,19 @@ void GameplayStatsWindow::DrawElement() {
     UIWidgets::PushStyleTabs(THEME_COLOR);
 
     if (ImGui::BeginTabBar("Stats", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
-        if (ImGui::BeginTabItem(SohGui::Tr("Timestamps").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Timestamps").c_str())) {
             DrawGameplayStatsTimestampsTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Counts").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Counts").c_str())) {
             DrawGameplayStatsCountsTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Breakdown").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Breakdown").c_str())) {
             DrawGameplayStatsBreakdownTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Options").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Options").c_str())) {
             DrawGameplayStatsOptionsTab();
             ImGui::EndTabItem();
         }

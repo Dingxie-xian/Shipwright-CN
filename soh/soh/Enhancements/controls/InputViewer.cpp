@@ -472,7 +472,7 @@ void InputViewerSettingsWindow::DrawElement() {
     UIWidgets::PaddedSeparator(true, true);
 
     PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader(SohGui::Tr("Buttons").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel("Buttons").c_str())) {
 
         // gInputViewer.ButtonOutlineMode
         CVarCombobox(
@@ -613,7 +613,7 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader(SohGui::Tr("Analog Stick").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel("Analog Stick").c_str())) {
         // gInputViewer.AnalogStick.VisibilityMode
         CVarCombobox(
             "Analog Stick Visibility", CVAR_INPUT_VIEWER("AnalogStick.VisibilityMode"), stickModeOptions,
@@ -646,7 +646,7 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader(SohGui::Tr("Additional (\"Right\") Stick").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel("Additional (\"Right\") Stick").c_str())) {
         // gInputViewer.RightStick.VisibilityMode
         CVarCombobox(
             "Right Stick Visibility", CVAR_INPUT_VIEWER("RightStick.VisibilityMode"), stickModeOptions,
@@ -679,7 +679,7 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader(SohGui::Tr("Analog Angle Values").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel("Analog Angle Values").c_str())) {
         // gAnalogAngles
         CVarCheckbox(
             "Show Analog Stick Angle Values", CVAR_INPUT_VIEWER("AnalogAngles.Enabled"),

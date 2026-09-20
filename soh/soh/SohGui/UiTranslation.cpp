@@ -65,7 +65,11 @@ static nlohmann::json LoadUiTable(const std::string& path) {
 
 static bool TryLoadUiTable(const std::string& path) {
     uiTranslation = LoadUiTable(path);
-    return !uiTranslation.is_null();
+    if (!uiTranslation.is_object()) {
+        uiTranslation = nullptr;
+        return false;
+    }
+    return true;
 }
 
 void InitUiTranslation() {
@@ -85,14 +89,28 @@ std::string Tr(const std::string& key) {
 
     const size_t idSeparator = key.find("##");
     const std::string visible = idSeparator == std::string::npos ? key : key.substr(0, idSeparator);
+    if (visible.empty()) {
+        return key;
+    }
 
     auto entry = uiTranslation.find(visible);
     if (entry == uiTranslation.end() || !entry->is_string()) {
         return key;
     }
-    // A translated label must keep its "##id" suffix or ImGui would treat the same
-    // control as a new one, which can end in duplicate-ID asserts.
+    // Preserve suffixes for callers that format their own labels. TrLabel also
+    // excludes translated text from the ImGui ID; preserving ## alone does not.
     return entry->get<std::string>() + (idSeparator == std::string::npos ? std::string() : key.substr(idSeparator));
+}
+
+std::string TrLabel(const std::string& key) {
+    const size_t separator = key.find("##");
+    if (separator == 0 || key.empty()) {
+        return key; // Already an invisible ID.
+    }
+    const std::string visible = key.substr(0, separator);
+    const size_t stableId = key.find("###");
+    const std::string suffix = stableId == std::string::npos ? "###" + key : key.substr(stableId);
+    return Tr(visible) + suffix;
 }
 
 const ImWchar* GetUiGlyphRanges() {

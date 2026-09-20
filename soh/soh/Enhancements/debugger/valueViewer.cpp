@@ -182,7 +182,7 @@ void ValueViewerWindow::DrawElement() {
     UIWidgets::PopStyleCombobox();
     ImGui::SameLine();
     UIWidgets::PushStyleButton(THEME_COLOR);
-    if (selectedElement != -1 && ImGui::Button(SohGui::Tr("+").c_str())) {
+    if (selectedElement != -1 && ImGui::Button(SohGui::TrLabel("+").c_str())) {
         valueTable[selectedElement].isActive = true;
         selectedElement = -1;
     }

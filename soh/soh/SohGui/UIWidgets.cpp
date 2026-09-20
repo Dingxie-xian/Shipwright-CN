@@ -197,12 +197,10 @@ void PopStyleMenu() {
 }
 
 bool BeginMenu(const char* label_, Colors color) {
-    const std::string labelStorage = SohGui::Tr(label_);
-    const char* label = labelStorage.c_str();
     bool dirty = false;
     PushStyleMenu(color);
     ImGui::SetNextWindowSizeConstraints(ImVec2(200.0f, 0.0f), ImVec2(FLT_MAX, FLT_MAX));
-    if (ImGui::BeginMenu(label)) {
+    if (ImGui::BeginMenu(SohGui::TrLabel(label_).c_str())) {
         dirty = true;
     }
     PopStyleMenu();
@@ -224,11 +222,9 @@ void PopStyleMenuItem() {
 }
 
 bool MenuItem(const char* label_, const char* shortcut, Colors color) {
-    const std::string labelStorage = SohGui::Tr(label_);
-    const char* label = labelStorage.c_str();
     bool dirty = false;
     PushStyleMenuItem(color);
-    if (ImGui::MenuItem(label, shortcut)) {
+    if (ImGui::MenuItem(SohGui::TrLabel(label_).c_str(), shortcut)) {
         dirty = true;
     }
     PopStyleMenuItem();
@@ -291,11 +287,9 @@ void PopStyleHeader() {
 }
 
 bool Button(const char* label_, const ButtonOptions& options) {
-    const std::string labelStorage = SohGui::Tr(label_);
-    const char* label = labelStorage.c_str();
     ImGui::BeginDisabled(options.disabled);
     PushStyleButton(options.color, options.padding);
-    bool dirty = ImGui::Button(label, options.size);
+    bool dirty = ImGui::Button(SohGui::TrLabel(label_).c_str(), options.size);
     PopStyleButton();
     ImGui::EndDisabled();
     RenderTooltip(options);
@@ -312,6 +306,7 @@ bool WindowButton(const char* label, const char* cvarName, std::shared_ptr<Ship:
     } else {
         buttonText = ICON_FA_EXTERNAL_LINK_SQUARE " " + buttonText;
     }
+    buttonText += "###" + std::string(cvarName);
     if (Button(buttonText.c_str(), { { options.tooltip, options.disabled, options.disabledTooltip },
                                      options.size,
                                      options.padding,
@@ -413,7 +408,7 @@ bool Checkbox(const char* _label, bool* value, const CheckboxOptions& options) {
     PushStyleCheckbox(options.color, options.padding);
     ImGuiContext& g = *GImGui;
     const ImGuiStyle& style = g.Style;
-    const ImGuiID id = window->GetID(label);
+    const ImGuiID id = window->GetID(label_);
     const ImVec2 label_size = ImGui::CalcTextSize(label, NULL, true);
     const float square_sz = ImGui::GetFrameHeight();
     ImVec2 pos = window->DC.CursorPos;
@@ -629,9 +624,9 @@ bool SliderInt(const char* label_, int32_t* value, const IntSliderOptions& optio
     const std::string labelStorage = SohGui::Tr(label_);
     const char* label = labelStorage.c_str();
     bool dirty = false;
-    std::string invisibleLabelStr = "##" + std::string(label);
+    std::string invisibleLabelStr = "##" + std::string(label_);
     const char* invisibleLabel = invisibleLabelStr.c_str();
-    ImGui::PushID(label);
+    ImGui::PushID(label_);
     ImGui::BeginGroup();
     ImGui::BeginDisabled(options.disabled);
     PushStyleSlider(options.color);
@@ -758,12 +753,12 @@ bool SliderFloat(const char* label_, float* value, const FloatSliderOptions& opt
     const std::string labelStorage = SohGui::Tr(label_);
     const char* label = labelStorage.c_str();
     bool dirty = false;
-    std::string invisibleLabelStr = "##" + std::string(label);
+    std::string invisibleLabelStr = "##" + std::string(label_);
     const char* invisibleLabel = invisibleLabelStr.c_str();
     float valueToDisplay = options.isPercentage ? *value * 100.0f : *value;
     float maxToDisplay = options.isPercentage ? options.max * 100.0f : options.max;
     float minToDisplay = options.isPercentage ? options.min * 100.0f : options.min;
-    ImGui::PushID(label);
+    ImGui::PushID(label_);
     ImGui::BeginGroup();
     ImGui::BeginDisabled(options.disabled);
     PushStyleSlider(options.color);
@@ -865,7 +860,7 @@ bool InputString(const char* label_, std::string* value, const InputOptions& opt
     const std::string labelStorage = SohGui::Tr(label_);
     const char* label = labelStorage.c_str();
     bool dirty = false;
-    ImGui::PushID(label);
+    ImGui::PushID(label_);
     ImGui::BeginGroup();
     ImGui::BeginDisabled(options.disabled);
     PushStyleInput(options.color);
@@ -877,13 +872,13 @@ bool InputString(const char* label_, std::string* value, const InputOptions& opt
     if (labelSize.x != 0) {
         if (options.alignment == ComponentAlignments::Left) {
             if (options.labelPosition == LabelPositions::Above) {
-                ImGui::Text(label, *value->c_str());
+                ImGui::TextUnformatted(label);
             }
         } else if (options.alignment == ComponentAlignments::Right) {
             if (options.labelPosition == LabelPositions::Above) {
                 ImGui::NewLine();
                 ImGui::SameLine(width - ImGui::CalcTextSize(label).x);
-                ImGui::Text(label, *value->c_str());
+                ImGui::TextUnformatted(label);
             }
         }
     }
@@ -893,12 +888,12 @@ bool InputString(const char* label_, std::string* value, const InputOptions& opt
         flags |= ImGuiInputTextFlags_Password;
     }
     flags |= options.addedFlags;
-    if (ImGui::InputText(label, (char*)value->c_str(), value->capacity() + 1, flags, InputTextResizeCallback, value)) {
+    if (ImGui::InputText(SohGui::TrLabel(label_).c_str(), (char*)value->c_str(), value->capacity() + 1, flags, InputTextResizeCallback, value)) {
         dirty = true;
     }
     if (value->empty() && !options.placeholder.empty()) {
         ImGui::SameLine(17.0f);
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "%s", options.placeholder.c_str());
+        ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "%s", SohGui::Tr(options.placeholder).c_str());
     }
     if (options.hasError) {
         ImGui::PopStyleColor();
@@ -932,7 +927,7 @@ bool InputInt(const char* label_, int32_t* value, const InputOptions& options) {
     const std::string labelStorage = SohGui::Tr(label_);
     const char* label = labelStorage.c_str();
     bool dirty = false;
-    ImGui::PushID(label);
+    ImGui::PushID(label_);
     ImGui::BeginGroup();
     ImGui::BeginDisabled(options.disabled);
     PushStyleInput(options.color);
@@ -949,12 +944,12 @@ bool InputInt(const char* label_, int32_t* value, const InputOptions& options) {
         }
     }
     ImGui::SetNextItemWidth(width);
-    if (ImGui::InputScalar(label, ImGuiDataType_S32, value, nullptr, nullptr, nullptr, options.addedFlags)) {
+    if (ImGui::InputScalar(SohGui::TrLabel(label_).c_str(), ImGuiDataType_S32, value, nullptr, nullptr, nullptr, options.addedFlags)) {
         dirty = true;
     }
     if ((ImGui::GetItemStatusFlags() & ImGuiItemStatusFlags_Edited) && !options.placeholder.empty()) {
         ImGui::SameLine(17.0f);
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "%s", options.placeholder.c_str());
+        ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.4f), "%s", SohGui::Tr(options.placeholder).c_str());
     }
     PopStyleInput();
     ImGui::EndDisabled();
@@ -979,8 +974,6 @@ bool CVarInputInt(const char* label, const char* cvarName, const InputOptions& o
 
 bool CVarColorPicker(const char* label_, const char* cvarName, Color_RGBA8 defaultColor, bool hasAlpha,
                      uint8_t modifiers, UIWidgets::Colors themeColor) {
-    const std::string labelStorage = SohGui::Tr(label_);
-    const char* label = labelStorage.c_str();
     std::string valueCVar = std::string(cvarName) + ".Value";
     std::string rainbowCVar = std::string(cvarName) + ".Rainbow";
     std::string lockedCVar = std::string(cvarName) + ".Locked";
@@ -996,16 +989,16 @@ bool CVarColorPicker(const char* label_, const char* cvarName, Color_RGBA8 defau
     ImGui::BeginDisabled(locked);
     PushStyleCombobox(UIWidgets::Colors::DarkGray);
     if (hasAlpha) {
-        changed = ImGui::ColorEdit4(label, (float*)&colorVec,
+        changed = ImGui::ColorEdit4(SohGui::TrLabel(label_).c_str(), (float*)&colorVec,
                                     flags | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreview);
     } else {
-        changed = ImGui::ColorEdit3(label, (float*)&colorVec, flags | ImGuiColorEditFlags_NoAlpha);
+        changed = ImGui::ColorEdit3(SohGui::TrLabel(label_).c_str(), (float*)&colorVec, flags | ImGuiColorEditFlags_NoAlpha);
     }
     PopStyleCombobox();
     ImGui::AlignTextToFramePadding();
     if (showReset) {
         ImGui::SameLine();
-        std::string uniqueTag = "Reset##" + std::string(label);
+        std::string uniqueTag = "Reset##" + std::string(label_);
         if (UIWidgets::Button(uniqueTag.c_str(),
                               UIWidgets::ButtonOptions({ { .tooltip = "Resets this color to its default value" } })
                                   .Color(themeColor)
@@ -1022,7 +1015,7 @@ bool CVarColorPicker(const char* label_, const char* cvarName, Color_RGBA8 defau
     }
     if (showRandom) {
         ImGui::SameLine();
-        std::string uniqueTag = "Random##" + std::string(label);
+        std::string uniqueTag = "Random##" + std::string(label_);
         if (UIWidgets::Button(uniqueTag.c_str(),
                               UIWidgets::ButtonOptions({ { .tooltip = "Generates a random color value to use" } })
                                   .Color(themeColor)
@@ -1079,7 +1072,7 @@ bool RadioButton(const char* label_, bool active, const RadioButtonsOptions& opt
 
     ImGuiContext& g = *GImGui;
     const ImGuiStyle& style = g.Style;
-    const ImGuiID id = window->GetID(label);
+    const ImGuiID id = window->GetID(label_);
     const ImVec2 label_size = ImGui::CalcTextSize(label, NULL, true);
 
     const float square_sz = ImGui::GetFrameHeight();
@@ -1279,7 +1272,7 @@ bool BtnSelector(const char* label_, int32_t* value, const BtnSelectorOptions& o
     const std::string labelStorage = SohGui::Tr(label_);
     const char* label = labelStorage.c_str();
     bool dirty = false;
-    ImGui::PushID(label);
+    ImGui::PushID(label_);
     ImGui::BeginGroup();
     ImGui::AlignTextToFramePadding();
     ImGui::Text("%s", label);
@@ -1316,7 +1309,7 @@ bool BtnSelector(const char* label_, int32_t* value, const BtnSelectorOptions& o
         UIWidgets::PushStyleMenuItem();
         for (const auto& [buttonName, buttonMask] : buttonMap) {
             if (!(currentValue & buttonMask)) {
-                if (ImGui::MenuItem(buttonName.c_str())) {
+                if (ImGui::MenuItem(SohGui::TrLabel(buttonName).c_str())) {
                     currentValue |= buttonMask;
                     dirty = true;
                 }

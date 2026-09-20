@@ -1191,7 +1191,7 @@ void CheckTrackerWindow::DrawElement() {
                         collapseLogic = false;
                     }
                 }
-                stemp = SohGui::Tr(RandomizerCheckObjects::GetRCAreaName(rcArea)) + "##TreeNode";
+                stemp = SohGui::TrLabel(RandomizerCheckObjects::GetRCAreaName(rcArea) + "##TreeNode");
                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(mainColor.r / 255.0f, mainColor.g / 255.0f,
                                                             mainColor.b / 255.0f, mainColor.a / 255.0f));
                 if (doingCollapseOrExpand) {
@@ -1990,7 +1990,7 @@ void ImGuiDrawTwoColorPickerSection(const char* text, const char* cvarMainName, 
     extra_color = cvarExtraColor;
 
     UIWidgets::PushStyleCombobox(theme);
-    if (ImGui::CollapsingHeader(text)) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel(text).c_str())) {
         if (*cvarHideName != '\0') {
             std::string label = cvarHideName;
             label += "##Hidden";

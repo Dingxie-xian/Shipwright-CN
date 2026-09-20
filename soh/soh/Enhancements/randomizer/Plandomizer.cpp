@@ -1066,7 +1066,7 @@ void PlandomizerDrawHintsWindow() {
         for (auto& hintData : spoilerHintData) {
             ImGui::PushID(index);
             ImGui::TableNextColumn();
-            ImGui::SeparatorText(hintData.hintName.c_str());
+            ImGui::SeparatorText(SohGui::Tr(hintData.hintName).c_str());
             ImGui::TextUnformatted(SohGui::Tr("Current Hint: ").c_str());
             ImGui::SameLine();
             ImGui::TextWrapped("%s", hintData.hintText.c_str());
@@ -1118,7 +1118,7 @@ void PlandomizerDrawLocationsWindow(RandomizerCheckArea rcArea) {
             auto randoArea = Rando::StaticData::GetLocation(checkID)->GetArea();
             if (rcArea == RCAREA_INVALID || rcArea == randoArea) {
                 ImGui::TableNextColumn();
-                ImGui::TextWrapped("%s", spoilerData.checkName.c_str());
+                ImGui::TextWrapped("%s", SohGui::Tr(spoilerData.checkName).c_str());
                 ImGui::TableNextColumn();
                 ImGui::TextWrapped("%s", SohGui::Tr(spoilerData.checkRewardItem.GetName().english).c_str());
                 ImGui::TableNextColumn();
@@ -1149,12 +1149,12 @@ void PlandomizerDrawSpoilerTable() {
     ImGui::BeginChild("Main");
     UIWidgets::PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTabBar("Check Tabs")) {
-        if (ImGui::BeginTabItem(SohGui::Tr("Gossip Stones").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Gossip Stones").c_str())) {
             getTabID = TAB_HINTS;
             PlandomizerDrawHintsWindow();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Locations").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Locations").c_str())) {
             getTabID = TAB_LOCATIONS;
             PlandomizerDrawLocationsWindow(selectedArea);
             ImGui::EndTabItem();

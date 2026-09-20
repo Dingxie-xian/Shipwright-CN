@@ -1228,7 +1228,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(beanName.c_str()).x / 2), p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", beanName.c_str());
+        ImGui::Text("%s", SohGui::Tr(beanName).c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1238,7 +1238,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(bossName.c_str()).x / 2), p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", bossName.c_str());
+        ImGui::Text("%s", SohGui::Tr(bossName).c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1248,7 +1248,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(name.c_str()).x / 2), p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", name.c_str());
+        ImGui::Text("%s", SohGui::Tr(name).c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1258,7 +1258,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(ocarinaButtonName.c_str()).x / 2),
                                          p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", ocarinaButtonName.c_str());
+        ImGui::Text("%s", SohGui::Tr(ocarinaButtonName).c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1344,7 +1344,7 @@ void DrawDungeonItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(dungeonName.c_str()).x / 2), p.y - (iconSize + offset)));
         ImGui::PushStyleColor(ImGuiCol_Text, dungeonColor);
-        ImGui::Text("%s", dungeonName.c_str());
+        ImGui::Text("%s", SohGui::Tr(dungeonName).c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1355,7 +1355,7 @@ void DrawDungeonItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(dungeonName.c_str()).x / 2), p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, dungeonColor);
-        ImGui::Text("%s", dungeonName.c_str());
+        ImGui::Text("%s", SohGui::Tr(dungeonName).c_str());
         ImGui::PopStyleColor();
     }
     ImGui::EndGroup();

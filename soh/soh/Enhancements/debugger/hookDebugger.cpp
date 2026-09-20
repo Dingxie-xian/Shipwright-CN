@@ -87,9 +87,9 @@ void HookDebuggerWindow::DrawElement() {
 
     ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
 #ifndef __cpp_lib_source_location
-    ImGui::TextColored(yellow, "Some features of the Hook Debugger are unavailable because SoH was compiled "
+    ImGui::TextColored(yellow, SohGui::Tr("Some features of the Hook Debugger are unavailable because SoH was compiled "
                                "without \"<source_location>\" support "
-                               "(\"__cpp_lib_source_location\" not defined in \"<version>\").");
+                               "(\"__cpp_lib_source_location\" not defined in \"<version>\").").c_str());
 #endif
 
     if (UIWidgets::Button("Expand All", UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {

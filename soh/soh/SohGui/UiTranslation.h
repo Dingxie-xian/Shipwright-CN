@@ -16,6 +16,11 @@ void InitUiTranslation();
 // verbatim and only the visible part before it is translated.
 std::string Tr(const std::string& key);
 
+// For ImGui labels only: display translated text but derive identity from the
+// original key. Unlike ##, ### excludes the visible text from ImGui's hash.
+// Use Tr() for ordinary text and format strings, which must not contain an ID.
+std::string TrLabel(const std::string& key);
+
 // Glyph range for the CJK merge: ImGui's common simplified Chinese set extended
 // with every character the translation tables use. ImGui only builds the glyphs
 // that fall inside the range it is given, so without the extension a translated

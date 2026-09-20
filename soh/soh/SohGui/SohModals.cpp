@@ -37,7 +37,7 @@ void SohModalWindow::DrawElement() {
         SohModal curModal = modals.at(0);
         // Popups are identified by their title, so the id is pinned to the untranslated
         // title while the visible part is the translation.
-        const std::string titleLabel = SohGui::Tr(curModal.title_) + "##" + curModal.title_;
+        const std::string titleLabel = SohGui::TrLabel(curModal.title_);
         if (!ImGui::IsPopupOpen(titleLabel.c_str())) {
             ImGui::OpenPopup(titleLabel.c_str());
         }
@@ -53,7 +53,7 @@ void SohModalWindow::DrawElement() {
                                        ImGuiWindowFlags_NoSavedSettings)) {
             ImGui::Text("%s", SohGui::Tr(curModal.message_).c_str());
             UIWidgets::PushStyleButton(THEME_COLOR);
-            const std::string button1Label = SohGui::Tr(curModal.button1_) + "##" + curModal.button1_;
+            const std::string button1Label = SohGui::TrLabel(curModal.button1_);
             if (ImGui::Button(button1Label.c_str())) {
                 if (curModal.button1callback_ != nullptr) {
                     curModal.button1callback_();
@@ -65,7 +65,7 @@ void SohModalWindow::DrawElement() {
             if (curModal.button2_ != "") {
                 ImGui::SameLine();
                 UIWidgets::PushStyleButton(THEME_COLOR);
-                const std::string button2Label = SohGui::Tr(curModal.button2_) + "##" + curModal.button2_;
+                const std::string button2Label = SohGui::TrLabel(curModal.button2_);
                 if (ImGui::Button(button2Label.c_str())) {
                     if (curModal.button2callback_ != nullptr) {
                         curModal.button2callback_();

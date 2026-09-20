@@ -1600,9 +1600,9 @@ void Draw_Table_Dropdown(const char* Header_Title, const char* Table_ID, const c
                          const char* Slider_Title, const char* Slider_ID, int MinY, int MaxY, int MinX, int MaxX,
                          float Default_Value) {
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader(Header_Title)) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel(Header_Title).c_str())) {
         if (ImGui::BeginTable(Table_ID, 1, FlagsTable)) {
-            ImGui::TableSetupColumn(Column_Title, FlagsCell, TablesCellsWidth);
+            ImGui::TableSetupColumn(SohGui::Tr(Column_Title).c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
             DrawUseMarginsSlider(Slider_Title, Slider_ID);
             DrawPositionsRadioBoxes(Slider_ID);
@@ -1618,9 +1618,9 @@ void C_Button_Dropdown(const char* Header_Title, const char* Table_ID, const cha
                        const char* Slider_Title, const char* Slider_ID, const char* Int_Type,
                        float Slider_Scale_Value) {
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader(Header_Title)) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel(Header_Title).c_str())) {
         if (ImGui::BeginTable(Table_ID, 1, FlagsTable)) {
-            ImGui::TableSetupColumn(Column_Title, FlagsCell, TablesCellsWidth);
+            ImGui::TableSetupColumn(SohGui::Tr(Column_Title).c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
             DrawUseMarginsSlider(Slider_Title, Slider_ID);
             DrawPositionsRadioBoxes(Slider_ID);
@@ -1695,7 +1695,7 @@ void Draw_Placements() {
     ImGui::SameLine();
     ResetPositionAll();
     UIWidgets::Separator(true, true, 2.0f, 2.0f);
-    if (ImGui::CollapsingHeader(SohGui::Tr("Hearts count position").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel("Hearts count position").c_str())) {
         if (ImGui::BeginTable("tableHeartsCounts", 1, FlagsTable)) {
             ImGui::TableSetupColumn(SohGui::Tr("Hearts counts settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1717,7 +1717,7 @@ void Draw_Placements() {
             ImGui::EndTable();
         }
     }
-    if (ImGui::CollapsingHeader(SohGui::Tr("Magic Meter position").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel("Magic Meter position").c_str())) {
         if (ImGui::BeginTable("tablemmpos", 1, FlagsTable)) {
             ImGui::TableSetupColumn(SohGui::Tr("Magic meter settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1736,7 +1736,7 @@ void Draw_Placements() {
         }
     }
     if (CVarGetInteger(CVAR_ENHANCEMENT("VisualAgony"), 0) &&
-        ImGui::CollapsingHeader(SohGui::Tr("Visual stone of agony position").c_str())) {
+        ImGui::CollapsingHeader(SohGui::TrLabel("Visual stone of agony position").c_str())) {
         if (ImGui::BeginTable("tabledvisualstoneofagony", 1, FlagsTable)) {
             ImGui::TableSetupColumn(SohGui::Tr("Visual stone of agony settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1772,7 +1772,7 @@ void Draw_Placements() {
                       CVAR_COSMETIC("HUD.CLeftButton"), CVAR_COSMETIC("HUD.CLeftButton.PosType"), 0.87f);
     C_Button_Dropdown("C Button Right position", "tablecrbtn", "C Button Right settings", "C Button Right",
                       CVAR_COSMETIC("HUD.CRightButton"), CVAR_COSMETIC("HUD.CRightButton.PosType"), 0.87f);
-    if (CVarGetInteger(CVAR_ENHANCEMENT("DpadEquips"), 0) && ImGui::CollapsingHeader(SohGui::Tr("DPad items position").c_str())) {
+    if (CVarGetInteger(CVAR_ENHANCEMENT("DpadEquips"), 0) && ImGui::CollapsingHeader(SohGui::TrLabel("DPad items position").c_str())) {
         if (ImGui::BeginTable("tabledpaditems", 1, FlagsTable)) {
             ImGui::TableSetupColumn(SohGui::Tr("DPad items settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1824,7 +1824,7 @@ void Draw_Placements() {
                         "In-game Gameplay Timer", CVAR_COSMETIC("HUD.IGT"), 0,
                         static_cast<int>(ImGui::GetWindowViewport()->Size.y / 2), -50,
                         static_cast<int>(ImGui::GetWindowViewport()->Size.x / 2) + 10, 1.0f);
-    if (ImGui::CollapsingHeader(SohGui::Tr("Enemy Health Bar position").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::TrLabel("Enemy Health Bar position").c_str())) {
         if (ImGui::BeginTable("enemyhealthbar", 1, FlagsTable)) {
             ImGui::TableSetupColumn(SohGui::Tr("Enemy Health Bar settings").c_str(), FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -2220,7 +2220,7 @@ void DrawCosmeticRow(CosmeticOption& cosmeticOption) {
         Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
     // the longest option name
-    ImGui::SameLine((ImGui::CalcTextSize("Message Light Blue (None No Shadow)").x * 1.0f) + 60.0f);
+    ImGui::SameLine((ImGui::CalcTextSize(SohGui::Tr("Message Light Blue (None No Shadow)").c_str()).x * 1.0f) + 60.0f);
     if (UIWidgets::Button(
             ("Random##" + cosmeticOption.label).c_str(),
             UIWidgets::ButtonOptions().Size(ImVec2(80, 31)).Padding(ImVec2(2.0f, 0.0f)).Color(THEME_COLOR))) {
@@ -2256,9 +2256,9 @@ void DrawCosmeticRow(CosmeticOption& cosmeticOption) {
 
 void DrawCosmeticGroup(CosmeticGroup cosmeticGroup) {
     std::string label = groupLabels.at(cosmeticGroup);
-    ImGui::Text("%s", label.c_str());
+    ImGui::Text("%s", SohGui::Tr(label).c_str());
     // the longest option name
-    ImGui::SameLine((ImGui::CalcTextSize("Message Light Blue (None No Shadow)").x * 1.0f) + 60.0f);
+    ImGui::SameLine((ImGui::CalcTextSize(SohGui::Tr("Message Light Blue (None No Shadow)").c_str()).x * 1.0f) + 60.0f);
     if (UIWidgets::Button(
             ("Random##" + label).c_str(),
             UIWidgets::ButtonOptions().Size(ImVec2(80, 31)).Padding(ImVec2(2.0f, 0.0f)).Color(THEME_COLOR))) {
@@ -2496,7 +2496,7 @@ void CosmeticsEditorWindow::DrawElement() {
 
     UIWidgets::PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTabBar("CosmeticsContextTabBar", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
-        if (ImGui::BeginTabItem(SohGui::Tr("Link & Items").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Link & Items").c_str())) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2509,7 +2509,7 @@ void CosmeticsEditorWindow::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem(SohGui::Tr("Keys").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Keys").c_str())) {
 
             ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
@@ -2529,7 +2529,7 @@ void CosmeticsEditorWindow::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem(SohGui::Tr("Effects").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Effects").c_str())) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2558,7 +2558,7 @@ void CosmeticsEditorWindow::DrawElement() {
 
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("World & NPCs").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("World & NPCs").c_str())) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2568,11 +2568,11 @@ void CosmeticsEditorWindow::DrawElement() {
             DrawCosmeticGroup(COSMETICS_GROUP_NPC);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Silly").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Silly").c_str())) {
             DrawSillyTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("HUD").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("HUD").c_str())) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2581,13 +2581,13 @@ void CosmeticsEditorWindow::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem(SohGui::Tr("HUD Placement").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("HUD Placement").c_str())) {
             Draw_Placements();
             ImGui::EndTabItem();
         }
 
         if (CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0)) {
-            if (ImGui::BeginTabItem(SohGui::Tr("Pause Menu").c_str())) {
+            if (ImGui::BeginTabItem(SohGui::TrLabel("Pause Menu").c_str())) {
                 UIWidgets::Separator(true, true, 2.0f, 2.0f);
                 DrawCosmeticGroup(COSMETICS_GROUP_KALEIDO);
                 ImGui::EndTabItem();
@@ -2595,7 +2595,7 @@ void CosmeticsEditorWindow::DrawElement() {
         }
 
         if (CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0)) {
-            if (ImGui::BeginTabItem(SohGui::Tr("Message").c_str())) {
+            if (ImGui::BeginTabItem(SohGui::TrLabel("Message").c_str())) {
                 UIWidgets::Separator(true, true, 2.0f, 2.0f);
                 DrawCosmeticGroup(COSMETICS_GROUP_MESSAGE);
                 ImGui::EndTabItem();

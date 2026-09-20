@@ -93,7 +93,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
 
             if (hasItems) {
                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                if (ImGui::TreeNode(SohGui::Tr(RandomizerCheckObjects::GetRCAreaName(rcArea)).c_str())) {
+                if (ImGui::TreeNode(SohGui::TrLabel(RandomizerCheckObjects::GetRCAreaName(rcArea)).c_str())) {
                     for (auto& location : locations) {
                         if (ctx->GetItemLocation(location)->IsVisible() && !excludedLocations.count(location) &&
                             locationSearch.PassFilter(Rando::StaticData::GetLocation(location)->GetName().c_str())) {
@@ -140,7 +140,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
 
             if (hasItems) {
                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                if (ImGui::TreeNode(SohGui::Tr(RandomizerCheckObjects::GetRCAreaName(rcArea)).c_str())) {
+                if (ImGui::TreeNode(SohGui::TrLabel(RandomizerCheckObjects::GetRCAreaName(rcArea)).c_str())) {
                     for (auto& location : locations) {
                         auto elfound = excludedLocations.find(location);
                         if (ctx->GetItemLocation(location)->IsVisible() && elfound != excludedLocations.end()) {
@@ -344,7 +344,7 @@ void DrawTricksMenu(WidgetInfo& info) {
                 ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 1.0f, 1.0f });
             }
             ImGui::PushStyleColor(ImGuiCol_Header, Rando::Tricks::GetTagColor(rtTag));
-            ImGui::Selectable(Rando::Tricks::GetTagName(rtTag).c_str(), &showTag[rtTag]);
+            ImGui::Selectable(SohGui::TrLabel(Rando::Tricks::GetTagName(rtTag)).c_str(), &showTag[rtTag]);
             ImGui::PopStyleColor(2);
         }
         ImGui::EndTable();
@@ -382,7 +382,7 @@ void DrawTricksMenu(WidgetInfo& info) {
                 for (int i = 0; i < RT_MAX; i++) {
                     auto option = randoSettings->GetTrickSetting(static_cast<RandomizerTrick>(i));
                     if (!enabledTricks.count(static_cast<RandomizerTrick>(i)) &&
-                        trickSearch.PassFilter(option.GetName().c_str()) && areaTreeDisabled[option.GetArea()] &&
+                        trickSearch.PassFilter((option.GetName() + "\n" + SohGui::Tr(option.GetName())).c_str()) && areaTreeDisabled[option.GetArea()] &&
                         Rando::Tricks::CheckTags(showTag, option.GetTags())) {
                         enabledTricks.insert(static_cast<RandomizerTrick>(i));
                     }
@@ -396,23 +396,23 @@ void DrawTricksMenu(WidgetInfo& info) {
                 bool hasTricks = false;
                 for (auto rt : trickIds) {
                     auto option = randoSettings->GetTrickSetting(rt);
-                    if (!option.IsHidden() && trickSearch.PassFilter(option.GetName().c_str()) &&
+                    if (!option.IsHidden() && trickSearch.PassFilter((option.GetName() + "\n" + SohGui::Tr(option.GetName())).c_str()) &&
                         !enabledTricks.count(rt) && Rando::Tricks::CheckTags(showTag, option.GetTags())) {
                         hasTricks = true;
                         break;
                     }
                 }
                 if (hasTricks) {
-                    ImGui::TreeNodeSetOpen(ImGui::GetID((Rando::Tricks::GetAreaName(area) + "##disabled").c_str()),
+                    ImGui::TreeNodeSetOpen(ImGui::GetID(SohGui::TrLabel(Rando::Tricks::GetAreaName(area) + "##disabled").c_str()),
                                            areaTreeDisabled[area]);
                     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                    if (ImGui::TreeNode((Rando::Tricks::GetAreaName(area) + "##disabled").c_str())) {
+                    if (ImGui::TreeNode(SohGui::TrLabel(Rando::Tricks::GetAreaName(area) + "##disabled").c_str())) {
                         for (auto rt : trickIds) {
                             auto option = randoSettings->GetTrickSetting(rt);
-                            if (!option.IsHidden() && trickSearch.PassFilter(option.GetName().c_str()) &&
+                            if (!option.IsHidden() && trickSearch.PassFilter((option.GetName() + "\n" + SohGui::Tr(option.GetName())).c_str()) &&
                                 !enabledTricks.count(rt) && Rando::Tricks::CheckTags(showTag, option.GetTags())) {
                                 ImGui::TreeNodeSetOpen(
-                                    ImGui::GetID((Rando::Tricks::GetAreaName(option.GetArea()) + "##disabled").c_str()),
+                                    ImGui::GetID(SohGui::TrLabel(Rando::Tricks::GetAreaName(option.GetArea()) + "##disabled").c_str()),
                                     areaTreeDisabled[option.GetArea()]);
                                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
                                 UIWidgets::PushStyleButton(THEME_COLOR, ImVec2(7.f, 5.f));
@@ -459,7 +459,7 @@ void DrawTricksMenu(WidgetInfo& info) {
                 for (int i = 0; i < RT_MAX; i++) {
                     auto option = randoSettings->GetTrickSetting(static_cast<RandomizerTrick>(i));
                     if (enabledTricks.count(static_cast<RandomizerTrick>(i)) &&
-                        trickSearch.PassFilter(option.GetName().c_str()) && areaTreeEnabled[option.GetArea()] &&
+                        trickSearch.PassFilter((option.GetName() + "\n" + SohGui::Tr(option.GetName())).c_str()) && areaTreeEnabled[option.GetArea()] &&
                         Rando::Tricks::CheckTags(showTag, option.GetTags())) {
                         enabledTricks.erase(static_cast<RandomizerTrick>(i));
                     }
@@ -473,23 +473,23 @@ void DrawTricksMenu(WidgetInfo& info) {
                 bool hasTricks = false;
                 for (auto rt : trickIds) {
                     auto option = randoSettings->GetTrickSetting(rt);
-                    if (!option.IsHidden() && trickSearch.PassFilter(option.GetName().c_str()) &&
+                    if (!option.IsHidden() && trickSearch.PassFilter((option.GetName() + "\n" + SohGui::Tr(option.GetName())).c_str()) &&
                         enabledTricks.count(rt) && Rando::Tricks::CheckTags(showTag, option.GetTags())) {
                         hasTricks = true;
                         break;
                     }
                 }
                 if (hasTricks) {
-                    ImGui::TreeNodeSetOpen(ImGui::GetID((Rando::Tricks::GetAreaName(area) + "##enabled").c_str()),
+                    ImGui::TreeNodeSetOpen(ImGui::GetID(SohGui::TrLabel(Rando::Tricks::GetAreaName(area) + "##enabled").c_str()),
                                            areaTreeEnabled[area]);
                     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                    if (ImGui::TreeNode((Rando::Tricks::GetAreaName(area) + "##enabled").c_str())) {
+                    if (ImGui::TreeNode(SohGui::TrLabel(Rando::Tricks::GetAreaName(area) + "##enabled").c_str())) {
                         for (auto rt : trickIds) {
                             auto option = randoSettings->GetTrickSetting(rt);
-                            if (!option.IsHidden() && trickSearch.PassFilter(option.GetName().c_str()) &&
+                            if (!option.IsHidden() && trickSearch.PassFilter((option.GetName() + "\n" + SohGui::Tr(option.GetName())).c_str()) &&
                                 enabledTricks.count(rt) && Rando::Tricks::CheckTags(showTag, option.GetTags())) {
                                 ImGui::TreeNodeSetOpen(
-                                    ImGui::GetID((Rando::Tricks::GetAreaName(option.GetArea()) + "##enabled").c_str()),
+                                    ImGui::GetID(SohGui::TrLabel(Rando::Tricks::GetAreaName(option.GetArea()) + "##enabled").c_str()),
                                     areaTreeEnabled[option.GetArea()]);
                                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
                                 UIWidgets::PushStyleButton(THEME_COLOR, ImVec2(7.f, 5.f));

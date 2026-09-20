@@ -809,7 +809,7 @@ void EntranceTrackerSettingsWindow::DrawElement() {
     }
 
     ImGui::SetNextItemOpen(false, ImGuiCond_Once);
-    if (ImGui::TreeNode(SohGui::Tr("Legend").c_str())) {
+    if (ImGui::TreeNode(SohGui::TrLabel("Legend").c_str())) {
         ImGui::TextColored(ImColor(COLOR_ORANGE), "%s", SohGui::Tr("Last Entrance").c_str());
         ImGui::TextColored(ImColor(COLOR_GREEN), "%s", SohGui::Tr("Available Entrances").c_str());
         ImGui::TextColored(ImColor(COLOR_GRAY), "%s", SohGui::Tr("Undiscovered Entrances").c_str());
@@ -1010,7 +1010,7 @@ void EntranceTrackerWindow::DrawElement() {
                     ImGui::SetNextItemOpen(true, nextTreeState == 0 && !doAreaScroll ? ImGuiCond_Once : ImGuiCond_None);
                 }
 
-                if (ImGui::TreeNode(groupName.c_str())) {
+                if (ImGui::TreeNode(SohGui::TrLabel(groupName).c_str())) {
                     for (auto entrance : displayEntrances) {
                         const EntranceData* original = GetEntranceData(entrance.index);
                         const EntranceData* override = GetEntranceData(entrance.override);
@@ -1050,7 +1050,7 @@ void EntranceTrackerWindow::DrawElement() {
                         ImGui::PushStyleColor(ImGuiCol_Text, color);
 
                         // Use a non-breaking space to keep the arrow from wrapping to a newline by itself
-                        ImGui::TextWrapped("%s\u00A0-> %s", origSrcName, rplcDstName);
+                        ImGui::TextWrapped("%s\u00A0-> %s", SohGui::Tr(origSrcName).c_str(), SohGui::Tr(rplcDstName).c_str());
 
                         ImGui::PopStyleColor();
                     }
@@ -1059,7 +1059,7 @@ void EntranceTrackerWindow::DrawElement() {
                     if (!locationSearch.IsActive() && undiscovered > 0) {
                         Spacer(0);
                         ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GRAY);
-                        ImGui::TextWrapped("%d Undiscovered", undiscovered);
+                        ImGui::TextWrapped(SohGui::Tr("%d Undiscovered").c_str(), undiscovered);
                         ImGui::PopStyleColor();
                     }
 

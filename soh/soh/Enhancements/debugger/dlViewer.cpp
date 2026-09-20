@@ -96,7 +96,7 @@ void DLViewerWindow::DrawElement() {
     UIWidgets::PushStyleInput(THEME_COLOR);
     ImGui::PushFont(OTRGlobals::Instance->fontMonoLarger);
 
-    if (ImGui::InputText("Search Display Lists", searchString, ARRAY_COUNT(searchString))) {
+    if (ImGui::InputText(SohGui::TrLabel("Search Display Lists").c_str(), searchString, ARRAY_COUNT(searchString))) {
         doSearch = true;
         searchDebounceFrames = 30;
     }
@@ -112,7 +112,7 @@ void DLViewerWindow::DrawElement() {
     }
 
     UIWidgets::PushStyleCombobox(THEME_COLOR);
-    if (ImGui::BeginCombo("Active Display List", activeDisplayList.c_str())) {
+    if (ImGui::BeginCombo(SohGui::TrLabel("Active Display List").c_str(), activeDisplayList.c_str())) {
         for (size_t i = 0; i < displayListSearchResults.size(); i++) {
             if (ImGui::Selectable(displayListSearchResults[i].c_str())) {
                 activeDisplayList = displayListSearchResults[i];
@@ -160,19 +160,19 @@ void DLViewerWindow::DrawElement() {
 
             UIWidgets::PushStyleCombobox(THEME_COLOR);
             if (ImGui::BeginCombo(("CMD" + id).c_str(), cmdLabel.c_str())) {
-                if (ImGui::Selectable(SohGui::Tr("gsDPSetPrimColor").c_str()) && cmd != G_SETPRIMCOLOR) {
+                if (ImGui::Selectable(SohGui::TrLabel("gsDPSetPrimColor").c_str()) && cmd != G_SETPRIMCOLOR) {
                     *gfx = gsDPSetPrimColor(0, 0, 0, 0, 0, 255);
                 }
-                if (ImGui::Selectable(SohGui::Tr("gsDPSetEnvColor").c_str())) {
+                if (ImGui::Selectable(SohGui::TrLabel("gsDPSetEnvColor").c_str())) {
                     *gfx = gsDPSetEnvColor(0, 0, 0, 255);
                 }
-                if (ImGui::Selectable(SohGui::Tr("gsDPPipeSync").c_str())) {
+                if (ImGui::Selectable(SohGui::TrLabel("gsDPPipeSync").c_str())) {
                     *gfx = gsDPPipeSync();
                 }
-                if (ImGui::Selectable(SohGui::Tr("gsSPGrayscale").c_str())) {
+                if (ImGui::Selectable(SohGui::TrLabel("gsSPGrayscale").c_str())) {
                     *gfx = gsSPGrayscale(true);
                 }
-                if (ImGui::Selectable(SohGui::Tr("gsDPSetGrayscaleColor").c_str())) {
+                if (ImGui::Selectable(SohGui::TrLabel("gsDPSetGrayscaleColor").c_str())) {
                     *gfx = gsDPSetGrayscaleColor(0, 0, 0, 255);
                 }
                 ImGui::EndCombo();
@@ -327,7 +327,7 @@ void DLViewerWindow::DrawElement() {
             if (cmd == G_SETTIMG_OTR_HASH || cmd == G_DL_OTR_HASH || cmd == G_VTX_OTR_HASH || cmd == G_BRANCH_Z_OTR ||
                 cmd == G_MARKER || cmd == G_MTX_OTR) {
                 i++;
-                ImGui::Text("%lu - Reserved - Second half of %s", i, cmdLabel.c_str());
+                ImGui::Text(SohGui::Tr("%lu - Reserved - Second half of %s").c_str(), i, cmdLabel.c_str());
             }
             ImGui::EndGroup();
         }

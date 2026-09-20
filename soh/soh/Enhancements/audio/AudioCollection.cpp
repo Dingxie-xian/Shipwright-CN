@@ -1,4 +1,5 @@
 #include "AudioCollection.h"
+#include "soh/SohGui/UiTranslation.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "soh/cvar_prefixes.h"
@@ -463,7 +464,7 @@ extern "C" size_t AudioCollection_SequenceMapSize() {
 extern "C" void AudioCollection_EmitSongNameNotification(s32 seqId) {
     const char* sequenceName = AudioCollection_GetSequenceName(seqId);
     if (sequenceName != NULL) {
-        Notification::Emit({ .message = "Currently playing: " + std::string(sequenceName),
+        Notification::Emit({ .message = SohGui::Tr("Currently playing: ") + SohGui::Tr(sequenceName),
                              .remainingTime = (float)CVarGetInteger(CVAR_AUDIO("SeqNameOverlayDuration"), 5) });
     }
 }

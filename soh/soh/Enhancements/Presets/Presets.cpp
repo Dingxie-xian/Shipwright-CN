@@ -152,12 +152,12 @@ void DrawPresetSelector(std::vector<PresetSection> includeSections, std::string 
     std::string currentIndex = CVarGetString(selectorCvar.c_str(), includedPresets[0].c_str());
     if (!presets.contains(currentIndex)) {
         currentIndex = *includedPresets.begin();
-        CVarSetString(selectorCvar.c_str(), currentIndex.c_str());
+        CVarSetString(selectorCvar.c_str(), SohGui::Tr(currentIndex).c_str());
     }
     UIWidgets::PushStyleCombobox(THEME_COLOR);
-    if (ImGui::BeginCombo("##PresetsComboBox", currentIndex.c_str())) {
+    if (ImGui::BeginCombo("##PresetsComboBox", SohGui::Tr(currentIndex).c_str())) {
         for (auto iter = includedPresets.begin(); iter != includedPresets.end(); ++iter) {
-            if (ImGui::Selectable(iter->c_str(), *iter == currentIndex)) {
+            if (ImGui::Selectable(SohGui::TrLabel(*iter).c_str(), *iter == currentIndex)) {
                 CVarSetString(selectorCvar.c_str(), iter->c_str());
                 currentIndex = *iter;
                 Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
@@ -382,12 +382,12 @@ void PresetsCustomWidget(WidgetInfo& info) {
     if (ImGui::BeginTable("PresetWidgetTable", PRESET_SECTION_MAX + 3)) {
         ImGui::TableSetupColumn(SohGui::Tr("Name").c_str(), ImGuiTableColumnFlags_WidthFixed, 400);
         for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
-            ImGui::TableSetupColumn(blockInfo[i].names[0].c_str());
+            ImGui::TableSetupColumn(SohGui::Tr(blockInfo[i].names[0]).c_str());
         }
         ImGui::TableSetupColumn(SohGui::Tr("Apply").c_str(), ImGuiTableColumnFlags_WidthFixed,
-                                ImGui::CalcTextSize("Apply").x + ImGui::GetStyle().FramePadding.x * 2);
+                                ImGui::CalcTextSize(SohGui::Tr("Apply").c_str()).x + ImGui::GetStyle().FramePadding.x * 2);
         ImGui::TableSetupColumn(SohGui::Tr("Delete").c_str(), ImGuiTableColumnFlags_WidthFixed,
-                                ImGui::CalcTextSize("Delete").x + ImGui::GetStyle().FramePadding.x * 2);
+                                ImGui::CalcTextSize(SohGui::Tr("Delete").c_str()).x + ImGui::GetStyle().FramePadding.x * 2);
         BlankButton();
         ImGui::TableNextRow();
         ImGui::TableNextColumn();

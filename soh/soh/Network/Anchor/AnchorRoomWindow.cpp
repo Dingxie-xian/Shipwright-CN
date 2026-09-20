@@ -74,7 +74,7 @@ void AnchorRoomWindow::DrawElement() {
             if (client.self) {
                 ImGui::TextColored(ImVec4(0.8f, 1.0f, 0.8f, 1.0f), "%s", CVarGetString(CVAR_REMOTE_ANCHOR("Name"), ""));
             } else if (!client.online) {
-                ImGui::TextColored(ImVec4(1, 1, 1, 0.3f), "%s - offline", client.name.c_str());
+                ImGui::TextColored(ImVec4(1, 1, 1, 0.3f), SohGui::Tr("%s - offline").c_str(), client.name.c_str());
                 ImGui::PopID();
                 continue;
             } else {

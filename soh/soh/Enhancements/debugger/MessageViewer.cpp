@@ -57,11 +57,11 @@ void MessageViewer::DrawElement() {
     }
     PopStyleInput();
     PushStyleCheckbox(THEME_COLOR);
-    if (ImGui::RadioButton(SohGui::Tr("Hexadecimal").c_str(), &mTextIdBase, HEXADECIMAL)) {
+    if (ImGui::RadioButton(SohGui::TrLabel("Hexadecimal").c_str(), &mTextIdBase, HEXADECIMAL)) {
         memset(mTextIdBuf, 0, sizeof(char) * MAX_STRING_SIZE);
     }
     ImGui::SameLine();
-    if (ImGui::RadioButton(SohGui::Tr("Decimal").c_str(), &mTextIdBase, DECIMAL)) {
+    if (ImGui::RadioButton(SohGui::TrLabel("Decimal").c_str(), &mTextIdBase, DECIMAL)) {
         memset(mTextIdBuf, 0, sizeof(char) * MAX_STRING_SIZE);
     }
     PopStyleCheckbox();
@@ -72,7 +72,7 @@ void MessageViewer::DrawElement() {
                             .DefaultIndex(0)
                             .Tooltip("Which language to load from the selected text ID"));
     PushStyleButton(THEME_COLOR);
-    if (ImGui::Button(SohGui::Tr("Display Message##ExistingMessage").c_str())) {
+    if (ImGui::Button(SohGui::TrLabel("Display Message##ExistingMessage").c_str())) {
         mDisplayExistingMessageClicked = true;
     }
     ImGui::TextUnformatted(SohGui::Tr("Custom Message").c_str());
@@ -82,7 +82,7 @@ void MessageViewer::DrawElement() {
     PushStyleInput(THEME_COLOR);
     ImGui::InputTextMultiline("##CustomMessage", mCustomMessageBuf, MAX_STRING_SIZE);
     PopStyleInput();
-    if (ImGui::Button(SohGui::Tr("Display Message##CustomMessage").c_str())) {
+    if (ImGui::Button(SohGui::TrLabel("Display Message##CustomMessage").c_str())) {
         mDisplayCustomMessageClicked = true;
     }
     PopStyleButton();

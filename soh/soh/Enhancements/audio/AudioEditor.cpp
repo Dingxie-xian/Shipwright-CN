@@ -257,7 +257,7 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
     const std::string lockAllButton = "Lock All" + hiddenTabId;
     const std::string unlockAllButton = "Unlock All" + hiddenTabId;
 
-    ImGui::SeparatorText(tabName.c_str());
+    ImGui::SeparatorText(SohGui::Tr(tabName).c_str());
     if (UIWidgets::Button(resetAllButton.c_str(),
                           UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR))) {
         auto currentBGM = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
@@ -310,7 +310,7 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
     auto currentBGM = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
 
     // Longest text in Audio Editor
-    ImVec2 columnSize = ImGui::CalcTextSize("Navi - Look/Hey/Watchout (Target Enemy)");
+    ImVec2 columnSize = ImGui::CalcTextSize(SohGui::Tr("Navi - Look/Hey/Watchout (Target Enemy)").c_str());
     ImGui::BeginTable(tabId.c_str(), 3, ImGuiTableFlags_SizingFixedFit);
     ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthFixed, columnSize.x + 30);
     ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthFixed, columnSize.x + 30);
@@ -341,15 +341,15 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
         ImGui::TableNextColumn();
         if (isCurrentlyPlaying) {
             ImGui::TextColored(UIWidgets::ColorValues.at(UIWidgets::Colors::Yellow), "%s %s", ICON_FA_PLAY,
-                               seqData.label.c_str());
+                               SohGui::Tr(seqData.label).c_str());
         } else {
-            ImGui::Text("%s", seqData.label.c_str());
+            ImGui::Text("%s", SohGui::Tr(seqData.label).c_str());
         }
         ImGui::TableNextColumn();
         ImGui::PushItemWidth(-FLT_MIN);
         const int initialValue = map.contains(currentValue) ? currentValue : defaultValue;
         UIWidgets::PushStyleCombobox(THEME_COLOR);
-        if (ImGui::BeginCombo(hiddenKey.c_str(), map.at(initialValue).label.c_str())) {
+        if (ImGui::BeginCombo(hiddenKey.c_str(), SohGui::Tr(map.at(initialValue).label).c_str())) {
             for (const auto& [value, seqData] : map) {
                 // If excluded as a replacement sequence, don't show in other dropdowns except the effect's own
                 // dropdown.
@@ -358,7 +358,7 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
                     continue;
                 }
 
-                if (ImGui::Selectable(seqData.label.c_str())) {
+                if (ImGui::Selectable(SohGui::TrLabel(seqData.label + "##" + seqData.sfxKey).c_str())) {
                     CVarSetInteger(cvarKey.c_str(), value);
                     Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
                     UpdateCurrentBGM(defaultValue, type);
@@ -495,7 +495,7 @@ ImVec4 GetSequenceTypeColor(SeqType type) {
 void DrawTypeChip(SeqType type, std::string sequenceName) {
     ImGui::BeginDisabled();
     ImGui::PushStyleColor(ImGuiCol_Button, GetSequenceTypeColor(type));
-    std::string buttonLabel = GetSequenceTypeName(type) + "##" + sequenceName;
+    std::string buttonLabel = SohGui::TrLabel(GetSequenceTypeName(type) + "##" + sequenceName);
     ImGui::Button(buttonLabel.c_str());
     ImGui::PopStyleColor();
     ImGui::EndDisabled();
@@ -575,7 +575,7 @@ void AudioEditor::DrawElement() {
     if (ImGui::BeginTabBar("SfxContextTabBar", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
 
         static ImVec2 cellPadding(8.0f, 8.0f);
-        if (ImGui::BeginTabItem(SohGui::Tr("Audio Options").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Audio Options").c_str())) {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, cellPadding);
             ImGui::BeginTable("Audio Options", 1, ImGuiTableFlags_SizingStretchSame);
             ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthStretch);
@@ -607,42 +607,42 @@ void AudioEditor::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem(SohGui::Tr("Background Music").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Background Music").c_str())) {
             Draw_SfxTab("backgroundMusic", SEQ_BGM_WORLD, "Background Music");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Fanfares").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Fanfares").c_str())) {
             Draw_SfxTab("fanfares", SEQ_FANFARE, "Fanfares");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Events").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Events").c_str())) {
             Draw_SfxTab("event", SEQ_BGM_EVENT, "Events");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Battle Music").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Battle Music").c_str())) {
             Draw_SfxTab("battleMusic", SEQ_BGM_BATTLE, "Battle Music");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Ending").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Ending").c_str())) {
             Draw_SfxTab("ending", SEQ_ENDING, "Ending");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Ocarina").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Ocarina").c_str())) {
             Draw_SfxTab("instrument", SEQ_INSTRUMENT, "Instruments");
             Draw_SfxTab("ocarina", SEQ_OCARINA, "Ocarina");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Sound Effects").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Sound Effects").c_str())) {
             Draw_SfxTab("sfx", SEQ_SFX, "Sound Effects");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(SohGui::Tr("Voices").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Voices").c_str())) {
             Draw_SfxTab("voice", SEQ_VOICE, "Voices");
             ImGui::EndTabItem();
         }
 
         static bool excludeTabOpen = false;
-        if (ImGui::BeginTabItem(SohGui::Tr("Audio Shuffle Pool Management").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::TrLabel("Audio Shuffle Pool Management").c_str())) {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, cellPadding);
             if (!excludeTabOpen) {
                 excludeTabOpen = true;
@@ -666,7 +666,7 @@ void AudioEditor::DrawElement() {
             if (UIWidgets::Button("Exclude All",
                                   UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR))) {
                 for (auto seqInfo : AudioCollection::Instance->GetIncludedSequences()) {
-                    if (sequenceSearch.PassFilter(seqInfo->label.c_str()) && showType[seqInfo->category]) {
+                    if (sequenceSearch.PassFilter((seqInfo->label + "\n" + SohGui::Tr(seqInfo->label)).c_str()) && showType[seqInfo->category]) {
                         seqsToExclude.insert(seqInfo);
                     }
                 }
@@ -675,7 +675,7 @@ void AudioEditor::DrawElement() {
             if (UIWidgets::Button("Include All",
                                   UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR))) {
                 for (auto seqInfo : AudioCollection::Instance->GetExcludedSequences()) {
-                    if (sequenceSearch.PassFilter(seqInfo->label.c_str()) && showType[seqInfo->category]) {
+                    if (sequenceSearch.PassFilter((seqInfo->label + "\n" + SohGui::Tr(seqInfo->label)).c_str()) && showType[seqInfo->category]) {
                         seqsToInclude.insert(seqInfo);
                     }
                 }
@@ -686,47 +686,47 @@ void AudioEditor::DrawElement() {
 
             ImGui::TableNextColumn();
             ImGui::PushStyleColor(ImGuiCol_Header, GetSequenceTypeColor(SEQ_BGM_WORLD));
-            ImGui::Selectable(GetSequenceTypeName(SEQ_BGM_WORLD).c_str(), &showType[SEQ_BGM_WORLD]);
+            ImGui::Selectable(SohGui::TrLabel(GetSequenceTypeName(SEQ_BGM_WORLD)).c_str(), &showType[SEQ_BGM_WORLD]);
             ImGui::PopStyleColor(1);
 
             ImGui::TableNextColumn();
             ImGui::PushStyleColor(ImGuiCol_Header, GetSequenceTypeColor(SEQ_BGM_EVENT));
-            ImGui::Selectable(GetSequenceTypeName(SEQ_BGM_EVENT).c_str(), &showType[SEQ_BGM_EVENT]);
+            ImGui::Selectable(SohGui::TrLabel(GetSequenceTypeName(SEQ_BGM_EVENT)).c_str(), &showType[SEQ_BGM_EVENT]);
             ImGui::PopStyleColor(1);
 
             ImGui::TableNextColumn();
             ImGui::PushStyleColor(ImGuiCol_Header, GetSequenceTypeColor(SEQ_BGM_BATTLE));
-            ImGui::Selectable(GetSequenceTypeName(SEQ_BGM_BATTLE).c_str(), &showType[SEQ_BGM_BATTLE]);
+            ImGui::Selectable(SohGui::TrLabel(GetSequenceTypeName(SEQ_BGM_BATTLE)).c_str(), &showType[SEQ_BGM_BATTLE]);
             ImGui::PopStyleColor(1);
 
             ImGui::TableNextColumn();
             ImGui::PushStyleColor(ImGuiCol_Header, GetSequenceTypeColor(SEQ_OCARINA));
-            ImGui::Selectable(GetSequenceTypeName(SEQ_OCARINA).c_str(), &showType[SEQ_OCARINA]);
+            ImGui::Selectable(SohGui::TrLabel(GetSequenceTypeName(SEQ_OCARINA)).c_str(), &showType[SEQ_OCARINA]);
             ImGui::PopStyleColor(1);
 
             ImGui::TableNextColumn();
             ImGui::PushStyleColor(ImGuiCol_Header, GetSequenceTypeColor(SEQ_FANFARE));
-            ImGui::Selectable(GetSequenceTypeName(SEQ_FANFARE).c_str(), &showType[SEQ_FANFARE]);
+            ImGui::Selectable(SohGui::TrLabel(GetSequenceTypeName(SEQ_FANFARE)).c_str(), &showType[SEQ_FANFARE]);
             ImGui::PopStyleColor(1);
 
             ImGui::TableNextColumn();
             ImGui::PushStyleColor(ImGuiCol_Header, GetSequenceTypeColor(SEQ_SFX));
-            ImGui::Selectable(GetSequenceTypeName(SEQ_SFX).c_str(), &showType[SEQ_SFX]);
+            ImGui::Selectable(SohGui::TrLabel(GetSequenceTypeName(SEQ_SFX)).c_str(), &showType[SEQ_SFX]);
             ImGui::PopStyleColor(1);
 
             ImGui::TableNextColumn();
             ImGui::PushStyleColor(ImGuiCol_Header, GetSequenceTypeColor(SEQ_VOICE));
-            ImGui::Selectable(GetSequenceTypeName(SEQ_VOICE).c_str(), &showType[SEQ_VOICE]);
+            ImGui::Selectable(SohGui::TrLabel(GetSequenceTypeName(SEQ_VOICE)).c_str(), &showType[SEQ_VOICE]);
             ImGui::PopStyleColor(1);
 
             ImGui::TableNextColumn();
             ImGui::PushStyleColor(ImGuiCol_Header, GetSequenceTypeColor(SEQ_INSTRUMENT));
-            ImGui::Selectable(GetSequenceTypeName(SEQ_INSTRUMENT).c_str(), &showType[SEQ_INSTRUMENT]);
+            ImGui::Selectable(SohGui::TrLabel(GetSequenceTypeName(SEQ_INSTRUMENT)).c_str(), &showType[SEQ_INSTRUMENT]);
             ImGui::PopStyleColor(1);
 
             ImGui::TableNextColumn();
             ImGui::PushStyleColor(ImGuiCol_Header, GetSequenceTypeColor(SEQ_BGM_CUSTOM));
-            ImGui::Selectable(GetSequenceTypeName(SEQ_BGM_CUSTOM).c_str(), &showType[SEQ_BGM_CUSTOM]);
+            ImGui::Selectable(SohGui::TrLabel(GetSequenceTypeName(SEQ_BGM_CUSTOM)).c_str(), &showType[SEQ_BGM_CUSTOM]);
             ImGui::PopStyleColor(1);
 
             ImGui::EndTable();
@@ -742,7 +742,7 @@ void AudioEditor::DrawElement() {
 
                 ImGui::BeginChild("ChildIncludedSequences", ImVec2(0, -8));
                 for (auto seqInfo : AudioCollection::Instance->GetIncludedSequences()) {
-                    if (sequenceSearch.PassFilter(seqInfo->label.c_str()) && showType[seqInfo->category]) {
+                    if (sequenceSearch.PassFilter((seqInfo->label + "\n" + SohGui::Tr(seqInfo->label)).c_str()) && showType[seqInfo->category]) {
                         if (UIWidgets::Button(std::string(ICON_FA_TIMES "##" + seqInfo->sfxKey).c_str(),
                                               UIWidgets::ButtonOptions()
                                                   .Size(UIWidgets::Sizes::Inline)
@@ -755,7 +755,7 @@ void AudioEditor::DrawElement() {
                         ImGui::SameLine();
                         DrawTypeChip(seqInfo->category, seqInfo->label);
                         ImGui::SameLine();
-                        ImGui::Text("%s", seqInfo->label.c_str());
+                        ImGui::Text("%s", SohGui::Tr(seqInfo->label).c_str());
                     }
                 }
                 ImGui::EndChild();
@@ -770,7 +770,7 @@ void AudioEditor::DrawElement() {
 
                 ImGui::BeginChild("ChildExcludedSequences", ImVec2(0, -8));
                 for (auto seqInfo : AudioCollection::Instance->GetExcludedSequences()) {
-                    if (sequenceSearch.PassFilter(seqInfo->label.c_str()) && showType[seqInfo->category]) {
+                    if (sequenceSearch.PassFilter((seqInfo->label + "\n" + SohGui::Tr(seqInfo->label)).c_str()) && showType[seqInfo->category]) {
                         if (UIWidgets::Button(std::string(ICON_FA_PLUS "##" + seqInfo->sfxKey).c_str(),
                                               UIWidgets::ButtonOptions()
                                                   .Size(UIWidgets::Sizes::Inline)
@@ -783,7 +783,7 @@ void AudioEditor::DrawElement() {
                         ImGui::SameLine();
                         DrawTypeChip(seqInfo->category, seqInfo->sfxKey);
                         ImGui::SameLine();
-                        ImGui::Text("%s", seqInfo->label.c_str());
+                        ImGui::Text("%s", SohGui::Tr(seqInfo->label).c_str());
                     }
                 }
                 ImGui::EndChild();
