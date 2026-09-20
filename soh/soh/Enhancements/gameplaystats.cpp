@@ -666,19 +666,19 @@ void GameplayStatsWindow::DrawElement() {
     UIWidgets::PushStyleTabs(THEME_COLOR);
 
     if (ImGui::BeginTabBar("Stats", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
-        if (ImGui::BeginTabItem("Timestamps")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Timestamps").c_str())) {
             DrawGameplayStatsTimestampsTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Counts")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Counts").c_str())) {
             DrawGameplayStatsCountsTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Breakdown")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Breakdown").c_str())) {
             DrawGameplayStatsBreakdownTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Options")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Options").c_str())) {
             DrawGameplayStatsOptionsTab();
             ImGui::EndTabItem();
         }

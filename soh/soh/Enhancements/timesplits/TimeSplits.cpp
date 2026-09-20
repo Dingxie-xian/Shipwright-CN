@@ -878,7 +878,7 @@ void TimeSplitsDrawManageList() {
 
         ImGui::TableNextColumn();
         ImGui::BeginTabBar("List Preview");
-        if (ImGui::BeginTabItem("Preview")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Preview").c_str())) {
             ImGui::BeginChild("PreviewChild");
             for (auto& data : splitList) {
                 float availableWidth = ImGui::GetContentRegionAvail().x;
@@ -910,27 +910,27 @@ void TimeSplitsDrawManageList() {
         ImGui::PopStyleColor(3);
         ImGui::TableNextColumn();
         ImGui::BeginTabBar("List Options");
-        if (ImGui::BeginTabItem("Equipment")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Equipment").c_str())) {
             TimeSplitsDrawItemList(SPLIT_TYPE_EQUIPMENT);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Inventory")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Inventory").c_str())) {
             TimeSplitsDrawItemList(SPLIT_TYPE_ITEM);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Quest")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Quest").c_str())) {
             TimeSplitsDrawItemList(SPLIT_TYPE_QUEST);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Entrances")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Entrances").c_str())) {
             TimeSplitsDrawItemList(SPLIT_TYPE_ENTRANCE);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Bosses")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Bosses").c_str())) {
             TimeSplitsDrawItemList(SPLIT_TYPE_BOSS);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Miscellaneous")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Miscellaneous").c_str())) {
             TimeSplitsDrawItemList(SPLIT_TYPE_MISC);
             ImGui::EndTabItem();
         }
@@ -957,15 +957,15 @@ void TimeSplitWindow::DrawElement() {
 
     PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTabBar("Split Tabs")) {
-        if (ImGui::BeginTabItem("Splits")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Splits").c_str())) {
             TimeSplitsDrawSplitsList();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Manage List")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Manage List").c_str())) {
             TimeSplitsDrawManageList();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Options")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Options").c_str())) {
             TimeSplitsDrawOptionsMenu();
             ImGui::EndTabItem();
         }

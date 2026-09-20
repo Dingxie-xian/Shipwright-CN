@@ -1931,37 +1931,37 @@ void SaveEditorWindow::DrawElement() {
 
     if (ImGui::BeginTabBar("SaveContextTabBar", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Info")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Info").c_str())) {
             DrawInfoTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Inventory")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Inventory").c_str())) {
             DrawInventoryTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Flags")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Flags").c_str())) {
             DrawFlagsTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Equipment")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Equipment").c_str())) {
             DrawEquipmentTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Quest Status")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Quest Status").c_str())) {
             DrawQuestStatusTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Player")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Player").c_str())) {
             DrawPlayerTab();
             ImGui::EndTabItem();
         }

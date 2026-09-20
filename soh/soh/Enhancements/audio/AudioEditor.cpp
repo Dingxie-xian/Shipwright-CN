@@ -575,7 +575,7 @@ void AudioEditor::DrawElement() {
     if (ImGui::BeginTabBar("SfxContextTabBar", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
 
         static ImVec2 cellPadding(8.0f, 8.0f);
-        if (ImGui::BeginTabItem("Audio Options")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Audio Options").c_str())) {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, cellPadding);
             ImGui::BeginTable("Audio Options", 1, ImGuiTableFlags_SizingStretchSame);
             ImGui::TableSetupColumn(SohGui::Tr("").c_str(), ImGuiTableColumnFlags_WidthStretch);
@@ -607,42 +607,42 @@ void AudioEditor::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem("Background Music")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Background Music").c_str())) {
             Draw_SfxTab("backgroundMusic", SEQ_BGM_WORLD, "Background Music");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Fanfares")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Fanfares").c_str())) {
             Draw_SfxTab("fanfares", SEQ_FANFARE, "Fanfares");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Events")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Events").c_str())) {
             Draw_SfxTab("event", SEQ_BGM_EVENT, "Events");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Battle Music")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Battle Music").c_str())) {
             Draw_SfxTab("battleMusic", SEQ_BGM_BATTLE, "Battle Music");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Ending")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Ending").c_str())) {
             Draw_SfxTab("ending", SEQ_ENDING, "Ending");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Ocarina")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Ocarina").c_str())) {
             Draw_SfxTab("instrument", SEQ_INSTRUMENT, "Instruments");
             Draw_SfxTab("ocarina", SEQ_OCARINA, "Ocarina");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Sound Effects")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Sound Effects").c_str())) {
             Draw_SfxTab("sfx", SEQ_SFX, "Sound Effects");
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Voices")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Voices").c_str())) {
             Draw_SfxTab("voice", SEQ_VOICE, "Voices");
             ImGui::EndTabItem();
         }
 
         static bool excludeTabOpen = false;
-        if (ImGui::BeginTabItem("Audio Shuffle Pool Management")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Audio Shuffle Pool Management").c_str())) {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, cellPadding);
             if (!excludeTabOpen) {
                 excludeTabOpen = true;

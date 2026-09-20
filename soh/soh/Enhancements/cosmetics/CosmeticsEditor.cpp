@@ -2496,7 +2496,7 @@ void CosmeticsEditorWindow::DrawElement() {
 
     UIWidgets::PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTabBar("CosmeticsContextTabBar", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
-        if (ImGui::BeginTabItem("Link & Items")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Link & Items").c_str())) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2509,7 +2509,7 @@ void CosmeticsEditorWindow::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem("Keys")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Keys").c_str())) {
 
             ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
@@ -2529,7 +2529,7 @@ void CosmeticsEditorWindow::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem("Effects")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Effects").c_str())) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2558,7 +2558,7 @@ void CosmeticsEditorWindow::DrawElement() {
 
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("World & NPCs")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("World & NPCs").c_str())) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2568,11 +2568,11 @@ void CosmeticsEditorWindow::DrawElement() {
             DrawCosmeticGroup(COSMETICS_GROUP_NPC);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Silly")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Silly").c_str())) {
             DrawSillyTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("HUD")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("HUD").c_str())) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2581,13 +2581,13 @@ void CosmeticsEditorWindow::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem("HUD Placement")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("HUD Placement").c_str())) {
             Draw_Placements();
             ImGui::EndTabItem();
         }
 
         if (CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0)) {
-            if (ImGui::BeginTabItem("Pause Menu")) {
+            if (ImGui::BeginTabItem(SohGui::Tr("Pause Menu").c_str())) {
                 UIWidgets::Separator(true, true, 2.0f, 2.0f);
                 DrawCosmeticGroup(COSMETICS_GROUP_KALEIDO);
                 ImGui::EndTabItem();
@@ -2595,7 +2595,7 @@ void CosmeticsEditorWindow::DrawElement() {
         }
 
         if (CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0)) {
-            if (ImGui::BeginTabItem("Message")) {
+            if (ImGui::BeginTabItem(SohGui::Tr("Message").c_str())) {
                 UIWidgets::Separator(true, true, 2.0f, 2.0f);
                 DrawCosmeticGroup(COSMETICS_GROUP_MESSAGE);
                 ImGui::EndTabItem();

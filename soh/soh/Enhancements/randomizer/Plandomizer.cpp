@@ -1149,12 +1149,12 @@ void PlandomizerDrawSpoilerTable() {
     ImGui::BeginChild("Main");
     UIWidgets::PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTabBar("Check Tabs")) {
-        if (ImGui::BeginTabItem("Gossip Stones")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Gossip Stones").c_str())) {
             getTabID = TAB_HINTS;
             PlandomizerDrawHintsWindow();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Locations")) {
+        if (ImGui::BeginTabItem(SohGui::Tr("Locations").c_str())) {
             getTabID = TAB_LOCATIONS;
             PlandomizerDrawLocationsWindow(selectedArea);
             ImGui::EndTabItem();
