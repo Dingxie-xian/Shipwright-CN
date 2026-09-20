@@ -5723,5 +5723,16 @@
     "D-Down:": "方向键下：",
     "D-Left:": "方向键左：",
     "Start:": "开始：",
-    "Z": "Z"
+    "Z": "Z",
+    "Rainbow": "彩虹",
+    "Lock": "锁定",
+    "Hex": "十六进制",
+    "Trim": "精简小数",
+    "Print": "显示数值",
+    "Prefix": "前缀",
+    "Apply Preset": "应用预设",
+    "Details": "细节",
+    "Aiming/First-Person Camera": "瞄准／第一人称视角",
+    "Third-Person Camera": "第三人称视角",
+    "D-Pad Options": "方向键选项"
 }

@@ -5,6 +5,7 @@
 #include <cstdint>
 
 #include <libultraship/libultraship.h>
+#include "soh/SohGui/LocalizedWindow.h"
 #include "randomizerTypes.h"
 
 typedef enum {
@@ -112,9 +113,9 @@ s16 GetCurrentGrottoId();
 const EntranceData* GetEntranceData(s16);
 void LoadFromPreset(nlohmann::json info);
 
-class EntranceTrackerSettingsWindow final : public Ship::GuiWindow {
+class EntranceTrackerSettingsWindow final : public SohGui::LocalizedWindow {
   public:
-    using GuiWindow::GuiWindow;
+    using LocalizedWindow::LocalizedWindow;
 
   protected:
     void InitElement() override{};
@@ -122,9 +123,9 @@ class EntranceTrackerSettingsWindow final : public Ship::GuiWindow {
     void UpdateElement() override{};
 };
 
-class EntranceTrackerWindow final : public Ship::GuiWindow {
+class EntranceTrackerWindow final : public SohGui::LocalizedWindow {
   public:
-    using GuiWindow::GuiWindow;
+    using LocalizedWindow::LocalizedWindow;
     void Draw() override;
 
     void InitElement() override;

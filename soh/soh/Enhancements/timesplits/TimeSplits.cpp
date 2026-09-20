@@ -946,7 +946,7 @@ void TimeSplitsDrawManageList() {
 
 void TimeSplitWindow::Draw() {
     ImGui::PushStyleColor(ImGuiCol_WindowBg, windowColor);
-    GuiWindow::Draw();
+    LocalizedWindow::Draw();
     ImGui::PopStyleColor();
 }
 

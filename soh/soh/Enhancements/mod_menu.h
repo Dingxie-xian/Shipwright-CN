@@ -1,11 +1,12 @@
 #pragma once
 
 #include <libultraship/libultraship.h>
+#include "soh/SohGui/LocalizedWindow.h"
 
 #ifdef __cplusplus
-class ModMenuWindow : public Ship::GuiWindow {
+class ModMenuWindow : public SohGui::LocalizedWindow {
   public:
-    using GuiWindow::GuiWindow;
+    using LocalizedWindow::LocalizedWindow;
 
     void InitElement() override;
     void DrawElement() override;

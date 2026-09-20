@@ -1375,7 +1375,7 @@ void SohInputEditorWindow::DrawCameraControlPanel() {
     ImGui::SetCursorPos(ImVec2(cursor.x + 5, cursor.y + 5));
     SohGui::mSohMenu->MenuDrawItem(mouseAutoCapture, ImGui::GetContentRegionAvail().x, THEME_COLOR);
 
-    Ship::GuiWindow::BeginGroupPanel("Aiming/First-Person Camera", ImGui::GetContentRegionAvail());
+    Ship::GuiWindow::BeginGroupPanel(SohGui::Tr("Aiming/First-Person Camera").c_str(), ImGui::GetContentRegionAvail());
     CVarCheckbox("Right Stick Aiming", CVAR_SETTING("Controls.RightStickAim"),
                  CheckboxOptions()
                      .Color(THEME_COLOR)
@@ -1439,7 +1439,7 @@ void SohInputEditorWindow::DrawCameraControlPanel() {
 
     cursor = ImGui::GetCursorPos();
     ImGui::SetCursorPos(ImVec2(cursor.x + 5, cursor.y + 5));
-    Ship::GuiWindow::BeginGroupPanel("Third-Person Camera", ImGui::GetContentRegionAvail());
+    Ship::GuiWindow::BeginGroupPanel(SohGui::Tr("Third-Person Camera").c_str(), ImGui::GetContentRegionAvail());
 
     SohGui::mSohMenu->MenuDrawItem(freeLook, ImGui::GetContentRegionAvail().x, THEME_COLOR);
     CVarCheckbox("Invert Camera X Axis", CVAR_SETTING("FreeLook.InvertXAxis"),
@@ -1473,7 +1473,7 @@ void SohInputEditorWindow::DrawCameraControlPanel() {
 void SohInputEditorWindow::DrawDpadControlPanel() {
     ImVec2 cursor = ImGui::GetCursorPos();
     ImGui::SetCursorPos(ImVec2(cursor.x + 5, cursor.y + 5));
-    Ship::GuiWindow::BeginGroupPanel("D-Pad Options", ImGui::GetContentRegionAvail());
+    Ship::GuiWindow::BeginGroupPanel(SohGui::Tr("D-Pad Options").c_str(), ImGui::GetContentRegionAvail());
     SohGui::mSohMenu->MenuDrawItem(dpadPause, ImGui::GetContentRegionAvail().x, THEME_COLOR);
     SohGui::mSohMenu->MenuDrawItem(dpadText, ImGui::GetContentRegionAvail().x, THEME_COLOR);
 

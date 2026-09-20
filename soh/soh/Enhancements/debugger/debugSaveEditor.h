@@ -7,6 +7,7 @@
 #include <cstdint>
 #include "soh/Enhancements/randomizer/randomizerTypes.h"
 #include <libultraship/libultraship.h>
+#include "soh/SohGui/LocalizedWindow.h"
 
 typedef enum {
     EVENT_CHECK_INF,
@@ -451,9 +452,9 @@ const std::vector<std::string> state3 = {
     "Travelling to Hook Target",
 };
 
-class SaveEditorWindow final : public Ship::GuiWindow {
+class SaveEditorWindow final : public SohGui::LocalizedWindow {
   public:
-    using GuiWindow::GuiWindow;
+    using LocalizedWindow::LocalizedWindow;
 
     void InitElement() override;
     void DrawElement() override;

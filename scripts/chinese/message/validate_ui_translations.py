@@ -86,6 +86,15 @@ def main():
                 if key:
                     (audio if name == 'SEQUENCE_MAP_ENTRY' else cosmetics).add(key)
                     seen.add(key)
+            if name.startswith('UIWidgets::') or name in ('ImGui::Checkbox', 'ImGui::Button', 'ImGui::InputText'):
+                # Labels such as "Rainbow##" + option.name are not literals as
+                # a whole, but their visible prefix is still a dictionary key.
+                for token in args[0]:
+                    value = literal([token])
+                    if value and '##' in value:
+                        visible = value.split('##')[0]
+                        if '%' not in visible and '{' not in visible:
+                            seen.add(visible)
             # Find the literal supplied to an actual formatting call, including
             # Tr()/fmt::runtime() and concatenated C++ string literals.
             index = 1 if name == 'ImGui::TextColored' else 0

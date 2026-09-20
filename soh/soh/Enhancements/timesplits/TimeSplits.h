@@ -4,11 +4,12 @@
 
 #include <stdint.h>
 #include <libultraship/libultraship.h>
+#include "soh/SohGui/LocalizedWindow.h"
 
 #ifdef __cplusplus
-class TimeSplitWindow final : public Ship::GuiWindow {
+class TimeSplitWindow final : public SohGui::LocalizedWindow {
   public:
-    using GuiWindow::GuiWindow;
+    using LocalizedWindow::LocalizedWindow;
 
     void InitElement() override;
     void Draw() override;

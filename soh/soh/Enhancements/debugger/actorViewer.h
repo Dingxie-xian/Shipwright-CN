@@ -1,14 +1,15 @@
 #pragma once
 
 #include <libultraship/libultraship.h>
+#include "soh/SohGui/LocalizedWindow.h"
 
 #include "z64actor.h"
 
 #include <vector>
 
-class ActorViewerWindow final : public Ship::GuiWindow {
+class ActorViewerWindow final : public SohGui::LocalizedWindow {
   public:
-    using GuiWindow::GuiWindow;
+    using LocalizedWindow::LocalizedWindow;
 
     void DrawElement() override;
     void InitElement() override;

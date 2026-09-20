@@ -237,10 +237,10 @@ void ValueViewerWindow::DrawElement() {
         ImGui::SameLine();
         UIWidgets::PushStyleCheckbox(THEME_COLOR);
         if (element.type <= TYPE_U32) {
-            ImGui::Checkbox(("Hex##" + std::string(element.name)).c_str(), &element.typeFormat);
+            ImGui::Checkbox(SohGui::TrLabel("Hex##" + std::string(element.name)).c_str(), &element.typeFormat);
             ImGui::SameLine();
         } else if (element.type == TYPE_FLOAT) {
-            ImGui::Checkbox(("Trim##" + std::string(element.name)).c_str(), &element.typeFormat);
+            ImGui::Checkbox(SohGui::TrLabel("Trim##" + std::string(element.name)).c_str(), &element.typeFormat);
             ImGui::SameLine();
         }
         UIWidgets::PopStyleCheckbox();
@@ -248,14 +248,14 @@ void ValueViewerWindow::DrawElement() {
         ImGui::BeginGroup();
         if (CVarGetInteger(CVAR_DEVELOPER_TOOLS("ValueViewerEnablePrinting"), 0)) {
             UIWidgets::PushStyleCheckbox(THEME_COLOR);
-            ImGui::Checkbox(("Print##" + std::string(element.name)).c_str(), &element.isPrinted);
+            ImGui::Checkbox(SohGui::TrLabel("Print##" + std::string(element.name)).c_str(), &element.isPrinted);
             UIWidgets::PopStyleCheckbox();
             if (element.isPrinted) {
                 char* prefix = (char*)element.prefix.c_str();
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(80.0f);
                 UIWidgets::PushStyleInput(THEME_COLOR);
-                if (ImGui::InputText(("Prefix##" + std::string(element.name)).c_str(), prefix, 10)) {
+                if (ImGui::InputText(SohGui::TrLabel("Prefix##" + std::string(element.name)).c_str(), prefix, 10)) {
                     element.prefix = prefix;
                 }
                 UIWidgets::PopStyleInput();
@@ -264,7 +264,7 @@ void ValueViewerWindow::DrawElement() {
                                   ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
                 ImGui::SameLine();
                 UIWidgets::PushStyleCheckbox(THEME_COLOR);
-                if (ImGui::Button(("Position##" + std::string(element.name)).c_str())) {
+                if (ImGui::Button(SohGui::TrLabel("Position##" + std::string(element.name)).c_str())) {
                     ImGui::OpenPopup(("Position Picker##" + std::string(element.name)).c_str());
                 }
                 UIWidgets::PopStyleCheckbox();
